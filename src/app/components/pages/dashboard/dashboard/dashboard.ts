@@ -521,7 +521,7 @@ export class Dashboard implements OnInit, OnDestroy {
       this.selectedParameters.delete(param.id);
     } else {
       if (this.selectedParameters.size >= 3) {
-        alert('⚠️ You can select a maximum of 3 parameters only.');
+      this.loadingService.showToast('⚠️ You can select a maximum of 3 parameters only.', 'warning');
         return;
       }
       this.selectedParameters.add(param.id);
@@ -918,7 +918,7 @@ connectWebSocket() {
 
     this.device.deleteDashboardWidget(deletedId).subscribe({
       next: () => {
-        alert("Deleted successfully");
+      this.loadingService.showToast('Widget Deleted successfully!', 'success');
 
         // ✅ REMOVE FROM UI IMMEDIATELY
         this.widgets = this.widgets.filter(
@@ -936,13 +936,13 @@ connectWebSocket() {
             w => w.widgetId !== deletedId
           );
 
-          alert("Deleted successfully");
+         this.loadingService.showToast('Dashboard deleted successfully!', 'success');
           this.showDeleteWidjet = false;
           this.cdr.detectChanges();
           return;
         }
 
-        alert("Error deleting widget");
+       this.loadingService.showToast('Error deleting widget', 'error');
       }
     });
   }
@@ -967,7 +967,7 @@ connectWebSocket() {
   const name = this.dashboardName.trim();
 
   if (!name) {
-    alert("Please enter a dashboard name");
+    this.loadingService.showToast('Please enter a dashboard name', 'error');
     return;
   }
 
@@ -978,13 +978,13 @@ connectWebSocket() {
   );
 
   if (exists) {
-    alert("Dashboard name already exists!");
+    this.loadingService.showToast('Dashboard name already exists!', 'error');
     return;
   }
 
   this.role.CreateDashboardName(name).subscribe({
     next: (res) => {
-      alert("Dashboard Created Successfully!");
+       this.loadingService.showToast('Dashboard Created Successfully!', 'success');
       this.closePopup();
 
       // Reload dashboards
@@ -993,9 +993,9 @@ connectWebSocket() {
     },
     error: (err) => {
       if (err.status === 409) {
-        alert("Dashboard name already exists!");
+       this.loadingService.showToast('Dashboard name already exists!', 'error');
       } else {
-        alert("Failed to create dashboard!");
+        this.loadingService.showToast('Failed to create dashboard!', 'error');
       }
     }
   });
@@ -1066,7 +1066,7 @@ connectWebSocket() {
     this.role.DeleteDashboard(this.selectedItem.id).subscribe({
       next: () => {
 
-        alert("Dashboard deleted successfully");
+ this.loadingService.showToast('Dashboard deleted successfully!', 'success');
 
         this.dashboardData = this.dashboardData.filter(
           (d: any) => d.id !== this.selectedItem.id
@@ -1262,7 +1262,7 @@ createWidgets() {
   
   // Validate
   if (!hasDeviceSelection && !hasPersonalSelection) {
-    alert("Please select at least one device with parameters OR one personal widget.");
+    this.loadingService.showToast('Please select at least one device with parameters OR one personal widget.', 'warning');
     return;
   }
 
@@ -1311,13 +1311,13 @@ createWidgets() {
         },
         error: (err) => {
           console.error("❌ Error:", err);
-          alert("Failed to create widget");
+        this.loadingService.showToast('Failed to create widget!', 'error');
         }
       });
     });
 
     this.closeAddWidgetPopup();
-    setTimeout(() => alert("Widget created successfully!"), 100);
+  this.loadingService.showToast('Widget created successfully!', 'success');
     return;
   }
 
@@ -1369,12 +1369,12 @@ createWidgets() {
         }
 
         setTimeout(() => {
-          alert("Zone Sensor created successfully!");
+      this.loadingService.showToast('Zone Sensor created successfully!', 'success');
         }, 0);
       },
       error: (err) => {
         console.error("❌ Error creating zone sensor:", err);
-        alert("Failed to create zone sensor");
+      this.loadingService.showToast('Failed to create zone sensor!', 'error');
       }
     });
   }

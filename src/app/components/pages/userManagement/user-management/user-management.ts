@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Roleservice } from '../../../service/role/roleservice';
 import { forkJoin } from 'rxjs';
+import { LoadingService } from '../../../service/loading/loading';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { forkJoin } from 'rxjs';
 })
 export class UserManagement implements OnInit {
 
-  constructor(private user: User,private cdr:ChangeDetectorRef,private roleService: Roleservice) { }
+  constructor(private user: User,private cdr:ChangeDetectorRef,private roleService: Roleservice,   private loadingService: LoadingService) { }
 
 
 
@@ -159,33 +160,33 @@ onRoleChange(selectedRole: any) {
 
   createUser() {
     if (!this.NewUser.userName?.trim()) {
-      alert('⚠️ Please enter the Username.');
+     this.loadingService.showToast('⚠️ Please enter the Username.', 'warning');
       return;
     }
 
     if (!this.NewUser.email?.trim()) {
-      alert('⚠️ Please enter the Email.');
+     this.loadingService.showToast('⚠️ Please enter the Email.', 'warning');
       return;
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(this.NewUser.email.trim())) {
-      alert('⚠️ Please enter a valid Email address (e.g., user@example.com).');
+      this.loadingService.showToast('⚠️ Please enter a valid Email address.', 'warning');
       return;
     }
 
     if (!this.NewUser.password?.trim()) {
-      alert('⚠️ Please enter the Password.');
+      this.loadingService.showToast('⚠️ Please enter the Password.', 'warning');
       return;
     }
 
     if (!this.NewUser.contactNumber?.trim()) {
-      alert('⚠️ Please enter the Contact number.');
+     this.loadingService.showToast('⚠️ Please enter the Contact number.', 'warning');
       return;
     }
 
     if (!this.NewUser.role) {
-      alert('⚠️ Please select a Role.');
+     this.loadingService.showToast('⚠️ Please select a Role.', 'warning');
       return;
     }
 
@@ -193,12 +194,12 @@ onRoleChange(selectedRole: any) {
 
     this.user.addUser(reqBody).subscribe({
       next: (res: any) => {
-        alert(res.message || 'User created successfully');
+        this.loadingService.showToast(res.message || 'User created successfully', 'success');
         this.closeCreateUserPopup();
         this.loadUser();
       },
       error: () => {
-        alert('Error creating user');
+        this.loadingService.showToast('Error creating user!', 'error');
       }
     });
   }
@@ -247,44 +248,44 @@ onUpdateRoleSelect(event: any) {
 
   updateUser() {
     if (!this.UpdateUser.userName?.trim()) {
-      alert('⚠️ Please enter the Username.');
+      this.loadingService.showToast('⚠️ Please enter the Username.', 'warning');
       return;
     }
 
     if (!this.UpdateUser.email?.trim()) {
-      alert('⚠️ Please enter the Email.');
+    this.loadingService.showToast('⚠️ Please enter the Email.', 'warning');
       return;
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(this.UpdateUser.email.trim())) {
-      alert('⚠️ Please enter a valid Email address (e.g., user@example.com).');
+  this.loadingService.showToast('⚠️ Please enter a valid Email address.', 'warning');
       return;
     }
 
     if (!this.UpdateUser.password?.trim()) {
-      alert('⚠️ Please enter the Password.');
+     this.loadingService.showToast('⚠️ Please enter the Password.', 'warning');
       return;
     }
 
     if (!this.UpdateUser.contactNumber?.trim()) {
-      alert('⚠️ Please enter the Contact number.');
+      this.loadingService.showToast('⚠️ Please enter the Contact number.', 'warning');
       return;
     }
 
     if (!this.UpdateUser.role) {
-      alert('⚠️ Please select a Role.');
+     this.loadingService.showToast('⚠️ Please select a Role.', 'warning');
       return;
     }
 
     this.user.updateUsers(this.UpdateUser, this.selectedUserId).subscribe({
       next: (res: any) => {
-        alert(res.message || 'User updated successfully');
+       this.loadingService.showToast(res.message || 'User updated successfully', 'success');
         this.closeUpdateUserPopup();
         this.loadUser();
       },
       error: () => {
-        alert('Error updating user');
+       this.loadingService.showToast('Error updating user!', 'error');
       }
     });
   }
@@ -304,12 +305,12 @@ onUpdateRoleSelect(event: any) {
   deleteUser() {
     this.user.DeleteUsers(this.selectedUserId).subscribe({
       next: (res: any) => {
-        alert(res.message || 'User Deleted successfully');
+       this.loadingService.showToast(res.message || 'User deleted successfully', 'success');
         this.closeDeleteUserPopup();
         this.loadUser();
       },
       error: () => {
-        alert("error updating user")
+       this.loadingService.showToast('Error deleting user!', 'error');
       }
     })
   }

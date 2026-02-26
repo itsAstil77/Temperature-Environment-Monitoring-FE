@@ -4,6 +4,7 @@ import { Roleservice } from '../../../service/role/roleservice';
 import { response } from 'express';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { LoadingService } from '../../../service/loading/loading';
 
 @Component({
   selector: 'app-role',
@@ -17,7 +18,7 @@ export class Role implements OnInit {
     this.loadRole();
   }
 
-  constructor(private roleService: Roleservice, private cdr: ChangeDetectorRef, private router: Router ) { }  
+  constructor(private roleService: Roleservice, private cdr: ChangeDetectorRef, private router: Router ,private loadingService: LoadingService) { }  
 
    roles: any[] = [];
   filteredRoles: any[] = []; // NEW
@@ -82,12 +83,12 @@ openeditRolePopup(role: any) {
   updateRole() {
     this.roleService.updateRole(this.editRoles, this.selectedRoleId).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Role Updated successfully');
+       this.loadingService.showToast(res.message || 'Role updated successfully', 'success'); 
         this.closeEditRolePopup();
         this.loadRole();
       },
       error: () => {
-        alert("error creating role")
+         this.loadingService.showToast('Error updating role!', 'error'); 
       }
     })
   }
@@ -107,12 +108,12 @@ openeditRolePopup(role: any) {
   deleteRole() {
     this.roleService.DeleteRole(this.selectedRoleId).subscribe({
       next: (res: any) => {
-        alert(res.message || 'User Deleted successfully');
+       this.loadingService.showToast(res.message || 'Role deleted successfully', 'success'); 
         this.closeDeleteRolePopup();
         this.loadRole();
       },
       error: () => {
-        alert("error Deleting user")
+             this.loadingService.showToast('Error deleting role!', 'error');
       }
     })
   }

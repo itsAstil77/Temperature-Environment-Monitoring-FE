@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Roleservice } from '../../../service/role/roleservice';
 import { Projecthierarchy } from '../../projecthierarchy/projecthierarchy/projecthierarchy';
+import { LoadingService } from '../../../service/loading/loading';
 
 
 
@@ -30,7 +31,7 @@ export class Project implements OnInit {
 
 
   }
-  constructor(private role: Roleservice, private cdr: ChangeDetectorRef, private zone: NgZone) { }
+  constructor(private role: Roleservice, private cdr: ChangeDetectorRef, private zone: NgZone,   private loadingService: LoadingService ) { }
 
   loadProject() {
     this.role.getProject().subscribe({
@@ -100,17 +101,18 @@ export class Project implements OnInit {
       this.createproject.weekEnd;
 
     if (!isValid) {
-      alert("Please fill in all fields before creating the project.");
+      this.loadingService.showToast('Please fill in all fields before creating the project.', 'warning');
       return;
     }
     this.role.createnewProject(this.createproject).subscribe({
       next: (res: any) => {
-        alert("project Created");
+        this.loadingService.showToast('Project created successfully!', 'success');
         this.closecreateproject();
         this.loadProject();
       },
       error: () => {
-        alert("erroe loading")
+       this.loadingService.showToast('Error creating project!', 'error');
+
 
       }
     })
@@ -158,17 +160,17 @@ export class Project implements OnInit {
       this.editProject.weekEnd;
 
     if (!isValid) {
-      alert("Please fill in all fields before updating the project.");
+      this.loadingService.showToast('Please fill in all fields before updating the project.', 'warning');
       return;
     }
     this.role.updateProject(this.editProject, this.selectedProject).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Project updated successfully');
+        this.loadingService.showToast(res.message || 'Project updated successfully', 'success');
         this.closeEditProjectPopup();
         this.loadProject();
       },
       error: () => {
-        alert("Error updating project");
+        this.loadingService.showToast('Error updating project!', 'error');
       }
     });
   }
@@ -206,12 +208,12 @@ export class Project implements OnInit {
   deleteProject() {
     this.role.DeleteProject(this.selectedProject).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Project Deleted successfully');
+        this.loadingService.showToast(res.message || 'Project deleted successfully!', 'success');
         this.closeDeleteProjectPopup();
         this.loadProject();
       },
       error: () => {
-        alert("error Deleting Project")
+        this.loadingService.showToast('Error deleting project!', 'error');
       }
     })
   }
@@ -271,13 +273,13 @@ export class Project implements OnInit {
       this.countryData.zoomLevel !== null;
 
     if (!isValid) {
-      alert("Please fill in all required fields before creating a country.");
+      this.loadingService.showToast('Please fill in all required fields before creating a country.', 'warning');
       return;
     }
 
     this.role.CountryCreate(this.projectId, this.countryData).subscribe({
       next: (res: any) => {
-        alert("Country Created");
+       this.loadingService.showToast('Country created successfully!', 'success');
 
         // Close popup immediately
         this.openCreateCountry = false;
@@ -289,7 +291,7 @@ export class Project implements OnInit {
         // this.loadCountries();
       },
       error: () => {
-        alert("Error creating country");
+        this.loadingService.showToast('Error creating country!', 'error');
       }
     });
   }
@@ -409,13 +411,13 @@ export class Project implements OnInit {
       this.editCountry.zoomLevel !== null;
 
     if (!isValid) {
-      alert("Please fill in all required fields before updating the country.");
+     this.loadingService.showToast('Please fill in all required fields before updating the country.', 'warning');
       return;
     }
 
     this.role.updateCountry(this.editCountry, this.selectedCountry).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Country updated successfully');
+      this.loadingService.showToast(res.message || 'Country updated successfully', 'success');
 
         // close the popup
         this.openEditCountry = false;
@@ -430,7 +432,7 @@ export class Project implements OnInit {
         }
       },
       error: () => {
-        alert("Error updating Country");
+      this.loadingService.showToast('Error updating country!', 'error');
       }
     });
   }
@@ -470,13 +472,13 @@ export class Project implements OnInit {
   deleteCountry() {
     this.role.DeleteCountry(this.selectedcountry).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Country Deleted successfully');
+       this.loadingService.showToast(res.message || 'Country deleted successfully!', 'success');
         this.closeDeleteCountryPopup();
         this.loadCountries(this.countryId);
 
       },
       error: () => {
-        alert("error Deleting Country")
+       this.loadingService.showToast('Error deleting country!', 'error');
       }
     })
   }
@@ -600,13 +602,13 @@ export class Project implements OnInit {
       this.areaData.longitude !== null;
 
     if (!isValid) {
-      alert("Please fill in all required fields before creating the area.");
+     this.loadingService.showToast('Please fill in all required fields before creating the area.', 'warning');
       return;
     }
 
     this.role.CountryArea(this.countryId, this.areaData).subscribe({
       next: (res: any) => {
-        alert("Area Created");
+        this.loadingService.showToast('Area created successfully!', 'success');
 
         // ✅ Correct variable name
         this.openCreatearea = false;
@@ -616,7 +618,7 @@ export class Project implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        alert("Error creating area");
+       this.loadingService.showToast('Error creating area!', 'error');
       }
     });
   }
@@ -676,13 +678,13 @@ export class Project implements OnInit {
       this.editArea.longitude !== null;
 
     if (!isValid) {
-      alert("Please fill in all required fields before updating the area.");
+      this.loadingService.showToast('Please fill in all required fields before updating the area.', 'warning');
       return;
     }
 
     this.role.updatearea(this.editArea, this.selectedArea).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Area updated successfully');
+        this.loadingService.showToast(res.message || 'Area updated successfully', 'success');
 
         // ✅ Close popup immediately
         this.closeEditAreaPopup();
@@ -695,7 +697,7 @@ export class Project implements OnInit {
         }
       },
       error: () => {
-        alert("Error updating Area");
+    this.loadingService.showToast('Error updating area!', 'error');
       }
     });
   }
@@ -726,12 +728,12 @@ export class Project implements OnInit {
   deleteArea() {
     this.role.Deletearea(this.selectedarea).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Area Deleted successfully');
+       this.loadingService.showToast(res.message || 'Area deleted successfully!', 'success');
         this.closeDeleteAreaPopup();
         this.loadArea(this.countryId);
       },
       error: () => {
-        alert("Error Deleting Area");
+      this.loadingService.showToast('Error deleting area!', 'error');
       }
     });
   }
@@ -787,18 +789,18 @@ export class Project implements OnInit {
   createNewbuilding() {
 
     if (!this.buildingData.buildingName || !this.buildingData.description) {
-      alert("Please fill all required fields");
+     this.loadingService.showToast('Please fill all required fields!', 'warning');
       return;
     }
 
     this.role.createNewBuilding(this.areaId, this.buildingData).subscribe({
       next: (res: any) => {
-        alert("Building Created");
+        this.loadingService.showToast('Building created successfully!', 'success');
         this.closeCreatebuilding();
       },
       error: (err) => {
         console.error("Error creating Building:", err);
-        alert("Error creating Building");
+       this.loadingService.showToast('Error creating building!', 'error');
       }
     });
   }
@@ -936,12 +938,12 @@ export class Project implements OnInit {
       this.editBuilding.longitude !== null;
 
     if (!isValid) {
-      alert("Please fill in all required fields before updating the building.");
+      this.loadingService.showToast('Please fill in all required fields before updating the building.', 'warning');
       return;
     }
     this.role.updatebuilding(this.editBuilding, this.selectedBuilding).subscribe({
       next: (res: any) => {
-        alert(res.message || 'building updated successfully');
+        this.loadingService.showToast(res.message || 'Building updated successfully', 'success');
         this.closeEditBuildingPopup();  // ✅ correct close method
         if (this.editBuilding.areaId) {
           this.loadBuilding(this.editBuilding.areaId);
@@ -950,7 +952,7 @@ export class Project implements OnInit {
         }
       },
       error: () => {
-        alert("Error updating Building");
+       this.loadingService.showToast('Error updating building!', 'error');
       }
     });
   }
@@ -981,12 +983,12 @@ export class Project implements OnInit {
   deleteBuilding() {
     this.role.Deletebuilding(this.selectedBuilding).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Building Deleted successfully');
+       this.loadingService.showToast(res.message || 'Building deleted successfully!', 'success');
         this.closeDeleteBuildingPopup();
         this.loadBuilding(this.areaId);
       },
       error: () => {
-        alert("Error Deleting Building");
+        this.loadingService.showToast('Error deleting building!', 'error');
       }
     });
   }
@@ -1084,13 +1086,13 @@ export class Project implements OnInit {
 
     this.role.createNewFloor(this.selectedBuildingId, formData).subscribe({
       next: (res: any) => {
-        alert("Floor Created");
+       this.loadingService.showToast('Floor created successfully!', 'success');
         this.closeCreatefloor();
         this.loadFloor(this.selectedBuildingId); // reload floors
       },
       error: (err) => {
         console.error("Error creating floor:", err);
-        alert("Error creating floor");
+        this.loadingService.showToast('Error creating floor!', 'error');
       }
     });
   }
@@ -1245,13 +1247,13 @@ export class Project implements OnInit {
 
     this.role.updatefloor(formData, this.selectedFloor).subscribe({
       next: (res: any) => {
-        alert(res.message || "Floor updated successfully");
+         this.loadingService.showToast(res.message || 'Floor updated successfully', 'success');
         this.closeEditFloorPopup();
         this.loadFloor(this.editFloor.buildingId);
       },
       error: (err) => {
         console.error("Error updating Floor:", err);
-        alert("Error updating Floor");
+        this.loadingService.showToast('Error updating floor!', 'error');
       }
     });
   }
@@ -1286,14 +1288,9 @@ export class Project implements OnInit {
   }
 
   deleteFloor() {
-    // if (!this.selectedfloor) {
-    //   alert("No floor selected for deletion");
-    //   return;
-    // }
-
     this.role.Deletefloor(this.selectedfloor).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Floor deleted successfully');
+        this.loadingService.showToast(res.message || 'Floor deleted successfully', 'success');
         this.closeDeleteFloorPopup();
 
         // reload floors for parent building
@@ -1303,7 +1300,7 @@ export class Project implements OnInit {
       },
       error: (err) => {
         console.error("Error deleting Floor", err);
-        alert("Error Deleting Floor");
+      this.loadingService.showToast('Error deleting floor!', 'error');
       }
     });
   }
@@ -1430,13 +1427,13 @@ export class Project implements OnInit {
 
     this.role.createNewZone(this.floorid, formData).subscribe({
       next: (res: any) => {
-        alert("Zone Created");
+       this.loadingService.showToast('Zone created successfully!', 'success');
         this.closeCreateZone();
         this.loadZones(this.floorid); // ✅ reload zones for this floor
       },
       error: (err) => {
         console.error("Error creating zone:", err);
-        alert("Error creating zone");
+        this.loadingService.showToast('Error creating zone!', 'error');
       }
     });
   }
@@ -1550,13 +1547,13 @@ export class Project implements OnInit {
 
     this.role.updatezone(formData, this.selectedZone).subscribe({
       next: (res: any) => {
-        alert(res.message || "Zone updated successfully");
+      this.loadingService.showToast(res.message || 'Zone updated successfully', 'success');
         this.closeEditZonePopup();
         this.loadZones(this.editZone.floorId);// refresh zones under this floor
       },
       error: (err) => {
         console.error("Error updating Zone:", err);
-        alert("Error updating Zone");
+        this.loadingService.showToast('Error updating zone!', 'error');
       }
     });
   }
@@ -1585,7 +1582,7 @@ export class Project implements OnInit {
   deleteZone() {
     this.role.Deletezone(this.selectedZoneId).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Zone deleted successfully');
+       this.loadingService.showToast(res.message || 'Zone deleted successfully', 'success');
         this.closeDeleteZonePopup();
 
         // reload zones under the parent floor
@@ -1595,7 +1592,7 @@ export class Project implements OnInit {
       },
       error: (err) => {
         console.error("Error deleting Zone", err);
-        alert("Error Deleting Zone");
+       this.loadingService.showToast('Error deleting zone!', 'error');
       }
     });
   }
@@ -1751,13 +1748,13 @@ export class Project implements OnInit {
 
     this.role.createSubZone(this.zoneId, formData).subscribe({
       next: (res: any) => {
-        alert("SubZone Created");
+        this.loadingService.showToast(res.message || 'SubZone Created successfully', 'success');
         this.closeCreateSubZone();
         this.loadSubZones(this.zoneId); // reload subzones under this zone
       },
       error: (err) => {
         console.error("Error creating subzone:", err);
-        alert("Error creating subzone");
+       this.loadingService.showToast('Error deleting zone!', 'error');
       }
     });
   }
@@ -1848,7 +1845,7 @@ export class Project implements OnInit {
       !this.editSubZone.Description?.trim() ||
       this.editSubZone.Priority === null || this.editSubZone.Priority === undefined
     ) {
-      alert("Please fill in all required fields: SubZone Name, Description, Priority");
+    this.loadingService.showToast('Please fill in all required fields: SubZone Name, Description, Priority', 'warning');
       return; // stop the API call
     }
 
@@ -1872,13 +1869,13 @@ export class Project implements OnInit {
 
     this.role.updateSubZone(formData, this.selectedSubZoneId).subscribe({
       next: (res: any) => {
-        alert(res.message || "SubZone updated successfully");
+       this.loadingService.showToast(res.message || 'SubZone updated successfully', 'success');
         this.closeEditSubZonePopup();
         this.loadSubZones(this.editSubZone.ZoneId);
       },
       error: (err) => {
         console.error("Error updating SubZone:", err);
-        alert("Error updating SubZone");
+      this.loadingService.showToast('Error updating subzone!', 'error');
       }
     });
   }
@@ -1918,7 +1915,7 @@ export class Project implements OnInit {
   deleteSubZone() {
     this.role.Deletesubzone(this.selectedSubZoneId).subscribe({
       next: (res: any) => {
-        alert(res.message || "SubZone deleted successfully");
+       this.loadingService.showToast(res.message || 'SubZone deleted successfully', 'success');
         this.closeDeleteSubZonePopup();
 
         // reload subzones under the parent zone
@@ -1928,7 +1925,7 @@ export class Project implements OnInit {
       },
       error: (err) => {
         console.error("Error deleting SubZone", err);
-        alert("Error deleting SubZone");
+        this.loadingService.showToast('Error deleting subzone!', 'error');
       }
     });
   }
@@ -1947,15 +1944,15 @@ export class Project implements OnInit {
     const end = new Date(this.createproject.weekEnd);
 
     if (start < today) {
-      alert("Week start cannot be earlier than today");
+      this.loadingService.showToast('Week start cannot be earlier than today!', 'warning');
       return false;
     }
     if (end < today) {
-      alert("Week end cannot be earlier than today");
+     this.loadingService.showToast('Week end cannot be earlier than today!', 'warning');
       return false;
     }
     if (end < start) {
-      alert("Week end cannot be earlier than start date");
+    this.loadingService.showToast('Week end cannot be earlier than start date!', 'warning');
       return false;
     }
 
@@ -1985,7 +1982,7 @@ export class Project implements OnInit {
   createAreaZone() {
     this.role.createAreaZone(this.selectedAreaId, this.zoneAreaData).subscribe({
       next: (res: any) => {
-        alert("Area based Zone Created Successfully");
+    this.loadingService.showToast('Area based zone deleted successfully!', 'success');
         this.closeAreaZone();
 
         // reload zones
@@ -1995,7 +1992,7 @@ export class Project implements OnInit {
         this.expandedArea.add(this.selectedAreaId);
       },
       error: () => {
-        alert("error creating zone");
+       this.loadingService.showToast('Error creating zone!', 'error');
       }
     });
   }
@@ -2050,7 +2047,7 @@ export class Project implements OnInit {
   deleteAreaZone() {
     this.role.deleteAreaBasedZone(this.selectedAreaBasedZoneid).subscribe({
       next: (res: any) => {
-        alert("Area Baes Zone Deleted Successfully");
+      this.loadingService.showToast('Area based zone deleted successfully!', 'success');
         this.cancelDeleteAreaZone();
         this.getAreaBasedZone(this.selectedAreaId);
       },
@@ -2085,12 +2082,12 @@ export class Project implements OnInit {
   updateAreaZone() {
     this.role.updateAreaBasedZone(this.selectedZoneId, this.zoneAreaData).subscribe({
       next: (res: any) => {
-        alert(res.message);
+       this.loadingService.showToast(res.message || 'Area zone updated successfully', 'success');
         this.cancelAreaZone();
         this.getAreaBasedZone(this.selectedAreaId);
       },
       error: () => {
-        alert("error updating Area Based Zone")
+       this.loadingService.showToast('Error updating area based zone!', 'error');
       }
     })
   }
