@@ -1,0 +1,1326 @@
+<nav class="navbar">
+  <h3>People List</h3>
+  <div class="tabs">
+    <!-- <button class="aone" routerLink="/people" routerLinkActive="active">People</button> -->
+    <button class="aone" routerLink="/project" routerLinkActive="active">Project</button>
+    <button class="aone" routerLink="/devices" routerLinkActive="active">Devices</button>
+     <button class="aone" routerLink="/asset" routerLinkActive="active">Asset</button>
+  </div>
+</nav>
+
+<!-- <div class="container"> -->
+
+
+
+<!-- <div class="sub-tabs">
+  <div class="tabs-left">
+    <button class="tab" [class.active]="activeTab==='person'" (click)="setActive('person')">Person</button>
+    <button class="tab" [class.active]="activeTab==='Peopletype'" (click)="setActive('Peopletype')">People type</button>
+    <button class="tab" [class.active]="activeTab==='Acess'" (click)="setActive('Acess')">Access</button>
+    <button class="tab" [class.active]="activeTab==='Groups'" (click)="setActive('Groups')">Groups</button>
+    <button class="tab" [class.active]="activeTab==='TaskSchedule'" (click)="setActive('TaskSchedule')">Task
+      Schedule</button>
+    <button class="tab" [class.active]="activeTab==='ManualAttendance'" (click)="setActive('ManualAttendance')">Manual
+      Attendance</button>
+    <button class="tab" [class.active]="activeTab==='Greetings&Information'"
+      (click)="setActive('Greetings&Information')">Greetings & Information</button>
+
+
+
+  </div>
+</div> -->
+
+
+
+
+
+<!-- <nav class="navbarSub" *ngIf="activeTab==='person'">
+  <h3>Person</h3>
+
+
+  <div class="date-range-wrapper">
+    <div class="date-fields-bordered">
+      <label>Start Date</label>
+      <input type="date" [(ngModel)]="filterStartDate" (change)="updateDateInput()" />
+      <label>End Date</label>
+      <input type="date" [(ngModel)]="filterEndDate" (change)="updateDateInput()" />
+    </div>
+  </div>
+
+
+
+
+
+  <input type="text" placeholder="Search..." [(ngModel)]="personSearch" (input)="searchPerson()"
+    class="person-search" />
+
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreatePersonPopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="loadPerson()">
+  </div>
+</nav> -->
+
+
+<!-- <div *ngFor="let person of filteredPersonList">
+  {{ person.name }}
+</div> -->
+
+
+
+
+<!-- <div *ngIf="activeTab==='person'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Company</th>
+        <th>People Type</th>
+        <th>National Id</th>
+        <th>Vehicle Id</th>
+        <th>Id Number</th>
+        <th>Designation</th>
+        <th>Phone Number</th>
+        <th>Card bage Number</th>
+        <th>Device</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of filteredPersonList">
+        <td>{{ person.firstName }}</td>
+        <td>{{ person.lastName }}</td>
+        <td>{{ person.startDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ person.endDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ person.company }}</td>
+        <td>{{ person.peopleType }}</td>
+        <td>{{ person.nationalId }}</td>
+        <td>{{ person.vehicleId }}</td>
+        <td>{{ person.idNumber }}</td>
+        <td>{{ person.designation}}</td>
+        <td>{{ person.phoneNumber }}</td>
+        <td>{{ person.cardBatchNumber }}</td>
+        <td>{{ getDeviceName(person.device) }}</td>
+
+
+
+
+
+        <td>
+          <img src="assets/pencil.png" alt="Edit" (click)="openUpdatePersonPopup(person)" class="action-icon edit" />
+          <img src="assets/trash.png" alt="Delete" (click)="openDeletePersonPopup(person)" class="action-icon delete" />
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div class="table-bottom-controls">
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevPersonPage()" [disabled]="currentPage === 1">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPersonPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+
+
+
+</div> -->
+
+
+
+
+
+<div class="overlay" *ngIf="openAddPerson">
+  <div class="popup">
+    <h2>Create New Person</h2>
+
+    <div class="user-input-container">
+      <div class="user-data"> <label>First Name</label> <input type="text" [(ngModel)]="createPerson.firstName"> </div>
+      <div class="user-data"> <label>Last Name</label> <input type="text" [(ngModel)]="createPerson.lastName"> </div>
+      <div class="user-data">
+        <label>Start Date</label>
+        <input type="date" [(ngModel)]="createPerson.startDate" [min]="today">
+      </div>
+
+      <div class="user-data">
+        <label>End Date</label>
+        <input type="date" [(ngModel)]="createPerson.endDate" [min]="createPerson.startDate || today">
+      </div>
+
+
+      <div class="user-data"> <label>Company</label> <input type="text" [(ngModel)]="createPerson.company"> </div>
+      <div class="user-data">
+        <label>People Type</label>
+        <select [(ngModel)]="createPerson.peopleType">
+          <option *ngFor="let type of peopleTypeList" [value]="type.typeName">
+            {{ type.typeName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="user-data"> <label>National Id</label> <input type="text" [(ngModel)]="createPerson.nationalId">
+      </div>
+      <div class="user-data"> <label>Vehicle Id</label> <input type="text" [(ngModel)]="createPerson.vehicleId"> </div>
+      <div class="user-data"> <label>Id Number</label> <input type="text" [(ngModel)]="createPerson.idNumber"> </div>
+     
+      <div class="user-data"> <label>Designation</label> <input type="text" [(ngModel)]="createPerson.designation">
+      </div>
+      <div class="user-data"> <label>Phone Number</label> <input type="text" [(ngModel)]="createPerson.phoneNumber">
+      </div>
+       <div class="user-data"> <label>Card bage Number</label> <input type="text"
+          [(ngModel)]="createPerson.cardBatchNumber"> </div>
+      <div class="user-data">
+        <label>Device</label>
+        <select [(ngModel)]="createPerson.device">
+          <option value="" disabled selected>Select Device</option>
+          <option *ngFor="let device of deviceList" [value]="device.id">
+            {{ device.deviceName }}
+          </option>
+        </select>
+      </div>
+
+    </div>
+    <div class="user-button"> <button class="btn create" (click)="createNewPerson()">Create</button> <button
+        class="btn cancel" (click)="closeCreatePersonPopup()">Cancel</button> </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="overlay" *ngIf="openUpdatePerson">
+  <div class="popup">
+    <h2>Update person</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>First Name</label>
+        <input type="text" [(ngModel)]="updatePerson.firstName">
+      </div>
+      <div class="user-data">
+        <label>Last Name</label>
+        <input type="text" [(ngModel)]="updatePerson.lastName">
+      </div>
+      <div class="user-data">
+        <label>Start Date</label>
+        <input type="date" [(ngModel)]="updatePerson.startDate" [min]="today">
+      </div>
+
+      <div class="user-data">
+        <label>End Date</label>
+        <input type="date" [(ngModel)]="updatePerson.endDate" [min]="updatePerson.startDate || today">
+      </div>
+
+
+      <div class="user-data">
+        <label>Company</label>
+        <input type="text" [(ngModel)]="updatePerson.company">
+      </div>
+      <div class="user-data">
+        <label>People Type</label>
+        <select [(ngModel)]="updatePerson.peopleType">
+          <option *ngFor="let type of peopleTypeList" [value]="type.typeName">
+            {{ type.typeName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="user-data">
+        <label>Vehicle Id </label>
+        <input type="text" [(ngModel)]="updatePerson.vehicleId">
+      </div>
+      <div class="user-data">
+        <label>National Id</label>
+        <input type="text" [(ngModel)]="updatePerson.nationalId">
+      </div>
+      <div class="user-data">
+        <label> Id Number</label>
+        <input type="text" [(ngModel)]="updatePerson. idNumber">
+      </div>
+      <div class="user-data">
+        <label>Designation</label>
+        <input type="text" [(ngModel)]="updatePerson.designation">
+      </div>
+      <div class="user-data">
+        <label>Phone Number</label>
+        <input type="text" [(ngModel)]="updatePerson.phoneNumber">
+      </div>
+      <div class="user-data">
+        <label>Card Bage Number</label>
+        <input type="text" [(ngModel)]="updatePerson.cardBatchNumber">
+      </div>
+   
+
+    <div class="user-data">
+      <label>Device</label>
+      <select [(ngModel)]="updatePerson.device">
+        <option *ngFor="let d of deviceList" [value]="d.id">
+          {{ d.deviceName }}
+        </option>
+      </select>
+    </div>
+ </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="personUpdate()">Update</button>
+      <button class="btn cancel" (click)="closeUpdatePersonPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- delete user -->
+
+
+<div class="overlaydel" *ngIf="openDeletePerson">
+  <div class="popupdel">
+    <p>Are You Sure You Want To delete this Person?</p>
+
+    <button class="btn delete" (click)="personDelete()">Yes</button>
+    <button class="btn cancel" (click)="closeDeletePersonPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- peopleType -->
+
+
+
+
+<nav class="navbarSub" *ngIf="activeTab==='Peopletype'">
+  <h3>People Type</h3>
+  <input type="text" placeholder="Search..." [(ngModel)]="peopleTypeSearch" (input)="searchPeopleType()"
+    class="person-searchpt" />
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreatePeopleTypePopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="Peopletype()">
+  </div>
+</nav>
+<!-- People Table -->
+<div *ngIf="activeTab==='Peopletype'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Type Name</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let peopleType of filteredPeopleTypeList">
+        <td>{{ peopleType.typeName }}</td>
+        <td>{{ peopleType.description }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" (click)="openUpdatePeopleTypePopup(peopleType)"
+            class="action-icon edit" />
+          <img src="assets/trash.png" alt="Delete" (click)="openDeletePeopleTypePopup(peopleType)"
+            class="action-icon delete" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div *ngIf="activeTab==='Peopletype'" class="table-bottom-controls">
+    <!-- Page Size Selector -->
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+
+    <!-- Pagination Buttons -->
+    <div class="pagination">
+      <button (click)="prevPeopleTypePage()" [disabled]="currentPage === 1">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPeopleTypePage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="overlay" *ngIf="openCreatePeopleType">
+  <div class="popup">
+    <h2>People Type</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Type Name</label>
+        <input type="text" [(ngModel)]="createpeopletype.typeName">
+      </div>
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="createpeopletype.description">
+      </div>
+    </div>
+
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewPeopleType()">Create</button>
+      <button class="btn cancel" (click)="closecreatepeopleType()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- update Peopletype -->
+
+
+
+
+
+
+<div class="overlay" *ngIf="openUpdatePeopleType">
+  <div class="popup">
+    <h2>Update People Type</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Type Name</label>
+        <input type="text" [(ngModel)]="updatePeopleType.typeName">
+      </div>
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="updatePeopleType.description">
+      </div>
+
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="peopleTypeUpdate()">update</button>
+      <button class="btn cancel" (click)="closeUpdatePeopleTypePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- delete peopleType -->
+
+
+<div class="overlaydel" *ngIf="openDeletePeopleType">
+  <div class="popupdel">
+    <p>Are You Sure You Want To delete this PeopleType?</p>
+
+    <button class="btn delete" (click)="deletePeopleType()">Yes</button>
+    <button class="btn cancel" (click)="closeDeletePeopleTypePopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Access -->
+
+
+
+
+
+<nav class="navbarSub" *ngIf="activeTab==='Acess'">
+  <h3>Access</h3>
+
+
+  <div class="date-range-wrapper">
+    <div class="date-fields-bordered">
+      <label>Start Date</label>
+      <input type="date" [(ngModel)]="filterStartDate" (ngModelChange)="searchAccess()" />
+
+      <label>End Date</label>
+      <input type="date" [(ngModel)]="filterEndDate" (ngModelChange)="searchAccess()" />
+    </div>
+  </div>
+
+
+
+  <input type="text" placeholder="Search..." [(ngModel)]="accessSearch" (input)="searchAccess()"
+    class="person-search" />
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreateaccessPopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="Access()">
+  </div>
+</nav>
+<!-- access table -->
+<div *ngIf="activeTab==='Acess'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Group Name</th>
+        <th>Group Members</th>
+        <th>People Type</th>
+        <th>Readers</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>From Time</th>
+        <th>To Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Access of filteredAccessList">
+        <td>{{ Access.groupName }}</td>
+        <td>{{ Access.groupMembers.join(', ') }}</td>
+        <td>{{ Access.peopleType }}</td>
+        <td>{{ Access.readers.join(', ') }}</td>
+        <td>{{ Access.fromDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ Access.toDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ Access.fromTime }}</td>
+        <td>{{ Access.toTime }}</td>
+        <td>{{ Access.status }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit" (click)="openUpdateAccessPopup(Access)" />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete" (click)="openDeleteaccessPopup(Access)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-bottom-controls">
+    <!-- Page Size Selector -->
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+
+    <!-- Pagination Buttons -->
+    <div class="pagination">
+      <button (click)="loadAccessPage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="loadAccessPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<div class="overlay" *ngIf="openCreateaccess">
+  <div class="popup">
+    <h2>Create New Access</h2>
+
+    <!-- Input fields grid -->
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Group Name</label>
+        <select [(ngModel)]="createaccess.groupName" (change)="onCreateGroupChange()">
+          <option *ngFor="let g of groupsList" [value]="g.groupName">
+            {{ g.groupName }}
+          </option>
+        </select>
+      </div>
+
+
+      <div class="user-data">
+        <label>People Type</label>
+        <select [(ngModel)]="createaccess.peopleType">
+          <option *ngFor="let type of peopleTypeList" [value]="type.typeName">
+            {{ type.typeName }}
+          </option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Readers</label>
+        <input type="text" [(ngModel)]="readersInput">
+      </div>
+      <div class="user-data">
+        <label>From Date</label>
+        <input type="date" [(ngModel)]="createaccess.fromDate">
+      </div>
+      <div class="user-data">
+        <label>To Date</label>
+        <input type="date" [(ngModel)]="createaccess.toDate">
+      </div>
+      <div class="user-data">
+        <label>From Time</label>
+        <input type="time" [(ngModel)]="createaccess.fromTime">
+      </div>
+      <div class="user-data">
+        <label>To Time</label>
+        <input type="time" [(ngModel)]="createaccess.toTime">
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="createaccess.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+
+    <!-- ✅ Buttons OUTSIDE the grid -->
+    <div class="user-button">
+      <button class="btn create" (click)="createNewaccess()">Create</button>
+      <button class="btn cancel" (click)="closecreateaccess()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- access update -->
+
+<!-- Update Access Popup -->
+<div class="overlay" *ngIf="openUpdateAccess">
+  <div class="popup">
+    <h2>Update Access</h2>
+
+    <!-- Input fields grid -->
+    <div class="user-input-container">
+      <!-- Group Name Dropdown -->
+      <div class="user-data">
+        <label>Group Name</label>
+        <select [(ngModel)]="updateAccess.groupName" (change)="onUpdateGroupChange()">
+          <option *ngFor="let g of groupsList" [value]="g.groupName">
+            {{ g.groupName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- <div *ngIf="displayGroupMembers.length > 0">
+        <h4>Group Members:</h4>
+        <ul>
+          <li *ngFor="let member of displayGroupMembers">{{ member }}</li>
+        </ul>
+      </div> -->
+
+
+      <div class="user-data">
+        <label>People Type</label>
+        <select [(ngModel)]="updateAccess.peopleType">
+          <option value="">Select People Type</option>
+          <option *ngFor="let type of peopleTypeList" [value]="type.typeName">
+            {{ type.typeName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="user-data">
+        <label>Readers</label>
+        <input type="text" [(ngModel)]="readersInput">
+      </div>
+      <div class="user-data">
+        <label>From Date</label>
+        <input type="date" [(ngModel)]="updateAccess.fromDate">
+      </div>
+      <div class="user-data">
+        <label>To Date</label>
+        <input type="date" [(ngModel)]="updateAccess.toDate">
+      </div>
+      <div class="user-data">
+        <label>From Time</label>
+        <input type="time" [(ngModel)]="updateAccess.fromTime">
+      </div>
+      <div class="user-data">
+        <label>To Time</label>
+        <input type="time" [(ngModel)]="updateAccess.toTime">
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="updateAccess.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- Buttons OUTSIDE the grid -->
+    <div class="user-button">
+      <button class="btn create" (click)="AccessUpdate()">Update</button>
+      <button class="btn cancel" (click)="closeUpdateAccessPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- delete access -->
+
+
+
+<div class="overlaydel" *ngIf="openDeleteAccess">
+  <div class="popupdel">
+    <p>Are You Sure You Want To delete this access?</p>
+
+    <button class="btn delete" (click)="deleteaccess()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteaccessPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+<!-- groups  -->
+
+
+
+
+
+
+
+<nav class="navbarSub" *ngIf="activeTab==='Groups'">
+  <h3>Groups</h3>
+  <input type="text" placeholder="Search..." [(ngModel)]="groupsSearch" (input)="searchGroups()"
+    class="person-searchg" />
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreategroupsPopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="groups()">
+  </div>
+</nav>
+<!-- groups Table -->
+<div *ngIf="activeTab==='Groups'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Group Name</th>
+        <th>Members</th>
+        <th>People Type</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of filteredGroupsList">
+        <td>{{ group.groupName }}</td>
+        <td>{{ getMemberNamesWithIds(group.members) }}</td>
+        <td>{{ group.peopleType }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit" (click)="openUpdateGroupsPopup(group)" />
+          <img src="assets/trash.png" alt="Delete" (click)="openDeleteGroupPopup(group)" class="action-icon delete" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-bottom-controls">
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onGroupPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevGroupPage()" [disabled]="currentPage === 1">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextGroupPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- group create popup -->
+
+<div class="overlay" *ngIf="openCreategroups">
+  <div class="popup">
+    <h2>Create New Group</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>GroupName</label>
+        <input type="text" [(ngModel)]="creategroups.groupName">
+      </div>
+      <!-- ✅ New ng-select version -->
+      <div class="user-data">
+        <label>Members</label>
+        <ng-select [items]="personList" bindLabel="firstName" bindValue="id" [(ngModel)]="creategroups.members"
+          [multiple]="true" [closeOnSelect]="false" [searchable]="true">
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.firstName }} {{ item.lastName }} ({{ item.idNumber }})
+          </ng-template>
+        </ng-select>
+      </div>
+
+
+
+      <div class="user-data">
+        <label>People Type</label>
+        <select [(ngModel)]="creategroups.peopleType">
+          <option *ngFor="let type of peopleTypeList" [value]="type.typeName">
+            {{ type.typeName }}
+          </option>
+        </select>
+      </div>
+
+
+    </div>
+
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewgroups()">Create</button>
+      <button class="btn cancel" (click)="closecreategroups()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- //groups update -->
+
+
+
+<div class="overlay" *ngIf="openUpdategroups">
+  <div class="popup">
+    <h2>Update Groups</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Group Name</label>
+        <input type="text" [(ngModel)]="updategroups.groupName">
+      </div>
+      <div class="user-data">
+        <label>Members</label>
+        <ng-select [items]="personList" bindLabel="firstName" bindValue="id" [(ngModel)]="updategroups.members"
+          [multiple]="true" [closeOnSelect]="false" [searchable]="true">
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.firstName }} {{ item.lastName }} ({{ item.idNumber }})
+          </ng-template>
+        </ng-select>
+      </div>
+
+
+
+
+      <div class="user-data">
+        <label>People Type</label>
+        <select [(ngModel)]="updategroups.peopleType">
+          <option *ngFor="let type of peopleTypeList" [value]="type.typeName">
+            {{ type.typeName }}
+          </option>
+        </select>
+      </div>
+
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="groupsUpdate()">Update</button>
+      <button class="btn cancel" (click)="closeUpdategroupsPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- group delete -->
+
+
+
+
+<div class="overlaydel" *ngIf="openDeleteGroup">
+  <div class="popupdel">
+    <p>Are You Sure You Want To delete this group?</p>
+
+    <button class="btn delete" (click)="deleteGroup()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteGroupPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- TaskSchedule -->
+
+
+
+<nav class="navbarSub" *ngIf="activeTab==='TaskSchedule'">
+  <h3>TaskSchedule</h3>
+
+  <div class="date-range-wrapper">
+    <div class="date-fields-bordered">
+      <label>Start Date</label>
+      <input type="date" [(ngModel)]="filterStartDate" (change)="searchTasks()" />
+      <label>End Date</label>
+      <input type="date" [(ngModel)]="filterEndDate" (change)="searchTasks()" />
+    </div>
+  </div>
+
+
+
+  <input type="text" placeholder="Search..." [(ngModel)]="tasksSearch" (input)="searchTasks()" class="person-search" />
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreateTaskPopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="tasks()">
+  </div>
+</nav>
+<!-- TaskSchedule table -->
+<div *ngIf="activeTab==='TaskSchedule'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Task Name</th>
+        <th>Description</th>
+        <th>Group Name</th>
+        <th>Group Members</th>
+        <th>Schedule Type</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>From Time</th>
+        <th>To Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of filteredTasksList">
+        <td>{{ task.taskName }}</td>
+        <td>{{ task.description }}</td>
+        <td>{{ task.groupName }}</td>
+        <td>{{ task.groupMembers.join(', ') }}</td>
+        <td>{{ task.scheduleType }}</td>
+        <td>{{ task.fromDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ task.toDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ task.fromTime }}</td>
+        <td>{{ task.toTime }}</td>
+        <td>{{ task.status }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit" (click)="openUpdateTaskPopup(task)" />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete" (click)="openDeleteTaskPopup(task)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-bottom-controls">
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onTaskPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+
+    <div class="pagination">
+      <button (click)="prevTaskPage()" [disabled]="currentPage === 1">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextTaskPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="overlay" *ngIf="openCreateTask">
+  <div class="popup">
+    <h2>Create New Task</h2>
+
+    <!-- Input fields grid -->
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Task Name</label>
+        <input type="text" [(ngModel)]="createTask.taskName">
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="createTask.description">
+      </div>
+
+      <div class="user-data">
+        <label>Group Name</label>
+        <select [(ngModel)]="createTask.groupName" (change)="onCreateTaskGroupChange()">
+          <option *ngFor="let g of groupsList" [value]="g.groupName">
+            {{ g.groupName }}
+          </option>
+        </select>
+      </div>
+
+      <div class="user-data">
+        <label>Schedule Type</label>
+        <input type="text" [(ngModel)]="createTask.scheduleType">
+      </div>
+
+      <div class="user-data">
+        <label>From Date</label>
+        <input type="date" [(ngModel)]="createTask.fromDate" [min]="today">
+      </div>
+
+      <div class="user-data">
+        <label>To Date</label>
+        <input type="date" [(ngModel)]="createTask.toDate" [min]="createTask.fromDate || today">
+      </div>
+
+
+      <div class="user-data">
+        <label>From Time</label>
+        <input type="time" [(ngModel)]="createTask.fromTime">
+      </div>
+
+      <div class="user-data">
+        <label>To Time</label>
+        <input type="time" [(ngModel)]="createTask.toTime">
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="createTask.status" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- ✅ Buttons OUTSIDE the grid -->
+    <div class="user-button">
+      <button class="btn create" (click)="createNewTask()">Create</button>
+      <button class="btn cancel" (click)="closeCreateTaskPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- update task -->
+<!-- Update Task Popup -->
+<div class="overlay" *ngIf="openUpdateTask">
+  <div class="popup">
+    <h2>Update Task</h2>
+
+    <!-- Input fields grid -->
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Task Name</label>
+        <input type="text" [(ngModel)]="updateTask.taskName">
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="updateTask.description">
+      </div>
+
+      <div class="user-data">
+        <label>Group Name</label>
+        <select [(ngModel)]="updateTask.groupName" (change)="onUpdateTaskGroupChange()">
+          <option value="" disabled>Select Group</option>
+          <option *ngFor="let g of groupsList" [value]="g.groupName">
+            {{ g.groupName }}
+          </option>
+        </select>
+      </div>
+
+
+      <div class="user-data">
+        <label>Schedule Type</label>
+        <input type="text" [(ngModel)]="updateTask.scheduleType">
+      </div>
+
+      <div class="user-data">
+        <label>From Date</label>
+        <input type="date" [(ngModel)]="updateTask.fromDate" [min]="today">
+      </div>
+
+      <div class="user-data">
+        <label>To Date</label>
+        <input type="date" [(ngModel)]="updateTask.toDate" [min]="updateTask.fromDate || today">
+      </div>
+
+
+      <div class="user-data">
+        <label>From Time</label>
+        <input type="time" [(ngModel)]="updateTask.fromTime">
+      </div>
+
+      <div class="user-data">
+        <label>To Time</label>
+        <input type="time" [(ngModel)]="updateTask.toTime">
+      </div>
+
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="updateTask.status" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Buttons OUTSIDE the grid -->
+    <div class="user-button">
+      <button class="btn create" (click)="updateTaskSubmit()">Update</button>
+      <button class="btn cancel" (click)="closeUpdateTaskPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- delete task -->
+
+<div class="overlaydel" *ngIf="openDeleteTask">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this task?</p>
+
+    <button class="btn delete" (click)="deleteTask()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteTaskPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- attendance  -->
+
+
+
+
+<nav class="navbarSub" *ngIf="activeTab==='ManualAttendance'">
+  <h3>Manual Attendance</h3>
+  <input type="text" placeholder="Search..." [(ngModel)]="manualAttendanceSearch" (input)="searchManualAttendance()"
+    class="person-searchma" />
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreateManualAttendancePopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="getManualAttendance()">
+  </div>
+</nav>
+
+<div *ngIf="activeTab==='ManualAttendance'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Person Id</th>
+        <th>Person Name</th>
+        <th>People Type</th>
+        <th>From Date</th>
+        <th>From Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of filteredManualAttendanceList">
+        <td>{{ getPersonDisplay(record.personId) }}</td>
+        <td>{{ record.personName }}</td>
+        <td>{{ record.peopleType }}</td>
+        <td>{{ record.fromDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ record.fromTime }}</td>
+        <td>{{ record.status }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit"
+            (click)="openEditManualAttendancePopup(record)" />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete"
+            (click)="openDeleteManualAttendancePopup(record)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-bottom-controls">
+    <!-- Page Size Selector -->
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+
+    <!-- Pagination Buttons -->
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+<!-- create attendance -->
+
+
+<!-- Manual Attendance Create Popup -->
+<div class="overlay" *ngIf="openCreateManualAttendance">
+  <div class="popup">
+    <h2>Create Manual Attendance</h2>
+
+    <div class="user-input-container">
+
+      <!-- Person ID Dropdown -->
+      <div class="user-data">
+        <label>Members</label>
+        <select [(ngModel)]="createManualAttendance.personId" (change)="onPersonSelect($event)">
+          <option *ngFor="let person of personList" [value]="person.id">
+            {{ person.firstName }} {{ person.lastName }} ({{ person.idNumber }})
+          </option>
+        </select>
+      </div>
+      <!-- Date -->
+      <div class="user-data">
+        <label>Date</label>
+        <input type="date" [(ngModel)]="createManualAttendance.fromDate" />
+      </div>
+
+      <!-- From Time -->
+      <div class="user-data">
+        <label>From Time</label>
+        <input type="time" [(ngModel)]="createManualAttendance.fromTime" />
+      </div>
+
+      <!-- Status -->
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="createManualAttendance.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="user-button">
+      <button class="btn create" (click)="createNewManualAttendance()">Create</button>
+      <button class="btn cancel" (click)="closeCreateManualAttendancePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Edit Manual Attendance Popup -->
+<div class="overlay" *ngIf="openEditManualAttendance">
+  <div class="popup">
+    <h2>Edit Manual Attendance</h2>
+
+    <div class="user-input-container">
+
+      <!-- Employee Dropdown -->
+      <div class="user-data">
+        <label>Employee Name</label>
+        <select [(ngModel)]="editManualAttendance.personId" (change)="onEditPersonSelect($event)">
+          <option *ngFor="let person of filteredEditPersonList" [value]="person.id">
+            {{ person.firstName }} {{ person.lastName }} ({{ person.idNumber }})
+          </option>
+        </select>
+      </div>
+
+      <!-- Date -->
+      <div class="user-data">
+        <label>Date</label>
+        <input type="date" [(ngModel)]="editManualAttendance.fromDate" />
+      </div>
+
+      <!-- From Time -->
+      <div class="user-data">
+        <label>Time</label>
+        <input type="time" [(ngModel)]="editManualAttendance.fromTime" />
+      </div>
+
+      <!-- Status Toggle -->
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="editManualAttendance.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- Buttons OUTSIDE the grid -->
+    <!-- Buttons OUTSIDE the grid -->
+    <div class="user-button">
+      <button class="btn create" (click)="updateManualAttendance()">Update</button>
+      <button class="btn cancel" (click)="closeEditManualAttendancePopup()">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<!-- delete attendance -->
+
+<div class="overlaydel" *ngIf="openDeleteManualAttendance">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Manual Attendance?</p>
+
+    <button class="btn delete" (click)="deleteManualAttendance()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteManualAttendancePopup()">No</button>
+  </div>
+</div>

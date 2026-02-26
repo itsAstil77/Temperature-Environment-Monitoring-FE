@@ -1,0 +1,74 @@
+<div class="license-container">
+  <h2 class="title">License Management</h2>
+
+  <!-- Form Section -->
+  <div class="form-section">
+    <div class="form-group">
+      <label>Customer ID</label>
+      <input type="text" [(ngModel)]="customerId" />
+    </div>
+
+    <div class="form-group">
+      <label>License ID</label>
+      <input type="text" [(ngModel)]="licenseId" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea rows="3" [(ngModel)]="description"></textarea>
+    </div>
+
+    <button class="activate-btn" (click)="activateLicense()">Activate</button>
+  </div>
+
+  <!-- License Table -->
+  <div class="license-list">
+    <div class="list-header">
+      <h3>License Management List</h3>
+
+      <div class="search-box">
+        <input
+          type="text"
+          placeholder="Search license"
+          [(ngModel)]="searchTerm"
+          (input)="filterLicenses()"
+        />
+        <span class="clear-icon" (click)="clearSearch()">✕</span>
+        <div class="icons">
+          <button title="Refresh">⟳</button>
+          <button title="Download">⬇</button>
+          <button title="Columns">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <table class="license-table">
+      <thead>
+        <tr>
+          <th>Current State</th>
+          <th>License Id</th>
+          <th>License Type</th>
+          <th>Subscription End Date</th>
+          <th>Support End Date</th>
+          <th>Activation Date</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+   <tr *ngFor="let license of filteredLicenses">
+  <td>{{ license.state }}</td>
+  <td>{{ license.id }}</td>
+  <td>{{ license.type }}</td>
+  <td>{{ license.subscriptionEndDate || '—' }}</td>
+  <td>{{ license.supportEndDate || '—' }}</td>
+  <td>{{ license.activationDate || '—' }}</td>
+  <td>{{ license.description || '—' }}</td>
+  <td><button class="action-btn">🗑️</button></td>
+</tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

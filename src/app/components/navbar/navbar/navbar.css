@@ -1,0 +1,505 @@
+.sidebar a img {
+  height: 25px;
+  /* Icon height matches text size */
+  width: auto;
+  margin-right: 10px;
+  transition: margin 0.3s ease;
+}
+
+.menu-icon {
+  margin-top: 0px;
+  height: 20px;
+  cursor: pointer;
+}
+
+
+.submenu {
+  display: none;
+  position: absolute;
+  left: 250px;
+  /* still next to sidebar */
+  top: 60px;
+  /* start from very top */
+  height: 100vh;
+  /* 🔥 full viewport height */
+  width: 230px;
+  /* adjust width as needed */
+  background-color: whitesmoke;
+  /* background for entire panel */
+  z-index: 1;
+}
+
+.menu-item.open .submenu {
+  display: block;
+}
+
+/* base style */
+.submenu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 60px;
+  font-size: 14px;
+  color: #7030a0;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Layout: sidebar + content side by side */
+.layout {
+  display: flex;
+  height: calc(100vh - 60px);
+  /* full height minus top bar */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #7030a0;
+  transition: width 0.5s ease;
+  /* overflow-x: hidden; */
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+/* Main Content */
+.content {
+  flex: 1;
+  /* takes remaining width */
+  padding: 7px;
+  background: #f8f9fa;
+  overflow-y: auto;
+  margin-left: 5px;
+
+
+}
+
+/* Top bar */
+.content1 {
+  background-color: #7030a0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 10px 20px;
+}
+
+h1 {
+  color: white;
+  font-size: 1.4em;
+  margin: 0;
+  margin-left: 6%;
+}
+
+/* Right icons */
+.right-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.icon-wrapper img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Tooltip styling */
+.icon-wrapper::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -35px;            /* show below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 999;
+}
+
+/* Show tooltip on hover */
+.icon-wrapper:hover::after {
+  opacity: 1;
+}
+
+
+
+.right-icons {
+  display: flex;
+  align-items: center;
+  gap: 0;  
+}
+
+.icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+
+
+/* Sidebar links */
+.sidebar a {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 14px 18px;
+  text-decoration: none;
+  font-size: 14px;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.sidebar .main:hover,
+.sidebar .main.active {
+  color: #7030a0;
+  background-color: #d9c6e5;
+  border-radius: 200px;
+}
+
+.sidebar a:hover .white-icon,
+.sidebar a.active .white-icon {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(80%) saturate(800%) hue-rotate(250deg) brightness(80%);
+}
+
+
+
+.submenu a {
+  color: #7030a0;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.submenu .one-sub:hover,
+.submenu .one-sub.active {
+  background: rgb(218, 214, 214);
+  border-radius: 200px;
+}
+
+.menu-item a:hover,
+.menu-item a.active {
+  color: #7030a0;
+  background-color: #d9c6e5;
+  border-radius: 200px;
+}
+
+
+
+.menu-item a:hover .white-icon,
+.menu-item a.active .white-icon {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(80%) saturate(800%) hue-rotate(250deg) brightness(80%);
+}
+
+
+
+
+.menu-item.active > a {
+  color: #7030a0;
+  background-color: #d9c6e5;
+  border-radius: 200px;
+}
+
+.menu-item.active > a .white-icon {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(80%) saturate(800%) hue-rotate(250deg) brightness(80%);
+}
+
+
+
+
+
+.submenu a:hover {
+  background: transparent;
+}
+
+
+
+
+
+
+
+
+
+/* General tooltip */
+.tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 19px;
+  cursor: pointer;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  /* small offset */
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10000;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+}
+
+
+/* Admin tooltip (same style, can be merged with .tooltip if you want) */
+.admintooltip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  cursor: pointer;
+  width: 180%;
+  /* take full parent width */
+  height: 100%;
+  /* take full parent height */
+  box-sizing: border-box;
+  /* include padding in area */
+
+}
+
+.admintooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;
+  left: 110%;
+  /* keep tooltip close */
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10000;
+}
+
+.admintooltip:hover::after {
+  opacity: 1;
+  
+}
+
+
+
+
+
+
+
+
+
+.tooltip::after,
+.admintooltip::after {
+  z-index: 999999 !important;
+  /* Force to top */
+}
+
+.sidebar,
+.layout {
+  overflow: visible !important;
+  /* prevent tooltip from being cut off */
+}
+
+
+
+
+
+.sidebar.collapsed .menu-item .label {
+  display: none;
+}
+
+
+
+
+
+/* Submenu default */
+.submenu {
+  display: none;
+  flex-direction: column;
+  padding: 10px;
+  background: #fff;
+  z-index: 10000;
+}
+
+/* Base submenu style */
+.submenu {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateX(-10px);
+  transition: all 0.5s ease;
+  /* 2 second smooth transition */
+}
+
+/* Expanded sidebar → submenu slides open below */
+.menu-item.open .submenu {
+  max-height: 100%;
+  /* big enough to fit submenu */
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Collapsed sidebar → flyout submenu (hidden by default) */
+.sidebar.collapsed .menu-item .submenu {
+  position: absolute;
+  left: 60px;
+  top: 60px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  border-radius: 6px;
+  min-width: 180px;
+
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+/* Collapsed + open */
+.sidebar.collapsed .menu-item.open .submenu {
+  max-height: calc(100vh - 60px); /* 🔥 FIXED */
+  overflow-y: auto;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+/* Hide text when sidebar collapsed */
+.sidebar.collapsed .link-text {
+  display: none;
+}
+
+.link-text{
+  margin-top: 1px;
+}
+
+
+
+
+
+.user-info {
+  color: white;
+  font-size: 14px;
+  margin: 0;
+  padding: 10px;
+  
+}
+.white-icon {
+  filter: brightness(0) invert(1);
+}
+
+.purple-icon {
+  filter: invert(20%) sepia(84%) saturate(5644%) hue-rotate(265deg) brightness(95%) contrast(94%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.icon-wrapper {
+  position: relative;
+  /* display: inline-block; */
+  cursor: pointer;
+  gap:2%;
+}
+
+.last {
+  height: 20px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  margin-right: 0;  /* remove the old margin-right: 20px */
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  width: 180px;
+  border-radius: 6px;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 99;
+}
+
+.dropdown ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dropdown ul li {
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.dropdown ul li:hover {
+  background: #f2f2f2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

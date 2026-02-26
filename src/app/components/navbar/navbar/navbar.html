@@ -1,0 +1,130 @@
+<div class="content1">
+  <img class="menu-icon" data-tooltip="Menu" data-tooltip="Menu" src="assets/menu.png" alt="Menu"
+    (click)="toggleSidebar()">
+  <h1>Temperature Monitoring</h1>
+  <div class="right-icons">
+
+
+
+
+    <span class="icon-wrapper" data-tooltip="Admin" (click)="toggleDropdown($event)">
+      <img class="last" src="assets/user.png" alt="Dashboard icon">
+      <div class="user-info">
+        {{ userid }}
+      </div>
+      <div class="dropdown" *ngIf="menuOpen">
+        <ul>
+          <li (click)="goToProfile()">My Profile</li>
+          <li (click)="changePassword()">Change Password</li>
+          <li (click)="openHelp()">Help & Support</li>
+          <li (click)="logout()">Logout</li>
+        </ul>
+      </div>
+    </span>
+    <!-- <span class="icon-wrapper" data-tooltip="Notifications">
+      <img class="last" src="assets/bell.png" alt="Notification icon">
+    </span> -->
+  </div>
+</div>
+
+
+
+
+
+<!-- Sidebar + Main Layout -->
+<div class="layout">
+
+  <div class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <nav>
+
+      <a *ngIf="canViewDashboard" class="main tooltip" routerLink="/dashboard" routerLinkActive="active"
+        (click)="closeAllSubmenus()" data-tooltip="Dashboard">
+        <img src="assets/dashboard.png" alt="Dashboard icon" class="white-icon">
+        <span class="link-text">Dashboard</span>
+      </a>
+
+      <!-- Tracking with submenu -->
+      <div *ngIf="canViewTracking" class="menu-item" [class.open]="isTrackingMenuOpen"
+  [class.active]="isTrackingMenuOpen || isTrackingActive()">
+  <a href="javascript:void(0)" (click)="toggleTrackingMenu()">
+    <span class="main tooltip" data-tooltip="Tracking">
+      <img src="assets/marker.png" alt="Tracking" class="white-icon">
+      <span class="link-text">Tracking</span>
+    </span>
+  </a>
+  <div class="submenu">
+    <!-- <a href="#"> -->
+      <a>
+      <span class="tooltip" data-tooltip="Tracking">
+        <img src="assets/marker.png" alt="Tracking icon" class="purple-icon">
+      </span>
+      Tracking
+    </a>
+    <div class="submenu-item" [class.open]="isLiveOpen">
+      <a class="one-sub" routerLink="/live" routerLinkActive="active" (click)="closeAllSubmenus()">Map View</a>
+    </div>
+    <!-- <div class="submenu-item" [class.open]="isHistoricalsOpen">
+      <a class="one-sub" routerLink="/historicals" routerLinkActive="active" (click)="closeAllSubmenus()">Historicals</a>
+    </div> -->
+  </div>
+</div>
+
+
+      <!-- <a *ngIf="canViewEvents" class="main tooltip" routerLink="/events" 
+   routerLinkActive="active" (click)="closeAllSubmenus()" data-tooltip="Events">
+  <img src="assets/event.png" alt="Events" class="white-icon">
+  <span class="link-text">Events</span>
+</a> -->
+
+      <!-- <a *ngIf="canViewReports" class="main tooltip" routerLink="/reports" routerLinkActive="active"
+        (click)="closeAllSubmenus()" data-tooltip="Reports">
+        <img src="assets/reports.png" alt="Reports" class="white-icon">
+        <span class="link-text">Reports</span>
+      </a> -->
+      <a *ngIf="canViewReports" class="main tooltip" routerLink="/reports" 
+   [class.active]="isReportsActive()"
+   (click)="closeAllSubmenus()" data-tooltip="Reports">
+  <img src="assets/reports.png" alt="Reports" class="white-icon">
+  <span class="link-text">Reports</span>
+</a>
+
+      <!-- <a *ngIf="canViewProcessAutomation" class="main tooltip" routerLink="/processautomation" routerLinkActive="active"
+        (click)="closeAllSubmenus()" data-tooltip="Process & Automation">
+        <img src="assets/automation.png" alt="Automation" class="white-icon">
+        <span class="link-text">Process & Automation</span>
+      </a> -->
+
+
+      <!-- Administration with submenu -->
+      <div *ngIf="canViewAdministration" class="menu-item" [class.open]="isAdminMenuOpen"
+        [class.active]="isAdminMenuOpen || isAdminActive()">
+        <a href="javascript:void(0)" (click)="toggleAdminMenu()">
+          <span class="admintooltip" data-tooltip="Administration">
+            <img src="assets/administration.png" alt="Admin" class="white-icon">
+            <span class="link-text">Administration</span>
+          </span>
+        </a>
+        <div class="submenu">
+          <a>
+            <span class="tooltip" data-tooltip="Administration">
+              <img src="assets/administration.png" alt="Dashboard icon">
+            </span>
+            Administration
+          </a>
+          <a class="one-sub" routerLink="/project" routerLinkActive="active"
+            (click)="closeAllSubmenus()">Configuration</a>
+          <!-- <a class="one-sub" routerLink="/licensemanagement" routerLinkActive="active" (click)="closeAllSubmenus()">License Management</a> -->
+          <a class="one-sub" routerLink="/user-management" routerLinkActive="active" (click)="closeAllSubmenus()">User
+            Management</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+
+  <!-- Main content -->
+  <!-- <app-breadcrumb></app-breadcrumb> -->
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

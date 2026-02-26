@@ -1,0 +1,1314 @@
+<nav class="navbar">
+  <h3>Project List</h3>
+  <div class="tabs">
+    <!-- <button class="aone" routerLink="/people" routerLinkActive="active">People</button> -->
+    <button class="aone" routerLink="/project" routerLinkActive="active">Project</button>
+    <button class="aone" routerLink="/devices" routerLinkActive="active">Devices</button>
+     <!-- <button class="aone" routerLink="/asset" routerLinkActive="active">Asset</button> -->
+  </div>
+</nav>
+
+
+
+<div *ngIf="activeTab==='project'" class="table-container">
+  <nav class="button">
+    <div>
+      <button class="three" (click)="openCreateProjectPopup()">Add Project</button>
+    </div>
+  </nav>
+  <!-- <table>
+    <tbody>
+      <ng-container *ngFor="let project of projects">
+
+
+
+
+
+        <tr>
+          <td class="tabledata">{{ project.projectName }}
+            <span class="icons">
+              <img src="assets/pencil.png" alt="Edit" (click)="openEditProjectPopup(project)" />
+              <img src="assets/add.png" alt="Add" (click)="openCreateCountryPopup(project.id)" />
+              <img src="assets/trash.png" alt="Delete" (click)="openDeleteProjectPopup(project)" />
+              <img src="assets/down.png" alt="DropDown" class="tab" [class.rotate]="expandedProjects.has(project.id)"
+                (click)="loadCountries(project.id)" />
+
+            </span>
+          </td>
+        </tr>
+
+
+
+        <tr *ngIf="expandedProjects.has(project.id)">
+          <td colspan="2">
+            <table>
+              <tbody>
+                <ng-container *ngFor="let country of countriesByProject[project.id]">
+
+
+                  <tr>
+                    <td class="tabledata">{{ country.countryName }}
+                      <span class="icons">
+                        <img src="assets/pencil.png" alt="Edit" (click)="openEditCountryPopup(country)" />
+                        <img src="assets/add.png" alt="Add" (click)="openCreateareaPopup(country.id)" />
+                        <img src="assets/trash.png" alt="Delete" (click)="openDeleteCountryPopup(country)" />
+                        <img src="assets/down.png" alt="DropDown" class="tab"
+                          [class.rotate]="expandedCountry.has(country.id)" (click)="loadArea(country.id)" />
+                      </span>
+                    </td>
+                  </tr>
+
+
+                  <ng-container *ngFor="let area of areaByCountry[country.id]">
+                    <tr *ngIf="expandedCountry.has(country.id)">
+                      <td colspan="2">
+                        <table>
+                          <tbody>
+              
+                            <tr>
+                              <td class="tabledata">{{ area.areaName }}
+                                <span class="icons">
+                                  <img src="assets/pencil.png" alt="Edit" (click)="openEditAreaPopup(area)" />
+                                  <img src="assets/add.png" alt="Add" (click)="openCreateBuildingPopup(area.id)" />
+                                   <img src="assets/add.png" alt="Add" (click)="openAreaZone(area.id)" />
+                                  <img src="assets/trash.png" alt="Delete" (click)="openDeleteAreaPopup(area)" />
+                                  <img src="assets/down.png" alt="DropDown" class="tab"
+                                    [class.rotate]="expandedArea.has(area.id)" (click)="loadBuilding(area.id)" />
+                                </span>
+                              </td>
+                            </tr>
+
+         
+                            <tr *ngIf="expandedArea.has(area.id)">
+                              <td colspan="2">
+                                <table>
+                                  <tbody>
+                                    <ng-container *ngFor="let building of buildingByArea[area.id]">
+
+                           
+                                      <tr>
+                                        <td class="tabledata">{{ building.buildingName }}
+                                          <span class="icons">
+                                            <img src="assets/pencil.png" alt="Edit"
+                                              (click)="openEditBuildingPopup(building)" />
+                                            <img src="assets/add.png" alt="Add"
+                                              (click)="openCreateFloorPopup(building.id)" />
+                                            <img src="assets/trash.png" alt="Delete"
+                                              (click)="openDeleteBuildingPopup(building)" />
+                                            <img src="assets/down.png" alt="DropDown" class="tab"
+                                              [class.rotate]="expandedBuilding.has(building.id)"
+                                              (click)="loadFloor(building.id)" />
+                                          </span>
+                                        </td>
+                                      </tr>
+
+               
+                 
+                                      <tr *ngIf="expandedBuilding.has(building.id)">
+                                        <td colspan="2">
+                                          <table>
+                                            <tbody>
+                                              <ng-container *ngFor="let floor of floorByBuilding[building.id]">
+                               
+                                                <tr>
+                                                  <td class="tabledata">{{ floor.floorName }}
+                                                    <span class="icons">
+                                                      <img src="assets/pencil.png" alt="Edit"
+                                                        (click)="openEditFloorPopup(floor)" />
+                                                      <img src="assets/add.png" alt="Add"
+                                                        (click)="openCreateZonePopup(floor.id)" />
+                                                        
+                                                      <img src="assets/trash.png" alt="Delete"
+                                                        (click)="openDeleteFloorPopup(floor)" />
+                                                      <img src="assets/down.png" alt="DropDown" class="tab"
+                                                        [class.rotate]="expandedFloor.has(floor.id)"
+                                                        (click)="loadZones(floor.id)" />
+                                                    </span>
+                                                  </td>
+                                                </tr>
+
+                                 
+                                                <tr *ngIf="expandedFloor.has(floor.id)">
+                                                  <td colspan="2">
+                                                    <table>
+                                                      <tbody>
+                                                        <ng-container *ngFor="let zone of zoneByFloor[floor.id]">
+                                            
+                                                          <tr>
+                                                            <td class="tabledata">{{ zone.zoneName }}
+                                                              <span class="icons">
+                                                                <img src="assets/pencil.png" alt="Edit"
+                                                                  (click)="openEditZonePopup(zone)" />
+                                                                <img src="assets/add.png" alt="Add"
+                                                                  (click)="openCreateSubZonePopup(zone.id)" />
+                                                                <img src="assets/trash.png" alt="Delete"
+                                                                  (click)="openDeleteZonePopup(zone)" />
+                                                                <img src="assets/down.png" alt="DropDown" class="tab"
+                                                                  [class.rotate]="expandedZone.has(zone.id)"
+                                                                  (click)="loadSubZones(zone.id)" />
+                                                              </span>
+                                                            </td>
+                                                          </tr>
+
+                                     
+                                                          <tr *ngIf="expandedZone.has(zone.id)">
+                                                            <td colspan="2">
+                                                              <table>
+                                                                <tbody>
+                                                                  <ng-container
+                                                                    *ngFor="let subZone of subZoneByZone[zone.id]">
+                                                                    <tr>
+                                                                      <td class="tabledata">{{ subZone.subZoneName }}
+                                                                        <span class="icons">
+
+                                                                          <img src="assets/pencil.png" alt="Edit"
+                                                                            (click)="openEditSubZonePopup(subZone)" />
+                                                                          <img src="assets/trash.png" alt="Delete"
+                                                                            (click)="openDeleteSubZonePopup(subZone)" />
+                                                                        </span>
+                                                                      </td>
+                                                                    </tr>
+                                                                  </ng-container>
+                                                                </tbody>
+                                                              </table>
+                                                            </td>
+                                                          </tr>
+
+                                                        </ng-container>
+                                                      </tbody>
+                                                    </table>
+                                                  </td>
+                                                </tr>
+
+                                              </ng-container>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+
+                                    </ng-container>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                </ng-container>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+      </ng-container>
+    </tbody>
+  </table> -->
+
+
+  <table>
+    <tbody>
+      <ng-container *ngFor="let project of projects">
+
+        <!-- PROJECT -->
+        <tr>
+          <td class="tabledata">
+            {{ project.projectName }}
+            <span class="icons">
+              <span class="icon-wrapper">
+                <img src="assets/pencil.png" (click)="openEditProjectPopup(project)" />
+                <span class="tooltip-text">Edit Project</span>
+              </span>
+              <span class="icon-wrapper">
+                <img src="assets/add.png" (click)="openCreateCountryPopup(project.id)" />
+                <span class="tooltip-text">Add Country</span>
+              </span>
+              <span class="icon-wrapper">
+                <img src="assets/trash.png" (click)="openDeleteProjectPopup(project)" />
+                <span class="tooltip-text">Delete Project</span>
+              </span>
+              <img src="assets/down.png" class="tab" [class.rotate]="expandedProjects.has(project.id)"
+                (click)="loadCountries(project.id)" />
+            </span>
+          </td>
+        </tr>
+
+        <tr *ngIf="expandedProjects.has(project.id)">
+          <td colspan="2">
+            <table>
+              <tbody>
+                <ng-container *ngFor="let country of countriesByProject[project.id]">
+
+                  <!-- COUNTRY -->
+                  <tr>
+                    <td class="tabledata">
+                      {{ country.countryName }}
+                      <span class="icons">
+                        <span class="icon-wrapper">
+                          <img src="assets/pencil.png" (click)="openEditCountryPopup(country)" />
+                          <span class="tooltip-text">Edit Country</span>
+                        </span>
+                        <span class="icon-wrapper">
+                          <img src="assets/add.png" (click)="openCreateareaPopup(country.id)" />
+                          <span class="tooltip-text">Add Area</span>
+                        </span>
+                        <span class="icon-wrapper">
+                          <img src="assets/trash.png" (click)="openDeleteCountryPopup(country)" />
+                          <span class="tooltip-text">Delete Area</span>
+                        </span>
+                        <img src="assets/down.png" class="tab" [class.rotate]="expandedCountry.has(country.id)"
+                          (click)="loadArea(country.id)" />
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="expandedCountry.has(country.id)">
+                    <td colspan="2">
+                      <table>
+                        <tbody>
+                          <ng-container *ngFor="let area of areaByCountry[country.id]">
+
+                            <!-- AREA -->
+                            <tr>
+                              <td class="tabledata">
+                                {{ area.areaName }}
+                                <span class="icons">
+                                  <span class="icon-wrapper">
+                                    <img src="assets/pencil.png" class="icon tooltip"
+                                      (click)="openEditAreaPopup(area)" />
+                                    <span class="tooltip-text">Edit Area</span>
+                                  </span>
+                                  <span class="icon-wrapper">
+                                    <img src="assets/add.png" class="icon tooltip"
+                                      (click)="openCreateBuildingPopup(area.id)" />
+                                    <span class="tooltip-text">Add Building</span>
+                                  </span>
+                                  <!-- <span class="icon-wrapper">
+                                    <img src="assets/add.png" class="icon tooltip" (click)="openAreaZone(area.id)" />
+                                    <span class="tooltip-text">Add OutdoorZone</span>
+                                  </span> -->
+                                  <span class="icon-wrapper">
+                                    <img src="assets/trash.png" (click)="openDeleteAreaPopup(area)" />
+                                    <span class="tooltip-text">Delete Area</span>
+                                  </span>
+
+                                  <!-- Single expand/collapse -->
+                                  <img src="assets/down.png" class="tab" [class.rotate]="expandedArea.has(area.id)"
+                                    (click)="toggleArea(area.id)" />
+                                </span>
+                              </td>
+                            </tr>
+                            <!-- AREA CHILDREN (Zones + Buildings) -->
+                            <tr *ngIf="expandedArea.has(area.id)">
+                              <td colspan="2">
+                                <table>
+                                  <tbody>
+
+                                    <!-- 🔵 AREA ZONES -->
+                                    <ng-container *ngIf="zoneByArea[area.id]?.length">
+                                      <tr *ngFor="let zone of zoneByArea[area.id]">
+                                        <td class="tabledata zone-row">
+                                          {{ zone.zoneName }}
+                                          <span class="icons">
+                                            <span class="icon-wrapper">
+                                              <img src="assets/pencil.png" class="icon tooltip"
+                                                (click)="openUpdateAreaZonePopup(zone)" />
+                                              <span class="tooltip-text">Edit OutdoorZone</span>
+                                            </span>
+                                            <span class="icon-wrapper">
+                                              <img src="assets/trash.png" class="icon tooltip"
+                                                (click)="openDeleteAreaZonePopup(zone.id)" />
+                                              <span class="tooltip-text">Delete OutdoorZone</span>
+                                            </span>
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    </ng-container>
+
+                                    <!-- 🏢 BUILDINGS -->
+                                    <ng-container *ngFor="let building of buildingByArea[area.id]">
+                                      <tr>
+                                        <td class="tabledata building-row">
+                                          {{ building.buildingName }}
+                                          <span class="icons">
+                                            <span class="icon-wrapper">
+                                              <img src="assets/pencil.png" class="icon tooltip"
+                                                (click)="openEditBuildingPopup(building)" />
+                                              <span class="tooltip-text">Edit Building</span>
+                                            </span>
+                                            <span class="icon-wrapper">
+                                              <img src="assets/add.png" class="icon tooltip"
+                                                (click)="openCreateFloorPopup(building.id)" />
+                                              <span class="tooltip-text">Add Floor</span>
+                                            </span>
+                                            <span class="icon-wrapper">
+                                              <img src="assets/trash.png" class="icon tooltip"
+                                                (click)="openDeleteBuildingPopup(building)" />
+                                              <span class="tooltip-text">Delete Building</span>
+                                            </span>
+                                            <img src="assets/down.png" class="tab"
+                                              [class.rotate]="expandedBuilding.has(building.id)"
+                                              (click)="loadFloor(building.id)" />
+                                          </span>
+                                        </td>
+                                      </tr>
+
+                                      <!-- FLOOR -->
+                                      <tr *ngIf="expandedBuilding.has(building.id)">
+                                        <td colspan="2">
+                                          <table>
+                                            <tbody>
+                                              <ng-container *ngFor="let floor of floorByBuilding[building.id]">
+                                                <tr>
+                                                  <td class="tabledata">
+                                                    {{ floor.floorName }}
+                                                    <span class="icons">
+                                                      <span class="icon-wrapper">
+                                                        <img src="assets/pencil.png" class="icon tooltip"
+                                                          (click)="openEditFloorPopup(floor)" />
+                                                        <span class="tooltip-text">Edit Floor</span>
+                                                      </span>
+                                                      <span class="icon-wrapper">
+                                                        <img src="assets/add.png" class="icon tooltip"
+                                                          (click)="openCreateZonePopup(floor.id)" />
+                                                        <span class="tooltip-text">Add Zone</span>
+                                                      </span>
+                                                      <span class="icon-wrapper">
+                                                        <img src="assets/trash.png" class="icon tooltip"
+                                                          (click)="openDeleteFloorPopup(floor)" />
+                                                        <span class="tooltip-text">Delete Floor</span>
+                                                      </span>
+                                                      <img src="assets/down.png" class="tab"
+                                                        [class.rotate]="expandedFloor.has(floor.id)"
+                                                        (click)="loadZones(floor.id)" />
+                                                    </span>
+                                                  </td>
+                                                </tr>
+
+                                                <!-- ZONE -->
+                                                <tr *ngIf="expandedFloor.has(floor.id)">
+                                                  <td colspan="2">
+                                                    <table>
+                                                      <tbody>
+                                                        <ng-container *ngFor="let zone of zoneByFloor[floor.id]">
+                                                          <tr>
+                                                            <td class="tabledata">
+                                                              {{ zone.zoneName }}
+                                                              <span class="icons">
+                                                                <span class="icon-wrapper"> <img src="assets/pencil.png"
+                                                                    class="icon tooltip"
+                                                                    (click)="openEditZonePopup(zone)" />
+                                                                  <span class="tooltip-text">Edit Zone</span>
+                                                                </span>
+                                                                <span class="icon-wrapper">
+                                                                  <img src="assets/add.png" class="icon tooltip"
+                                                                    (click)="openCreateSubZonePopup(zone.id)" />
+                                                                  <span class="tooltip-text">Add SubZone</span>
+                                                                </span>
+                                                                <span class="icon-wrapper">
+                                                                  <img src="assets/trash.png" class="icon tooltip"
+                                                                    (click)="openDeleteZonePopup(zone)" />
+                                                                  <span class="tooltip-text">Delete Zone</span>
+                                                                </span>
+                                                                <img src="assets/down.png" class="tab"
+                                                                  [class.rotate]="expandedZone.has(zone.id)"
+                                                                  (click)="loadSubZones(zone.id)" />
+                                                              </span>
+                                                            </td>
+                                                          </tr>
+
+                                                          <!-- SUB ZONE -->
+                                                          <tr *ngIf="expandedZone.has(zone.id)">
+                                                            <td colspan="2">
+                                                              <table>
+                                                                <tbody>
+                                                                  <tr *ngFor="let subZone of subZoneByZone[zone.id]">
+                                                                    <td class="tabledata">
+                                                                      {{ subZone.subZoneName }}
+                                                                      <span class="icons">
+                                                                        <span class="icon-wrapper">
+                                                                          <img src="assets/pencil.png"
+                                                                            class="icon tooltip"
+                                                                            (click)="openEditSubZonePopup(subZone)" />
+                                                                          <span class="tooltip-text">Edit SubZone</span>
+                                                                        </span>
+                                                                        <span class="icon-wrapper">
+                                                                          <img src="assets/trash.png"
+                                                                            (click)="openDeleteSubZonePopup(subZone)" />
+                                                                          <span class="tooltip-text">Delete
+                                                                            SubZone</span>
+                                                                        </span>
+                                                                      </span>
+                                                                    </td>
+                                                                  </tr>
+                                                                </tbody>
+                                                              </table>
+                                                            </td>
+                                                          </tr>
+
+                                                        </ng-container>
+                                                      </tbody>
+                                                    </table>
+                                                  </td>
+                                                </tr>
+
+                                              </ng-container>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+
+                                    </ng-container>
+
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+
+                          </ng-container>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+
+                </ng-container>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+      </ng-container>
+    </tbody>
+  </table>
+
+
+
+</div>
+
+
+
+
+<!-- create popup -->
+
+<div class="overlay" *ngIf="openCreateProject">
+  <div class="popup">
+    <h2>Create Project</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Project Name</label>
+        <input type="text" [(ngModel)]="createproject.projectName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="createproject.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Week Start</label>
+        <input type="date" [(ngModel)]="createproject.weekStart" [min]="todayString" />
+      </div>
+
+      <div class="user-data">
+        <label>Week End</label>
+        <input type="date" [(ngModel)]="createproject.weekEnd" [min]="todayString" />
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewProject()">Create</button>
+      <button class="btn cancel" (click)="closecreateproject()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Edit Project Popup -->
+<div class="overlay" *ngIf="openEditProject">
+  <div class="popup">
+    <h2>Edit Project</h2>
+
+    <div class="user-input-container">
+
+      <div class="user-data">
+        <label>Project Name</label>
+        <input type="text" [(ngModel)]="editProject.projectName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editProject.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Week Start</label>
+        <input type="date" [(ngModel)]="editProject.weekStart" />
+      </div>
+
+      <div class="user-data">
+        <label>Week End</label>
+        <input type="date" [(ngModel)]="editProject.weekEnd" />
+      </div>
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateProject()">Update</button>
+      <button class="btn cancel" (click)="closeEditProjectPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Project Popup -->
+<div class="overlaydel" *ngIf="openDeleteProject">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Project?</p>
+
+    <button class="btn delete" (click)="deleteProject()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteProjectPopup()">No</button>
+  </div>
+</div>
+
+
+
+<!-- ceate country  -->
+<!-- Country Create Popup -->
+<div class="overlay" *ngIf="openCreateCountry">
+  <div class="popup">
+    <h2>Create Country</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Country Name</label>
+        <input type="text" [(ngModel)]="countryData.countryName" />
+      </div>
+
+      <div class="user-data">
+        <label>Country Code</label>
+        <input type="text" [(ngModel)]="countryData.countryCode" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="countryData.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Time Zone</label>
+        <input type="text" [(ngModel)]="countryData.timeZone" />
+      </div>
+
+      <div class="user-data">
+        <label>Latitude</label>
+        <input type="number" [(ngModel)]="countryData.latitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Longitude</label>
+        <input type="number" [(ngModel)]="countryData.longitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Zoom Level</label>
+        <input type="number" [(ngModel)]="countryData.zoomLevel" />
+      </div>
+
+      <!-- <div class="user-data">
+        <label>Status</label>
+        <input type="checkbox" [(ngModel)]="countryData.status" />
+      </div> -->
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewCountry()">Create</button>
+      <button class="btn cancel" (click)="closeCreateCountry()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- 9-9-25 -->
+
+
+<!-- Area Create Popup -->
+<div class="overlay" *ngIf="openCreatearea">
+  <div class="popup">
+    <h2>Create Area</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Area Name</label>
+        <input type="text" [(ngModel)]="areaData.areaName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="areaData.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Outdoor Map</label>
+        <input type="text" [(ngModel)]="areaData.outdoorMap" />
+      </div>
+
+      <div class="user-data">
+        <label>Latitude</label>
+        <input type="text" [(ngModel)]="areaData.latitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Longitude</label>
+        <input type="text" [(ngModel)]="areaData.longitude" />
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewarea()">Create</button>
+      <button class="btn cancel" (click)="closeCreatearea()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Edit Country Popup -->
+<div class="overlay" *ngIf="openEditCountry">
+  <div class="popup">
+    <h2>Edit Country</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Country Name</label>
+        <input type="text" [(ngModel)]="editCountry.countryName" />
+      </div>
+
+      <div class="user-data">
+        <label>Country Code</label>
+        <input type="text" [(ngModel)]="editCountry.countryCode" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editCountry.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Time Zone</label>
+        <input type="text" [(ngModel)]="editCountry.timeZone" />
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateCountry()">Update</button>
+      <button class="btn cancel" (click)="closeEditCountryPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Country Popup -->
+<div class="overlaydel" *ngIf="openDeleteCountry">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Country?</p>
+
+    <button class="btn delete" (click)="deleteCountry()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteCountryPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+<!-- Edit Area Popup -->
+<div class="overlay" *ngIf="openEditArea">
+  <div class="popup">
+    <h2>Edit Area</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Area Name</label>
+        <input type="text" [(ngModel)]="editArea.areaName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editArea.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Outdoor Map</label>
+        <input type="text" [(ngModel)]="editArea.outdoorMap" />
+      </div>
+
+      <div class="user-data">
+        <label>Latitude</label>
+        <input type="text" [(ngModel)]="editArea.latitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Longitude</label>
+        <input type="text" [(ngModel)]="editArea.longitude" />
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateArea()">Update</button>
+      <button class="btn cancel" (click)="closeEditAreaPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Area Delete Popup -->
+<div class="overlaydel" *ngIf="openDeleteArea">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Area?</p>
+
+    <button class="btn delete" (click)="deleteArea()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteAreaPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Building Create Popup -->
+<div class="overlay" *ngIf="openCreateBuilding">
+  <div class="popup">
+    <h2>Create Building</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Building Name</label>
+        <input type="text" [(ngModel)]="buildingData.buildingName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="buildingData.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Latitude</label>
+        <input type="text" [(ngModel)]="buildingData.latitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Longitude</label>
+        <input type="text" [(ngModel)]="buildingData.longitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Zoom Level</label>
+        <input type="text" [(ngModel)]="buildingData.zoomLevel" />
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewbuilding()">Create</button>
+      <button class="btn cancel" (click)="closeCreatebuilding()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Edit Building Popup -->
+<div class="overlay" *ngIf="openEditBuilding">
+  <div class="popup">
+    <h2>Edit Building</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Building Name</label>
+        <input type="text" [(ngModel)]="editBuilding.buildingName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editBuilding.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Latitude</label>
+        <input type="text" [(ngModel)]="editBuilding.latitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Longitude</label>
+        <input type="text" [(ngModel)]="editBuilding.longitude" />
+      </div>
+
+      <div class="user-data">
+        <label>Zoom Level</label>
+        <input type="text" [(ngModel)]="editBuilding.zoomLevel" />
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateBuilding()">Update</button>
+      <button class="btn cancel" (click)="closeEditBuildingPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Building Popup -->
+<div class="overlaydel" *ngIf="openDeleteBuilding">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Building?</p>
+
+    <button class="btn delete" (click)="deleteBuilding()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteBuildingPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Create Floor Popup -->
+<div class="overlay" *ngIf="openCreateFloor">
+  <div class="popup">
+    <h2>Create Floor</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Floor Name</label>
+        <input type="text" [(ngModel)]="floorData.floorName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="floorData.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Upload Map</label>
+        <input type="file" (change)="onFloorFileSelected($event)" />
+
+        <div *ngIf="floorPreviewUrl" class="preview-box">
+          <img [src]="floorPreviewUrl" alt="Preview" class="preview-img" />
+        </div>
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewfloor()">Create</button>
+      <button class="btn cancel" (click)="closeCreatefloor()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Edit Floor Popup -->
+<div class="overlay" *ngIf="openEditFloor">
+  <div class="popup">
+    <h2>Edit Floor</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Floor Name</label>
+        <input type="text" [(ngModel)]="editFloor.floorName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editFloor.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Upload Map</label>
+        <input type="file" (change)="onEditFloorFileSelected($event)" />
+
+        <!-- only show image preview, no filename -->
+        <div *ngIf="editFloorPreviewUrl" class="preview">
+          <img [src]="editFloorPreviewUrl" alt="Floor Map Preview"
+            style="max-width:200px; max-height:200px;min-width:150px; min-height:150px; border:1px solid #ccc; border-radius:8px;" />
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateFloor()">Update</button>
+      <button class="btn cancel" (click)="closeEditFloorPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Delete Floor Popup -->
+<div class="overlaydel" *ngIf="openDeleteFloor">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Floor?</p>
+
+    <button class="btn delete" (click)="deleteFloor()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteFloorPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Zone Create Popup -->
+<div class="overlay" *ngIf="openCreateZone">
+  <div class="popup">
+    <h2>Create Zone</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Zone Name</label>
+        <input type="text" [(ngModel)]="zoneData.ZoneName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="zoneData.Description" />
+      </div>
+
+      <!-- <div class="user-data">
+        <label>Top Zone</label>
+        <input type="text" [(ngModel)]="zoneData.TopZone" />
+      </div> -->
+
+      <div class="user-data">
+        <label>Priority</label>
+        <input type="number" [(ngModel)]="zoneData.Priority" />
+      </div>
+
+      <!-- <div class="user-data">
+        <label>Status</label>
+        <input type="checkbox" [(ngModel)]="zoneData.Status" />
+      </div> -->
+      <div class="user-data">
+        <label>Upload Map</label>
+        <input type="file" (change)="onZoneFileSelected($event, false)" />
+        <div *ngIf="zonePreviewUrl" class="preview-box">
+          <img [src]="zonePreviewUrl" alt="Preview"
+            style="max-width:200px; max-height:200px; border:1px solid #ccc; border-radius:8px;" />
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewZone()">Create</button>
+      <button class="btn cancel" (click)="closeCreateZone()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Edit Zone Popup -->
+<div class="overlay" *ngIf="openEditZone">
+  <div class="popup">
+    <h2>Edit Zone</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Zone Name</label>
+        <input type="text" [(ngModel)]="editZone.zoneName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editZone.description" />
+      </div>
+
+      <div class="user-data">
+        <label>Priority</label>
+        <input type="number" [(ngModel)]="editZone.priority" />
+      </div>
+
+      <div class="user-data">
+        <label>Upload Map</label>
+        <input type="file" (change)="onZoneFileSelected($event, true)" />
+        <div *ngIf="editZonePreviewUrl" class="preview">
+          <img [src]="editZonePreviewUrl" alt="Zone Map Preview"
+            style="max-width:200px; max-height:200px;min-width:150px; min-height:150px; border:1px solid #ccc; border-radius:8px;" />
+        </div>
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateZone()">Update</button>
+      <button class="btn cancel" (click)="closeEditZonePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Delete Zone Popup -->
+<div class="overlaydel" *ngIf="openDeleteZone">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Zone?</p>
+
+    <button class="btn delete" (click)="deleteZone()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteZonePopup()">No</button>
+  </div>
+</div>
+
+
+
+
+<div class="overlay" *ngIf="openCreateAreaZone">
+  <div class="popup">
+    <h2>Create OutdoorZone</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Zone Name</label>
+        <input type="text" [(ngModel)]="zoneAreaData.zoneName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="zoneAreaData.description" />
+      </div>
+
+
+      <div class="user-data">
+        <label>Priority</label>
+        <input type="number" [(ngModel)]="zoneAreaData.priority" />
+      </div>
+
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createAreaZone()">Create</button>
+      <button class="btn cancel" (click)="closeAreaZone()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="overlay" *ngIf="openUpdateAreaZone">
+  <div class="popup">
+    <h2>Update OutdoorZone</h2>
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Zone Name</label>
+        <input type="text" [(ngModel)]="zoneAreaData.zoneName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="zoneAreaData.description" />
+      </div>
+
+
+      <div class="user-data">
+        <label>Priority</label>
+        <input type="number" [(ngModel)]="zoneAreaData.priority" />
+      </div>
+
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateAreaZone()">Update</button>
+      <button class="btn cancel" (click)="cancelAreaZone()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- Create SubZone Popup -->
+<div class="overlay" *ngIf="openCreateSubZone">
+  <div class="popup"> <!-- changed from popup-box to popup -->
+    <h2>Create SubZone</h2> <!-- changed h3 to h2 for consistency -->
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>SubZone Name</label>
+        <input type="text" [(ngModel)]="subZoneData.SubZoneName" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="subZoneData.Description" />
+      </div>
+
+      <!-- <div class="user-data">
+        <label>Top SubZone</label>
+        <input type="checkbox" [(ngModel)]="subZoneData.TopSubZone" />
+      </div> -->
+
+      <div class="user-data">
+        <label>Priority</label>
+        <input type="number" [(ngModel)]="subZoneData.Priority" />
+      </div>
+
+      <!-- <div class="user-data">
+        <label>Status</label>
+        <input type="checkbox" [(ngModel)]="subZoneData.Status" />
+      </div> -->
+
+      <div class="user-data">
+        <label>Upload Map</label>
+        <input type="file" (change)="onSubZoneFileSelected($event)" />
+
+        <div *ngIf="subZonePreviewUrl" class="preview-box">
+          <img [src]="subZonePreviewUrl" alt="Preview"
+            style="max-width: 200px; max-height: 200px; margin-top: 10px; border: 1px solid #ccc; border-radius: 8px;" />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewSubZone()">Create</button> <!-- Create first like Zone -->
+      <button class="btn cancel" (click)="closeCreateSubZone()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Edit SubZone Popup -->
+<div class="overlay" *ngIf="openEditSubZone">
+  <div class="popup"> <!-- changed from popup-box to popup -->
+    <h2>Edit SubZone</h2> <!-- changed h3 to h2 -->
+
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>SubZone Name</label>
+        <input type="text" [(ngModel)]="editSubZone.SubZoneName" placeholder="SubZone Name" />
+      </div>
+
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editSubZone.Description" placeholder="Description" />
+      </div>
+
+      <div class="user-data">
+        <label>Priority</label>
+        <input type="number" [(ngModel)]="editSubZone.Priority" placeholder="Priority" />
+      </div>
+
+
+
+      <div class="user-data">
+        <label>Upload Map</label>
+        <input type="file" (change)="onEditSubZoneFileSelected($event)" />
+
+        <div *ngIf="editSubZone.UploadMapFile || editSubZonePreviewUrl" class="preview-box">
+          <img [src]="editSubZonePreviewUrl" alt="Preview" class="preview-img"
+            style="max-width:200px; max-height:200px; border:1px solid #ccc; border-radius:8px;" />
+        </div>
+      </div>
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateSubZone()">Update</button>
+      <button class="btn cancel" (click)="closeEditSubZonePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- <div class="user-data">
+        <label>
+          <input type="checkbox" [(ngModel)]="editSubZone.TopSubZone" />
+          Top SubZone
+        </label>
+      </div> -->
+
+<!-- <div class="user-data">
+        <label>
+          <input type="checkbox" [(ngModel)]="editSubZone.Status" />
+          Active
+        </label>
+      </div> -->
+
+
+<!-- Delete SubZone Popup -->
+<div class="overlaydel" *ngIf="openDeleteSubZone">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this SubZone?</p>
+
+    <button class="btn delete" (click)="deleteSubZone()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteSubZonePopup()">No</button>
+  </div>
+</div>
+
+
+<div class="overlaydel" *ngIf="openDeleteAreaZone">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this OutdoorMap?</p>
+
+    <button class="btn delete" (click)="deleteAreaZone()">Yes</button>
+    <button class="btn cancel" (click)="cancelDeleteAreaZone()">No</button>
+  </div>
+</div>

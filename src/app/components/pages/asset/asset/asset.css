@@ -1,0 +1,1065 @@
+
+
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  /* space between title and icons */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ddd;
+  /* border: 1px solid rgb(206, 201, 201); */
+  height: 35px;
+  color: #7030a0;
+  margin-top: 0%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* ✅ round top-right */
+
+
+
+}
+
+.navbar h3 {
+  padding: 6px;
+}
+
+
+/* navbar sub */
+
+.navbarSub {
+  display: flex;
+  justify-content: space-between;
+  /* space between title and icons */
+  align-items: center;
+  padding: 5px 5px;
+  background-color: white;
+  border: 1px solid rgb(206, 201, 201);
+  height: 35px;
+  color: #7030a0;
+  /* margin-top: 0%; */
+  margin-left: 20px;
+
+
+}
+
+.navbarSub h3 {
+  padding: 6px;
+}
+
+
+.container {
+  padding: 10px;
+  background: #f8f9fa;
+
+
+}
+
+/* img */
+
+
+.sub-tabs {
+  display: flex;
+  justify-content: space-between;
+  /* tabs left, icons right */
+  align-items: center;
+  /* gap: 10px; */
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.tab {
+  /* padding: 8px 16px; */
+
+  background: #f5f5f5;
+  /* default background */
+  border: none;
+  /* remove border */
+  outline: none;
+  /* remove focus outline */
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+
+}
+
+.tab:hover {
+  background: #b19ace;
+  /* hover effect */
+}
+
+.tab.active {
+  background: #7030a0;
+  color: white;
+  /* border-color: black; */
+
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-left: 20px;
+
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  max-width:100%;
+}
+
+th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+
+
+
+.tab:hover::after {
+  opacity: 1;
+}
+
+.tab::after {
+  content: attr(data-tooltip);
+  /* use text from HTML attribute */
+  position: absolute;
+  bottom: 10px;
+  margin-left: 10px;
+  background-color: #333;
+  color: #fff;
+}
+
+.navicons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 5px;
+}
+
+
+
+.tabs-left {
+  display: flex;
+  gap: 10px;
+
+}
+
+
+.navicons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.navicons img:hover {
+  transform: scale(1.1);
+  /* subtle hover effect */
+}
+
+
+/* img */
+
+
+
+
+
+
+.nav-icons {
+  display: flex;
+  gap: 15px;
+  /* spacing between icons */
+}
+
+.nav-icons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+
+
+.action-icon {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  margin: 0 6px;
+  transition: transform 0.2s ease;
+}
+
+.action-icon:hover {
+  transform: scale(1.2);
+}
+
+
+/* Overlay background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Popup box */
+.popup {
+  background: #fff;
+  display: inline-block;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+  max-width: 95%;
+  /* keep responsive */
+  min-width: 300px;
+  /* avoid too small */
+}
+
+/* Input container */
+.user-input-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* 1 column min, auto-fit up to 3 */
+  gap: 15px 30px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Limit to max 3 columns */
+.popup .user-input-container {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  max-width: calc(3 * 220px + 60px);
+  /* max 3 cols + gaps */
+}
+
+/* Title */
+.popup h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #7030a0;
+}
+
+.user-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-data label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.user-data input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Buttons */
+.user-button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.create {
+  background: #7030a0;
+  color: white;
+}
+
+.btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+
+
+.overlaydel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+
+
+/* Popup box */
+.popupdel {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  animation: popupScale 0.3s ease;
+}
+
+
+
+
+
+
+/* Heading / Message */
+.popup p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 8px;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.btn.delete {
+  background-color: #7030a0;
+  color: white;
+  margin-top: 25px;
+}
+
+.btn.cancel {
+  background-color: #c7c6c9;
+  color: black;
+}
+
+.btn.cancel:hover {
+  background-color: #b19ace;
+}
+
+
+/* Animation */
+@keyframes popupScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  /* ✅ adds equal spacing between buttons */
+}
+
+.aone {
+  color: #7030a0;
+  padding: 5px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.aone:hover {
+  background-color: #b19ace;
+  border-radius: 4px;
+}
+
+/* 🔴 Active button turns red */
+.aone.active {
+  color: white;
+  background-color: #7030a0;
+  border-radius: 4px;
+}
+
+
+
+
+
+
+/* 
+search */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.search-box {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.options {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 1000;
+}
+
+.options li {
+  padding: 6px;
+  cursor: pointer;
+}
+
+.options li:hover {
+  background: #f0f0f0;
+}
+
+
+
+
+
+
+
+
+
+/* search dropdown  */
+
+.user-data select {
+  padding: 8px;
+  /* same as input */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  /* same rounded corners */
+  width: 100%;
+  background: white;
+  /* match input background */
+  font-size: 14px;
+  appearance: none;
+  /* remove default browser styles */
+  -webkit-appearance: none;
+  /* Safari/Chrome */
+  -moz-appearance: none;
+  /* Firefox */
+  cursor: pointer;
+}
+
+
+
+
+
+/* Input and select focus inside popup */
+.popup input:focus,
+.popup select:focus {
+  outline: none;
+  /* remove default browser outline */
+  border: 1px solid #7030a0;
+  /* highlight color */
+  box-shadow: 0 0 5px rgba(112, 48, 160, 0.3);
+  /* subtle glow */
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.popup input:hover,
+.popup select:hover {
+  outline: none;
+  border: 1px solid #7030a0;
+  box-shadow: 0 0 5px rgba(112, 48, 160, 0.3);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+
+
+
+
+
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-top: 5px;
+
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked+.slider {
+  background-color: #7030a0;
+  /* Green for Active */
+}
+
+input:checked+.slider:before {
+  transform: translateX(26px);
+}
+
+
+
+
+
+.user-data select,
+.user-data input {
+  width: 100%;
+  /* make them same width */
+  height: 35px;
+  /* match height */
+  padding: 5px 10px;
+  /* add padding inside */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* rounded corners */
+  font-size: 14px;
+  /* uniform text size */
+  box-sizing: border-box;
+}
+
+
+
+/* search input css */
+
+
+.person-search {
+  width: 240px;
+  padding: 8px 14px;
+  font-size: 16px;
+  border: 2px solid #bdbdbd;
+  border-radius: 22px;
+  background: #f9f9f9;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  color: #333;
+  margin-left: 32%;
+}
+
+.person-search:focus {
+  border-color: #7030a0;
+  background: #fff;
+
+}
+
+/* ✨ Hover effect */
+.person-search:hover {
+  background: #ffffff;
+  border-color: #7030a0;
+  box-shadow: 0 3px 8px rgba(156, 39, 176, 0.15);
+  transform: scale(1.05);
+  /* Zoom in by 5% */
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s, background 0.2s;
+  /* other input styles */
+}
+
+
+
+/* people type */
+
+
+
+.person-searchpt {
+  width: 240px;
+  padding: 8px 14px;
+  font-size: 16px;
+  border: 2px solid #bdbdbd;
+  border-radius: 22px;
+  background: #f9f9f9;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  color: #333;
+  margin-left: 60%;
+}
+
+.person-searchpt:focus {
+  border-color: #7030a0;
+  background: #fff;
+
+}
+
+/* ✨ Hover effect */
+.person-searchpt:hover {
+  background: #ffffff;
+  border-color: #7030a0;
+  box-shadow: 0 3px 8px rgba(156, 39, 176, 0.15);
+  transform: scale(1.05);
+  /* Zoom in by 5% */
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s, background 0.2s;
+  /* other input styles */
+}
+
+
+/* groups */
+.person-searchg {
+  width: 240px;
+  padding: 8px 14px;
+  font-size: 16px;
+  border: 2px solid #bdbdbd;
+  border-radius: 22px;
+  background: #f9f9f9;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  color: #333;
+  margin-left: 63%;
+}
+
+.person-searchg:focus {
+  border-color: #7030a0;
+  background: #fff;
+
+}
+
+/* ✨ Hover effect */
+.person-searchg:hover {
+  background: #ffffff;
+  border-color: #7030a0;
+  box-shadow: 0 3px 8px rgba(156, 39, 176, 0.15);
+  transform: scale(1.05);
+  /* Zoom in by 5% */
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s, background 0.2s;
+  /* other input styles */
+}
+
+
+/* manual attendance */
+.person-searchma {
+  width: 240px;
+  padding: 8px 14px;
+  font-size: 16px;
+  border: 2px solid #bdbdbd;
+  border-radius: 22px;
+  background: #f9f9f9;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  color: #333;
+  margin-left: 57%;
+}
+
+.person-searchma:focus {
+  border-color: #7030a0;
+  background: #fff;
+
+}
+
+/* ✨ Hover effect */
+.person-searchma:hover {
+  background: #ffffff;
+  border-color: #7030a0;
+  box-shadow: 0 3px 8px rgba(156, 39, 176, 0.15);
+  transform: scale(1.05);
+  /* Zoom in by 5% */
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s, background 0.2s;
+  /* other input styles */
+}
+
+
+
+
+
+
+
+
+
+
+.date-fields-bordered {
+  display: flex;
+  align-items: center;
+  border: 2px solid #bdbdbd;
+  /* 1px solid black border */
+
+  /* padding: 8px 12px; */
+  /* gap: 10px; */
+  background: #fff;
+  height: 38px;
+}
+
+.date-fields-bordered label {
+  margin-right: 4px;
+}
+
+.date-fields-bordered input[type="date"] {
+  border: none;
+  /* Removes border from inputs for cleaner look */
+  outline: none;
+  font-size: 15px;
+  background: transparent;
+  padding: 4px 6px;
+  color: #8755ad;
+}
+
+
+
+
+
+
+
+/* pagination  */
+
+
+
+.table-bottom-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  margin-left: 20px;
+  user-select: none;
+  /* optional: prevent accidental text selection */
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* font-family: Arial, sans-serif; */
+  cursor: pointer;
+  /* makes the whole selector clickable */
+}
+
+.page-size-selector select {
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  /* ensures dropdown shows pointer */
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: #7030a0;
+  color: #fff;
+  cursor: pointer;
+  /* ✅ this ensures pointer on hover */
+  transition: background 0.2s ease;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  /* shows a 'blocked' icon for disabled buttons */
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #7d5e94;
+  cursor: pointer;
+  /* redundant but safe for some browsers */
+}
+
+
+
+
+
+
+/* for multiple user dropdown */
+
+/* Container */
+.user-data {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+/* Label styling */
+/* .user-data label {
+  font-weight: 600;
+  color: #ad2424;
+  margin-bottom: 6px;
+  font-size: 15px;
+} */
+
+/* ng-select styling */
+::ng-deep ng-select {
+  width: 100%;
+  font-size: 14px;
+}
+
+/* The dropdown input box */
+::ng-deep .ng-select-container {
+  min-height: 35px !important;
+  max-height: 80px !important;
+  /* adjust how tall it can get */
+  overflow-y: auto !important;
+  /* vertical scroll */
+  overflow-x: hidden !important;
+  border: 1.8px solid #c8c8c8;
+  border-radius: 5px;
+  padding: 2px 8px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  /* transition: border-color 0.2s, box-shadow 0.2s; */
+
+}
+
+
+/* When focused */
+::ng-deep .ng-select-focused .ng-select-container {
+  border-color: #7030a0;
+  box-shadow: 0 3px 8px rgba(156, 39, 176, 0.15);
+}
+
+/* Selected item tags (chips) */
+/* Make chip layout horizontal and align text + icon properly */
+::ng-deep .ng-value {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row !important; /* ensure left-to-right layout */
+  background: #f3e4ff;
+  color: black;
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin: 5px 8px;
+  font-size: 15px;
+  gap: 6px;
+}
+
+/* Remove icon should appear after text */
+::ng-deep .ng-value-icon.left {
+  order: 2 !important; /* move icon to the right */
+  margin-left: 6px;
+  margin-right: 0;
+}
+
+::ng-deep .ng-value-label {
+  order: 1 !important; /* ensure text stays left */
+}
+
+/* Style the icon */
+::ng-deep .ng-value-icon {
+  color: #7e1a1a;
+  font-size: 18px;
+  line-height: 1;
+  padding: 2px 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+::ng-deep .ng-value-icon:hover {
+  transform: scale(1.2);
+}
+
+
+
+/* Dropdown options */
+::ng-deep .ng-option {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+/* Highlighted option */
+::ng-deep .ng-option:hover {
+   background-color: rgb(255, 241, 255);
+  border: 1px solid rgb(121, 121, 121);
+  color: #7030a0;
+}
+
+/* selected data highlight  */
+::ng-deep .ng-option-selected {
+  background-color: rgb(255, 241, 255);
+  border: 1px solid rgb(121, 121, 121);
+  color: #7030a0;
+
+}
+
+/* Placeholder text */
+/* ::ng-deep .ng-placeholder {
+  color: #999;
+  font-style: italic;
+} */
+
+
+
+
+
+
+/* Hover effect for the entire input box */
+::ng-deep ng-select:hover .ng-select-container {
+
+  outline: none;
+  border: 1px solid #7030a0;
+  box-shadow: 0 0 5px rgba(112, 48, 160, 0.3);
+  /* transition: border 0.2s ease, box-shadow 0.2s ease; */
+  /* transition: all 0.25s ease-in-out; */
+}
+
+/* Smooth hover effect for dropdown items */
+::ng-deep .ng-option:hover {
+  border: 1.8px solid #c8c8c8;
+  border-radius: 5px;
+  min-height: 35px;
+  padding: 2px 8px;
+  /* transition: border-color 0.2s, box-shadow 0.2s; */
+}
+
+
+
+/* Dropdown panel background color */
+::ng-deep .ng-dropdown-panel {
+  background-color: white !important;
+  /* 🔴 red background */
+  color: #000 !important;
+  /* black text */
+  border-radius: 5px;
+  border-top: 1px solid #646464;
+  padding: 4px 0;
+  border-left: 1px solid #646464;
+  border-right: 1px solid #646464;
+
+}
+
+
+
+
+
+
+
+
+
+/* 8-7-26 */
+
+
+/* Make popup scrollable */
+.popup {
+  max-height: 90vh; /* Limit height to 90% of viewport */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* transaction temporary */
+/* No data message styling */
+.no-data-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 20px;
+}
+
+.no-data-message {
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+}
+/* end temporary  */
+
+
+
+
+
+

@@ -1,0 +1,892 @@
+
+
+
+
+
+/* new */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  width: 100%;
+  /* height: 60px; */
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-left: 1%;
+}
+
+.navbar-left {
+  font-size: 15px;
+  /* font-family: 'RedHatDisplay-Regular'; */
+}
+.add-widget-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  gap:20px;
+}
+
+.add-widget-text {
+  color: gray;
+  /* font-family: 'RedHatDisplay-Regular'; */
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.Personal-text {
+  color: gray;
+  /* font-family: 'RedHatDisplay-Regular'; */
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.Personal-text:hover {
+   color: #7030a0;
+
+}
+
+.add-widget-text:hover {
+  color: #7030a0;
+}
+
+.plus-symbol {
+  font-size: 22px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.widget-text {
+  font-size: 15px;
+  text-decoration: underline; /* underline only this text */
+  /* font-family: 'RedHatDisplay-Regular' */
+}
+.personal-text{
+  font-size: 15px;
+  text-decoration: underline;
+  /* font-family: 'RedHatDisplay-Regular' */
+
+}
+
+/* Popup background */
+.AWContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Popup box */
+.AwContent {
+  width: 80%;
+  max-width: 1000px;
+  height: 80%;
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Navbar */
+.AWNavbar {
+  height: 50px;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+.close-btn {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Main 3-column layout */
+.AWMcontainer {
+  flex: 1;
+  display: flex;
+}
+
+/* Individual sections */
+.AWProject,
+.AwZone,
+.AwParameter {
+  flex: 1;
+  border-right: 1px solid #eee;
+  padding: 20px;
+}
+.AwParameter {
+  border-right: none;
+  position: relative;
+}
+
+/* Button container at bottom-left of AwParameter */
+.AWButton {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons */
+.createbtn,
+.cancelbtn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+.createbtn {
+  background: #7030a0;
+  color: #fff;
+}
+.createbtn:hover {
+  background: #7030a0;
+}
+.cancelbtn {
+  background: transparent;
+  border: 1px solid #ccc;
+}
+.cancelbtn:hover {
+  background: #eee;
+}
+
+
+/* ----- AWProject container layout ----- */
+.AWProject {
+  flex: 1;
+  background: #f4f4f8;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+/* ----- Table container box ----- */
+.table-container {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  /* font-family: 'RedHatDisplay-Regular', Arial, sans-serif; */
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+/* ----- Table styling ----- */
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabledata {
+  position: relative;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #eee;
+  background-color: #fafafa;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.tabledata:hover {
+  background-color: #ede6f7;
+}
+
+
+
+.table-container > table > tbody > tr > .tabledata:not(.selected) {
+  background-color: #e9def3 !important;
+  font-weight: 600;
+}
+
+
+/* ----- Child tables (Countries, Areas, etc.) ----- */
+.tabledata table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4px;
+ margin-left: 0;           /* remove shrinking indentation */
+  padding-left: 0;
+   margin-right: 0;           /* remove shrinking indentation */
+  padding-right: 0;
+}
+
+/* ----- Dropdown icons ----- */
+.icons {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.table-container img.tab {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  transform: rotate(90deg);
+}
+.table-container img.tab.rotate {
+  transform: rotate(180deg);
+}
+.tabledata.selected .tab {
+    filter: brightness(0) invert(1);
+}
+
+/* ----- Scrollbar styling ----- */
+.table-container::-webkit-scrollbar {
+  width: 6px;
+}
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #c3b3d9;
+  border-radius: 10px;
+}
+.table-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.tabledata.selected {
+  background-color: #7030a0 !important; /* dark purple */
+  color: #fff !important;
+  font-weight: 600;
+  /* border-color: #7030a0; */
+}
+/* Hierarchy indentation */
+.indent {
+  display: inline-block;
+  width: 15px;
+}
+
+/* Each level adds more left space */
+.level1 {
+  margin-left: 0px;
+}
+.level2 {
+  margin-left: 15px;
+}
+.level3 {
+  margin-left: 30px;
+}
+.level4 {
+  margin-left: 45px;
+}
+.level5 {
+  margin-left: 60px;
+}
+.level6 {
+  margin-left: 75px;
+}
+.level7 {
+  margin-left: 90px;
+}
+
+
+
+/* Dashboard grid layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+/* Individual widget box */
+.widget {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid lightgrey;
+}
+
+.widget:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.AwZone ul {
+  list-style-type: none;   /* removes bullets */
+  padding-left: 0;         /* removes left space */
+  margin: 0;
+}
+
+.AwZone li {
+  padding: 3px 0;          /* optional: spacing between items */
+  font-size: 15px;
+  /* font-family:'RedHatDisplay-Regular'; */
+  
+}
+
+.AwZone li:hover {
+color: #7030a0;
+cursor: pointer;
+font-weight: bolder;
+
+  
+}
+.checkbox-item {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.status-circle {
+  width: 10px;
+  height: 10px;
+  background-color: green; /* green circle */
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.device-name {
+  font-size: 14px;
+  color: #7030a0;
+  font-weight: 500;
+}
+
+.right-section {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.2s ease;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.widget p {
+  font-size: 14px;
+  margin: 3px 0;
+}
+
+/* ✅ Parameter List Styling */
+.param-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align all text to the left */
+  margin-left: 5px; /* small indent for neat look */
+}
+
+.param-item {
+  font-size: 14px;
+  margin: 3px 0;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: backdropFade 0.3s ease-out;
+}
+
+@keyframes backdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup-box {
+  background: #fff;
+   /* font-family: 'RedHatDisplay-Regular'; */
+  width: 320px;
+  padding: 22px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  animation: fadeInScale 0.25s ease-out;
+}
+
+.popup-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-apply {
+  background: #6a0dad;
+  color: white;
+  padding: 9px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 48%;
+  transition: 0.2s;
+   /* font-family: 'RedHatDisplay-Regular'; */
+}
+
+.btn-cancel {
+  background: #c7c7c7;
+  color: #000;
+  padding: 9px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 48%;
+  transition: 0.2s;
+   /* font-family: 'RedHatDisplay-Regular'; */
+}
+
+.btn-apply:hover {
+  background: #5500a8;
+}
+
+.btn-cancel:hover {
+  background: #a0a0a0;
+}
+
+@keyframes fadeInScale {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Prevent scroll when popup is open */
+body.popup-open {
+  overflow: hidden;
+}
+
+
+.plus-icon {
+  width: 40px;
+  height: 40px;
+  padding: 12px;
+  background: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+  object-fit: contain;
+  /* ❌ remove margin-top if any */
+}
+
+.name-box,
+.plus-icon {
+  height: 40px;
+}
+.name-box.active {
+  border-bottom: 2px solid #7030a0;
+}
+
+
+
+.name-box {
+  height: 40px;
+  background: white;
+  color: #333333c7;
+  padding: 6px 12px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* ❌ remove this */
+  /* margin-top: 23px; */
+}
+
+
+.delete-icon {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+
+
+
+
+.navbar-left {
+  display: flex;
+    align-items: center;   /* ✅ vertical alignment */
+  gap: 8px;              /* spacing between items */
+  padding-top: 16px;     /* 👈 adds space from top safely */
+    flex-wrap: wrap;       /* ✅ allow next line */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Overlay background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.popup {
+  background: #fff;
+  display: block;        /* ← FIXED */
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+  max-width: 95%;
+  min-width: 300px;
+}
+
+/* Input container */
+.user-input-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  /* 1 column min, auto-fit up to 3 */
+  gap: 15px 30px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Limit to max 3 columns */
+.popup .user-input-container {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  max-width: calc(3 * 220px + 60px); /* max 3 cols + gaps */
+}
+
+
+
+
+
+
+/* Title */
+.popup h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #7030a0;
+}
+
+
+.user-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-data label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.user-data input {
+  /* width: 300px;   Change to any size you want */
+  padding: 8px;   /* Optional for better look */
+  font-size: 14px;
+}
+
+
+/* Buttons */
+.user-button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 8px 100px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.create {
+  background: #7030a0;
+  color: white;
+}
+
+.btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+
+
+
+/* Main layout */
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* LEFT vertical Dashboard label */
+.vertical-dashboard {
+  width: 50px;
+  background: #f5f5f5;
+
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+
+  color: #7b2cbf;
+  font-weight: 550;
+  letter-spacing: 2px;
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;   /* 🔥 THIS moves text to TOP */
+
+  padding-bottom: 80px;       /* spacing from top after rotation */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    /* margin-right: 5px; */
+}
+
+
+
+/* RIGHT main content */
+.dashboard-main {
+  flex: 1;
+  overflow: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.device-widget-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.device-section {
+    width: 100px;
+    flex-shrink: 0;
+    align-self: flex-start; /* ✅ Prevents stretching */
+}
+
+.device-section > p {
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.device-section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    min-height: 50px; /* ✅ Reserves space even when empty */
+}
+
+.device-section ul li {
+    margin-bottom: 8px;
+}
+
+.device-section ul li label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.widget-section {
+    flex: 1;
+    min-width: 200px;
+    align-self: flex-start; /* ✅ Prevents stretching */
+}
+
+.widget-section > p {
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.personal-title {
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 0;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.personal-title:hover {
+    color: #007bff;
+}
+
+.personal-widgets {
+    max-height: 315px;
+    overflow-y: auto;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.personal-widgets label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
+.personal-widgets input[type="checkbox"] {
+    cursor: pointer;
+}
+
+
+
+
+.AwZone {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+/* 23-2-26 */
+
+.dashboard-content {
+  display: flex;
+  align-items: center;
+}
+
+.add-widget-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.dashboard-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 24px;
+}

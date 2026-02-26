@@ -1,0 +1,88 @@
+<nav class="navbar">
+  <h3>Process&Automation</h3>
+
+  <div class="nav-icons">
+    <div class="search-container search-open">
+      <img src="assets/search.png" alt="Search" class="search-icon" />
+      <input type="text" placeholder="Text or date (YY-MM-DD)" [(ngModel)]="searchQuery"
+        (input)="applyUnifiedSearch()" class="search-input visible" />
+    </div>
+
+    <img src="assets/add.png" alt="Add" routerLink="/createprocessautomation" class="icon-img">
+    <img src="assets/upload.png" alt="upload" class="icon-img">
+    <img src="assets/download.png" alt="download" class="icon-img">
+    <img src="assets/refresh.png" alt="Refresh" class="icon-img" (click)="loadAll()">
+  </div>
+
+</nav>
+    <!-- <img src="assets/filter.png" alt="filter" class="icon-img"> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 9-2-26 -->
+
+
+<div class="rule-table-wrapper">
+  <table class="rule-table">
+    <thead>
+      <tr>
+        <th>Rule Name</th>
+        <!-- <th>Type</th> -->
+        <!-- <th>Last Activated</th> -->
+        <th>Created On</th>
+        <th>Status</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngIf="filteredItems.length === 0">
+        <td colspan="6" style="text-align:center; padding: 20px; color: #999;">
+          No records found.
+        </td>
+      </tr>
+
+      <tr *ngFor="let item of filteredItems">
+
+        <!-- Rule Name → condition -->
+        <td>{{ item.condition || '-' }}</td>
+
+        <!-- Type → action -->
+        <!-- <td>{{ item.action || '-' }}</td> -->
+
+        <!-- Last Activated → zoneName -->
+        <!-- <td>{{ item.zoneName || '-' }}</td> -->
+
+        <!-- Created On → createdAt -->
+        <td>{{ formatDate(item.createdAt) }}</td>
+
+        <!-- Status → status string with toggle -->
+        <td>
+          <label class="switch">
+            <input type="checkbox" [checked]="true" (change)="toggleStatus(item)" />
+            <span class="slider"></span>
+          </label>
+          <!-- <span class="status-text">{{ item.status }}</span> -->
+        </td>
+
+        <td class="actions">
+          <img src="assets/pencil.png" (click)="goToEdit(item.id)" class="action-icon edit">
+          <img src="assets/trash.png" (click)="deleteItem(item.id)" class="action-icon delete">
+        </td>
+
+      </tr>
+
+    </tbody>
+  </table>
+</div>

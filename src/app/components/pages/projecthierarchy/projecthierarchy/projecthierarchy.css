@@ -1,0 +1,515 @@
+
+
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  /* space between title and icons */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ddd;
+  /* border: 1px solid rgb(206, 201, 201); */
+  height: 35px;
+  color: #7030a0;
+  margin-top: 0%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* ✅ round top-right */
+
+
+}
+
+.navbar h3 {
+  padding: 6px;
+}
+
+
+
+
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  /* ✅ adds equal spacing between buttons */
+}
+
+.aone {
+  color: #7030a0;
+  padding: 5px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.aone:hover {
+  background-color: #b19ace;
+  border-radius: 4px;
+}
+
+/* 🔴 Active button turns red */
+.aone.active {
+  color: white;
+  background-color: #7030a0;
+  border-radius: 4px;
+}
+/* new */
+
+
+
+
+
+.table-container {
+  width: 40%;
+  border: 2px solid #2421213f;   /* normal black border */
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f7f3f8;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 30px;
+
+  min-height: 100%;   /* increase container height */
+ 
+}
+/* Child tables always use full available width */
+.tabledata table {
+  width: 100% !important;   /* force child to stretch */
+  table-layout: auto;       /* allow natural sizing */
+  border-collapse: collapse;
+}
+
+/* Parent tabledata stays normal */
+.tabledata {
+  position: relative;
+  border: 1px solid #ccc;
+  box-sizing: border-box;   /* include border/padding in size */
+  min-height: 30px;         /* parent cell keeps height */
+  min-width: 120px;         /* prevent width shrinking */
+  padding: 5px;
+  height: auto;             /* allow child to expand downward */
+  vertical-align: top;      /* child table grows down */
+  
+}
+
+
+
+
+
+
+/* Icons styling */
+.table-container img {
+  width: 18px;
+  height: 18px;
+  margin-left: 15px;
+  cursor: pointer;
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+
+}
+
+
+
+
+
+
+.tabledata .icons {
+  position: absolute;
+  top: 5px;       /* always top */
+  right: 5px;     /* always right */
+  display: flex;
+  gap: 5px;
+  z-index: 1;     /* make sure icons stay above nested table */
+
+}
+
+.tabledata .icons img {
+  width: 18px !important;  /* force same size */
+
+  height: 18px !important;
+  cursor: pointer;
+}
+
+
+
+
+
+/* Container for the button */
+nav.button {
+  display: flex;
+  padding: 10px 0px;
+  background-color: #f5f5f5; /* light background (optional) */
+  border-bottom: 1px solid #ccc; /* subtle separator (optional) */
+  
+}
+
+/* Actual button style */
+button.three {
+  background-color: #7030a0;   /* purple */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+button.three:hover {
+  background-color: #7315bb;  /* darker purple */
+}
+
+
+/* Only project rows (first level) red */
+.table-container > table > tbody > tr > .tabledata {
+  background-color:#e4d5ee !important;
+  color:black;
+}
+
+
+
+
+
+
+
+/* new from css device */
+
+
+/* Overlay background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+
+
+
+
+.popup {
+  background: #fff;
+  display: inline-block;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+  max-width: 95%;   /* keep responsive */
+  min-width: 300px; /* avoid too small */
+}
+
+
+/* Title */
+.popup h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #7030a0;
+}
+
+
+/* Input container */
+.user-input-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  /* 1 column min, auto-fit up to 3 */
+  gap: 15px 30px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Limit to max 3 columns */
+.popup .user-input-container {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  max-width: calc(3 * 220px + 60px); /* max 3 cols + gaps */
+}
+
+
+.user-data label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Apply same style to all inputs including file */
+.user-data input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  height: 36px; /* enforce same height */
+  font-size: 14px;
+}
+
+/* Make file input visually match text inputs */
+.user-data input[type="file"] {
+  height: 36px;      /* same height as text input */
+  padding: 0 8px;    /* remove extra padding inside file input */
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  cursor: pointer;
+}
+
+
+/* Optional: style the "Choose File" button inside file input */
+.user-data input[type="file"]::file-selector-button {
+  height: 20px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 7px;
+}
+
+
+
+
+/* search dropdown  */
+
+.user-data select {
+  padding: 8px;
+  /* same as input */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  /* same rounded corners */
+  width: 100%;
+  background: white;
+  /* match input background */
+  font-size: 14px;
+  appearance: none;
+  /* remove default browser styles */
+  -webkit-appearance: none;
+  /* Safari/Chrome */
+  -moz-appearance: none;
+  /* Firefox */
+  cursor: pointer;
+}
+
+
+
+
+
+/* Buttons */
+.user-button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.create {
+  background: #7030a0;
+  color: white;
+}
+
+.btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+.overlaydel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+
+
+/* Popup box */
+.popupdel {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(36, 9, 9, 0.3);
+  animation: popupScale 0.3s ease;
+}
+
+
+
+
+
+
+/* Heading / Message */
+.popup p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 8px;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.btn.delete {
+  background-color: #7030a0;
+  color: white;
+  margin-top: 25px;
+}
+
+.btn.cancel {
+  background-color: #c7c6c9;
+  color: black;
+}
+
+.btn.cancel:hover {
+  background-color: #b19ace;
+}
+
+
+/* Animation */
+@keyframes popupScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+
+
+
+/* dropdown rotate */
+
+
+.tab {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+
+/* popup input box border  */
+.user-data input:focus,
+.user-data select:focus {
+border: 1px solid #7030a0;
+  outline: none;             /* remove default outline */
+   box-shadow: 0 0 5px rgba(112, 48, 160, 0.3);
+  }
+
+  .user-data input:hover,
+.user-data select:hover {
+  border: 1px solid #7030a0;
+  outline: none;
+  box-shadow: 0 0 5px rgba(112, 48, 160, 0.3);
+}
+
+
+
+
+/* Wrapper for the file input and preview */
+.user-data {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between label, input, and preview */
+  margin-bottom: 16px;
+}
+
+/* Preview box container */
+.preview-box {
+  border: 1px solid #ccc;   /* Gray border */
+  border-radius: 8px;       /* Rounded corners */
+  padding: 4px;             /* Small padding inside box */
+  max-width: 150px;         /* Limit width */
+  max-height: 150px;        /* Limit height */
+  overflow: hidden;         /* Prevent overflow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa; /* Optional: light background */
+  min-width: 150px;
+  min-height: 150px;
+}
+
+/* Image inside preview box */
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Keep aspect ratio */
+  display: block;
+}
+
+  

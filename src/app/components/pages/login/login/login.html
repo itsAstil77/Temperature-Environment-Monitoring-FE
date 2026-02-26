@@ -1,0 +1,46 @@
+<form>
+  <div class="container">
+    <!-- Left side: Image -->
+    <div class="main">
+      <img src="assets/login.jpeg" alt="this is a login image" />
+    </div>
+
+    <!-- Right side: Inputs -->
+    <div class="three">
+      <h3 class="four">Purple-IQ</h3>
+      <p>Welcome To Temperature Monitoring</p>
+      <h3>LOGIN</h3>
+      <input
+        class="two"
+        type="text"
+        [(ngModel)]="users.email"
+        placeholder="Username"
+        name="email"
+        required
+      /><br />
+      <input
+        type="password" [(ngModel)]="users.password" name="password" placeholder="Password"
+      /><br />
+
+      <button type="submit" (click)="requestOtp()">Login</button>
+      <div class="bg-half"></div>
+    </div>
+  </div>
+
+<!-- Toast Stack -->
+<!-- <div class="toast-stack">
+  @for (toast of toasts; track toast.id; let i = $index) {
+    <div
+      class="toast-message"
+      [ngClass]="toast.type"
+      (mouseenter)="dismissToast(toast.id, i, false)"
+      (click)="dismissToast(toast.id, i, true)">
+      {{ toast.message }}
+    </div>
+  }
+</div> -->
+
+</form>
+
+
+

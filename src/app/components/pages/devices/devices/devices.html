@@ -1,0 +1,842 @@
+<nav class="navbar">
+  <h3>Devices List</h3>
+  <div class="tabs">
+    <button class="aone" routerLink="/project" routerLinkActive="active">Project</button>
+    <button class="aone" routerLink="/devices" routerLinkActive="active">Devices</button>
+    <!-- <button class="aone" routerLink="/asset" routerLinkActive="active">Asset</button> -->
+  </div>
+</nav>
+
+<!-- Device / Device Type / Parameter / Asset sub-tabs -->
+<div class="sub-tabs">
+  <div class="tabs-left">
+    <button class="tab" [class.active]="activeTab==='device'" (click)="setActive('device')">Device</button>
+    <button class="tab" [class.active]="activeTab==='deviceType'" (click)="setActive('deviceType')">Device Type</button>
+    <button class="tab" [class.active]="activeTab==='parameter'" (click)="setActive('parameter')">Parameter</button>
+    <button class="tab" [class.active]="activeTab==='asset'" (click)="setActive('asset')">Asset</button>
+  </div>
+</div>
+
+
+<!-- ===================== DEVICE TAB ===================== -->
+
+<nav class="navbarSub" *ngIf="activeTab==='device'">
+  <h3>Device</h3>
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreateDevicePopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="loadDevices()">
+  </div>
+</nav>
+
+<div *ngIf="activeTab==='device'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Device Type</th>
+        <th>Device Name</th>
+        <th>Unique ID</th>
+        <th>Model</th>
+        <th>Project</th>
+        <th>Country</th>
+        <th>Area</th>
+        <!-- <th>Outdoor Zone</th> -->
+        <th>Building</th>
+        <th>Floor</th>
+        <th>Zone</th>
+        <th>Technology</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let device of deviceList">
+        <td>{{ device.deviceType }}</td>
+        <td>{{ device.deviceName }}</td>
+        <td>{{ device.uniqueId }}</td>
+        <td>{{ device.model }}</td>
+        <td>{{ device.projectName }}</td>
+        <td>{{ device.countryName }}</td>
+        <td>{{ device.areaName }}</td>
+        <!-- <td>{{ device.outdoorZoneName }}</td> -->
+        <td>{{ device.buildingName }}</td>
+        <td>{{ device.floorName }}</td>
+        <td>{{ device.zoneName }}</td>
+        <td>{{ device.technology }}</td>
+        <td>{{ device.status ? 'Active' : 'Inactive' }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit" (click)="openEditDevicePopup(device)" />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete" (click)="openDeleteDevicePopup(device)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Device Create Popup -->
+<div class="overlay" *ngIf="openAddDevice">
+  <div class="popup">
+    <h2>Create New Device</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Device Type</label>
+        <select [(ngModel)]="createDevice.deviceType">
+          <option *ngFor="let type of deviceTypeList" [value]="type.deviceType">{{ type.deviceType }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Unique ID</label>
+        <input type="text" [(ngModel)]="createDevice.uniqueId">
+      </div>
+      <div class="user-data">
+        <label>Model</label>
+        <input type="text" [(ngModel)]="createDevice.model">
+      </div>
+      <div class="user-data">
+        <label>Project</label>
+        <select [(ngModel)]="selectedProjectId" (ngModelChange)="onProjectChange($event)">
+          <option *ngFor="let project of projects" [value]="project.id">{{ project.projectName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Country</label>
+        <select [(ngModel)]="selectedCountryId" (ngModelChange)="onCountryChange($event)" [disabled]="!selectedProjectId">
+          <option *ngFor="let country of countriesByProject[selectedProjectId] || []" [value]="country.id">{{ country.countryName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Area</label>
+        <select [(ngModel)]="createDevice.area" (ngModelChange)="onAreaChange($event)" [disabled]="!selectedCountryId">
+          <option *ngFor="let area of areaByCountry[selectedCountryId] || []" [value]="area.id">{{ area.areaName }}</option>
+        </select>
+      </div>
+      <!-- <div class="user-data">
+        <label>Outdoor Zone</label>
+        <select [(ngModel)]="createDevice.outdoorZoneName" [disabled]="!createDevice.area">
+          <option value="">Select Outdoor Zone</option>
+          <option *ngFor="let oz of outdoorZonesByArea[createDevice.area] || []" [value]="oz.zoneName">{{ oz.zoneName }}</option>
+        </select>
+      </div> -->
+      <div class="user-data">
+        <label>Building</label>
+        <select [(ngModel)]="createDevice.building" (ngModelChange)="onBuildingChange($event)" [disabled]="!createDevice.area">
+          <option *ngFor="let b of buildingByArea[createDevice.area] || []" [value]="b.id">{{ b.buildingName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Floor</label>
+        <select [(ngModel)]="createDevice.floor" (ngModelChange)="onFloorChange($event)" [disabled]="!createDevice.building">
+          <option *ngFor="let f of floorByBuilding[createDevice.building] || []" [value]="f.id">{{ f.floorName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Zone</label>
+        <select [(ngModel)]="createDevice.zone" [disabled]="!createDevice.floor">
+          <option *ngFor="let z of zoneByFloor[createDevice.floor] || []" [value]="z.id">{{ z.zoneName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Device Name</label>
+        <input type="text" [(ngModel)]="createDevice.deviceName">
+      </div>
+      <div class="user-data">
+        <label>Technology</label>
+        <select [(ngModel)]="createDevice.technology">
+          <option value="">-- Select Technology --</option>
+          <option *ngFor="let tech of technologyOptions" [value]="tech">{{ tech }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="createDevice.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="createNewDevice()">Create</button>
+      <button class="btn cancel" (click)="closeCreateDevicePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Device Popup -->
+<div class="overlay" *ngIf="openEditDevice">
+  <div class="popup">
+    <h2>Edit Device</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Device Type</label>
+        <select [(ngModel)]="editDevice.deviceType">
+          <option value="">-- Select Device Type --</option>
+          <option *ngFor="let type of deviceTypeList" [value]="type.deviceType">{{ type.deviceType }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Unique ID</label>
+        <input type="text" [(ngModel)]="editDevice.uniqueId">
+      </div>
+      <div class="user-data">
+        <label>Model</label>
+        <input type="text" [(ngModel)]="editDevice.model">
+      </div>
+      <div class="user-data">
+        <label>Project</label>
+        <select [(ngModel)]="editDevice.project" (ngModelChange)="onProjectChange($event)">
+          <option value="">-- Select Project --</option>
+          <option *ngFor="let p of projects" [value]="p.id">{{ p.projectName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Country</label>
+        <select [(ngModel)]="editDevice.country" (ngModelChange)="onCountryChange($event)" [disabled]="!editDevice.project">
+          <option value="">-- Select Country --</option>
+          <option *ngFor="let country of countriesByProject[selectedProjectId] || []" [value]="country.id">{{ country.countryName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Area</label>
+        <select [(ngModel)]="editDevice.area" (ngModelChange)="onAreaChange($event)" [disabled]="!editDevice.country">
+          <option value="">-- Select Area --</option>
+          <option *ngFor="let area of areaByCountry[selectedCountryId] || []" [value]="area.id">{{ area.areaName }}</option>
+        </select>
+      </div>
+      <!-- <div class="user-data">
+        <label>Outdoor Zone</label>
+        <select [(ngModel)]="editDevice.outdoorZoneName" [disabled]="!editDevice.area">
+          <option value="">-- Select Outdoor Zone --</option>
+          <option *ngFor="let oz of outdoorZonesByArea[editDevice.area] || []" [value]="oz.zoneName">{{ oz.zoneName }}</option>
+        </select>
+      </div> -->
+      <div class="user-data">
+        <label>Building</label>
+        <select [(ngModel)]="editDevice.building" (ngModelChange)="onBuildingChange($event)" [disabled]="!editDevice.area">
+          <option value="">-- Select Building --</option>
+          <option *ngFor="let b of buildingByArea[editDevice.area] || []" [value]="b.id">{{ b.buildingName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Floor</label>
+        <select [(ngModel)]="editDevice.floor" (ngModelChange)="onFloorChange($event)" [disabled]="!editDevice.building">
+          <option value="">-- Select Floor --</option>
+          <option *ngFor="let f of floorByBuilding[editDevice.building] || []" [value]="f.id">{{ f.floorName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Zone</label>
+        <select [(ngModel)]="editDevice.zone" [disabled]="!editDevice.floor">
+          <option value="">-- Select Zone --</option>
+          <option *ngFor="let z of zoneByFloor[editDevice.floor] || []" [value]="z.id">{{ z.zoneName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Device Name</label>
+        <input type="text" [(ngModel)]="editDevice.deviceName">
+      </div>
+      <div class="user-data">
+        <label>Technology</label>
+        <select [(ngModel)]="editDevice.technology">
+          <option value="">-- Select Technology --</option>
+          <option *ngFor="let tech of technologyOptions" [value]="tech">{{ tech }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="editDevice.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="updateDevice()">Update</button>
+      <button class="btn cancel" (click)="closeEditDevicePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Device Popup -->
+<div class="overlaydel" *ngIf="openDeleteDevice">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Device?</p>
+    <button class="btn delete" (click)="confirmDeleteDevice()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteDevicePopup()">No</button>
+  </div>
+</div>
+
+
+<!-- ===================== DEVICE TYPE TAB ===================== -->
+
+<nav class="navbarSub" *ngIf="activeTab==='deviceType'">
+  <h3>Device Type</h3>
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreateDeviceTypePopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="loadDeviceTypes()">
+  </div>
+</nav>
+
+<div *ngIf="activeTab==='deviceType'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Device Type</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let type of deviceTypeList">
+        <td>{{ type.deviceType }}</td>
+        <td>{{ type.description }}</td>
+        <td>{{ type.status ? 'Active' : 'Inactive' }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit" (click)="openEditDeviceTypePopup(type)" />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete" (click)="openDeleteDeviceTypePopup(type)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="table-bottom-controls">
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- Create Device Type Popup -->
+<div class="overlay" *ngIf="openAddDeviceType">
+  <div class="popup">
+    <h2>Create Device Type</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Device Type</label>
+        <input type="text" [(ngModel)]="createDeviceTypeData.deviceType" />
+      </div>
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="createDeviceTypeData.description" />
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="createDeviceTypeData.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="createDeviceType()">Create</button>
+      <button class="btn cancel" (click)="closeCreateDeviceTypePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Device Type Popup -->
+<div class="overlay" *ngIf="openEditDeviceType">
+  <div class="popup">
+    <h2>Update Device Type</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Device Type</label>
+        <input type="text" [(ngModel)]="editDeviceType.deviceType" />
+      </div>
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editDeviceType.description">
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="editDeviceType.status" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="updateDeviceType()">Update</button>
+      <button class="btn cancel" (click)="closeEditDeviceTypePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Device Type Popup -->
+<div class="overlaydel" *ngIf="openDeleteDeviceType">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Device Type?</p>
+    <button class="btn delete" (click)="confirmDeleteDeviceType()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteDeviceTypePopup()">No</button>
+  </div>
+</div>
+
+
+<!-- ===================== PARAMETER TAB ===================== -->
+
+<!-- Device Parameter Create Popup -->
+<div class="overlay" *ngIf="addDevicePara">
+  <div class="popup">
+    <h2>Create New Parameter</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Device Name</label>
+        <select [(ngModel)]="createPara.deviceId">
+          <option *ngFor="let device of deviceList" [value]="device.id">{{ device.deviceName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Parameters (comma separated)</label>
+        <input type="text" [(ngModel)]="createPara.deviceParameters" placeholder="e.g. temp, humidity, pressure">
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="createNewDevicePara()">Create</button>
+      <button class="btn cancel" (click)="closeAddDevicepara()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Update Parameter Popup -->
+<div class="overlay" *ngIf="updatePara">
+  <div class="popup">
+    <h2>Update Device Parameter</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Device Name</label>
+        <select [(ngModel)]="updateParaData.deviceId">
+          <option *ngFor="let d of deviceList" [value]="d.id">{{ d.deviceName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Parameters (comma separated)</label>
+        <input type="text" [(ngModel)]="updateParaData.deviceParameters" placeholder="Ex: temp, humidity, pressure" />
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="updateDevicePara()">Update</button>
+      <button class="btn cancel" (click)="closeUpdatePara()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Parameter Popup -->
+<div class="overlaydel" *ngIf="deletePara">
+  <div class="popupdel">
+    <p>Are you sure you want to delete this Parameter?</p>
+    <button class="btn delete" (click)="deleteDevicePara()">Yes</button>
+    <button class="btn cancel" (click)="closeDeletePara()">No</button>
+  </div>
+</div>
+
+<nav class="navbarSub" *ngIf="activeTab==='parameter'">
+  <h3>Parameter</h3>
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openAddDevicePara()">
+     <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="loadDevices()">
+  </div>
+</nav>
+
+<div *ngIf="activeTab === 'parameter'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>Parameters</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let device of deviceParamsList">
+        <td>{{ device.deviceName }}</td>
+        <td>{{ device.parameterNames }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit" (click)="openUpdatePara(device)" />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete" (click)="openDeletePara(device)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ===================== ASSET TAB ===================== -->
+
+<nav class="navbarSub" *ngIf="activeTab==='asset'">
+  <h3>Asset</h3>
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreateAssetPopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="loadAssets()">
+  </div>
+</nav>
+
+<div *ngIf="activeTab==='asset'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Asset Name</th>
+        <th>Unique ID</th>
+        <th>Project</th>
+        <th>Country</th>
+        <th>Area</th>
+        <!-- <th>Outdoor Zone</th> -->
+        <th>Building</th>
+        <th>Floor</th>
+        <th>Zone</th>
+        <th>Department</th>
+        <th>Custodian</th>
+        <th>Main Category</th>
+        <th>Sub Category</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Mapped Device</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let asset of assetList">
+        <td>{{ asset.assetName }}</td>
+        <td>{{ asset.uniqueId }}</td>
+        <td>{{ asset.projectName }}</td>
+        <td>{{ asset.countryName }}</td>
+        <td>{{ asset.areaName }}</td>
+        <!-- <td>{{ asset.outdoorZoneName }}</td> -->
+        <td>{{ asset.buildingName }}</td>
+        <td>{{ asset.floorName }}</td>
+        <td>{{ asset.zoneName }}</td>
+        <td>{{ asset.department }}</td>
+        <td>{{ asset.custodian }}</td>
+        <td>{{ asset.mainCategory }}</td>
+        <td>{{ asset.subCategory }}</td>
+        <td>{{ asset.brand }}</td>
+        <td>{{ asset.model }}</td>
+        <td>{{ asset.mappedDevice }}</td>
+        <td>{{ asset.assetStatus ? 'Active' : 'Inactive' }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit" (click)="openEditAssetPopup(asset)" />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete" (click)="openDeleteAssetPopup(asset)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Create Asset Popup -->
+<div class="overlay" *ngIf="openAddAsset">
+  <div class="popup">
+    <h2>Create New Asset</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Asset Name</label>
+        <input type="text" [(ngModel)]="createAssetData.assetName">
+      </div>
+      <div class="user-data">
+        <label>Unique ID</label>
+        <input type="text" [(ngModel)]="createAssetData.uniqueId">
+      </div>
+      <div class="user-data">
+        <label>Project</label>
+        <select [(ngModel)]="assetSelectedProjectId" (ngModelChange)="onAssetProjectChange($event)">
+          <option value="">-- Select Project --</option>
+          <option *ngFor="let project of projects" [value]="project.id">{{ project.projectName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Country</label>
+        <select [(ngModel)]="assetSelectedCountryId" (ngModelChange)="onAssetCountryChange($event)" [disabled]="!assetSelectedProjectId">
+          <option value="">-- Select Country --</option>
+          <option *ngFor="let country of countriesByProject[assetSelectedProjectId] || []" [value]="country.id">{{ country.countryName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Area</label>
+        <select [(ngModel)]="createAssetData.areaId" (ngModelChange)="onAssetAreaChange($event)" [disabled]="!assetSelectedCountryId">
+          <option value="">-- Select Area --</option>
+          <option *ngFor="let area of areaByCountry[assetSelectedCountryId] || []" [value]="area.id">{{ area.areaName }}</option>
+        </select>
+      </div>
+      <!-- <div class="user-data">
+        <label>Outdoor Zone</label>
+        <select [(ngModel)]="createAssetData.outdoorZoneName" [disabled]="!createAssetData.areaId">
+          <option value="">-- Select Outdoor Zone --</option>
+          <option *ngFor="let oz of outdoorZonesByArea[createAssetData.areaId] || []" [value]="oz.zoneName">{{ oz.zoneName }}</option>
+        </select>
+      </div> -->
+      <div class="user-data">
+        <label>Building</label>
+        <select [(ngModel)]="createAssetData.buildingId" (ngModelChange)="onAssetBuildingChange($event)" [disabled]="!createAssetData.areaId">
+          <option value="">-- Select Building --</option>
+          <option *ngFor="let b of buildingByArea[createAssetData.areaId] || []" [value]="b.id">{{ b.buildingName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Floor</label>
+        <select [(ngModel)]="createAssetData.floorId" (ngModelChange)="onAssetFloorChange($event)" [disabled]="!createAssetData.buildingId">
+          <option value="">-- Select Floor --</option>
+          <option *ngFor="let f of floorByBuilding[createAssetData.buildingId] || []" [value]="f.id">{{ f.floorName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Zone</label>
+        <select [(ngModel)]="createAssetData.zoneId" [disabled]="!createAssetData.floorId">
+          <option value="">-- Select Zone --</option>
+          <option *ngFor="let z of zoneByFloor[createAssetData.floorId] || []" [value]="z.id">{{ z.zoneName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Department</label>
+        <input type="text" [(ngModel)]="createAssetData.department">
+      </div>
+      <div class="user-data">
+        <label>Custodian</label>
+        <input type="text" [(ngModel)]="createAssetData.custodian">
+      </div>
+      <div class="user-data">
+        <label>Main Category</label>
+        <input type="text" [(ngModel)]="createAssetData.mainCategory">
+      </div>
+      <div class="user-data">
+        <label>Sub Category</label>
+        <input type="text" [(ngModel)]="createAssetData.subCategory">
+      </div>
+      <div class="user-data">
+        <label>Sub Sub Category</label>
+        <input type="text" [(ngModel)]="createAssetData.subSubCategory">
+      </div>
+      <div class="user-data">
+        <label>Brand</label>
+        <input type="text" [(ngModel)]="createAssetData.brand">
+      </div>
+      <div class="user-data">
+        <label>Model</label>
+        <input type="text" [(ngModel)]="createAssetData.model">
+      </div>
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="createAssetData.assetDescription">
+      </div>
+      <div class="user-data">
+        <label>Mapped Device</label>
+        <select [(ngModel)]="createAssetData.mappedDevice">
+          <option value="">-- Select Device --</option>
+          <option *ngFor="let device of deviceOptions" [value]="device">{{ device }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Delivery Date</label>
+        <input type="date" [(ngModel)]="createAssetData.deliverydate">
+      </div>
+      <div class="user-data">
+        <label>Capitalization Date</label>
+        <input type="date" [(ngModel)]="createAssetData.capitalizationDate">
+      </div>
+      <div class="user-data">
+        <label>Invoice Date</label>
+        <input type="date" [(ngModel)]="createAssetData.invoiceDate">
+      </div>
+      <div class="user-data">
+        <label>PO Date</label>
+        <input type="date" [(ngModel)]="createAssetData.poDate">
+      </div>
+      <div class="user-data">
+        <label>Expiry Date</label>
+        <input type="date" [(ngModel)]="createAssetData.expiryDate">
+      </div>
+      <div class="user-data">
+        <label>Service Start Date</label>
+        <input type="date" [(ngModel)]="createAssetData.serviceStartDate">
+      </div>
+      <div class="user-data">
+        <label>Service End Date</label>
+        <input type="date" [(ngModel)]="createAssetData.serviceEndDate">
+      </div>
+      <div class="user-data">
+        <label>Warranty End Date</label>
+        <input type="date" [(ngModel)]="createAssetData.warrantyEndDate">
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="createAssetData.assetStatus" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="createNewAsset()">Create</button>
+      <button class="btn cancel" (click)="closeCreateAssetPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Asset Popup -->
+<div class="overlay" *ngIf="openEditAsset">
+  <div class="popup">
+    <h2>Edit Asset</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Asset Name</label>
+        <input type="text" [(ngModel)]="editAssetData.assetName">
+      </div>
+      <div class="user-data">
+        <label>Unique ID</label>
+        <input type="text" [(ngModel)]="editAssetData.uniqueId">
+      </div>
+      <div class="user-data">
+        <label>Project</label>
+        <select [(ngModel)]="editAssetData.projectId" (ngModelChange)="onAssetProjectChangeEdit($event)">
+          <option value="">-- Select Project --</option>
+          <option *ngFor="let project of projects" [value]="project.id">{{ project.projectName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Country</label>
+        <select [(ngModel)]="editAssetData.countryId" (ngModelChange)="onAssetCountryChangeEdit($event)" [disabled]="!editAssetData.projectId">
+          <option value="">-- Select Country --</option>
+          <option *ngFor="let country of countriesByProject[editAssetData.projectId] || []" [value]="country.id">{{ country.countryName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Area</label>
+        <select [(ngModel)]="editAssetData.areaId" (ngModelChange)="onAssetAreaChangeEdit($event)" [disabled]="!editAssetData.countryId">
+          <option value="">-- Select Area --</option>
+          <option *ngFor="let area of areaByCountry[editAssetData.countryId] || []" [value]="area.id">{{ area.areaName }}</option>
+        </select>
+      </div>
+      <!-- <div class="user-data">
+        <label>Outdoor Zone</label>
+        <select [(ngModel)]="editAssetData.outdoorZoneName" [disabled]="!editAssetData.areaId">
+          <option value="">-- Select Outdoor Zone --</option>
+          <option *ngFor="let oz of outdoorZonesByArea[editAssetData.areaId] || []" [value]="oz.zoneName">{{ oz.zoneName }}</option>
+        </select>
+      </div> -->
+      <div class="user-data">
+        <label>Building</label>
+        <select [(ngModel)]="editAssetData.buildingId" (ngModelChange)="onAssetBuildingChangeEdit($event)" [disabled]="!editAssetData.areaId">
+          <option value="">-- Select Building --</option>
+          <option *ngFor="let b of buildingByArea[editAssetData.areaId] || []" [value]="b.id">{{ b.buildingName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Floor</label>
+        <select [(ngModel)]="editAssetData.floorId" (ngModelChange)="onAssetFloorChangeEdit($event)" [disabled]="!editAssetData.buildingId">
+          <option value="">-- Select Floor --</option>
+          <option *ngFor="let f of floorByBuilding[editAssetData.buildingId] || []" [value]="f.id">{{ f.floorName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Zone</label>
+        <select [(ngModel)]="editAssetData.zoneId" [disabled]="!editAssetData.floorId">
+          <option value="">-- Select Zone --</option>
+          <option *ngFor="let z of zoneByFloor[editAssetData.floorId] || []" [value]="z.id">{{ z.zoneName }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Department</label>
+        <input type="text" [(ngModel)]="editAssetData.department">
+      </div>
+      <div class="user-data">
+        <label>Custodian</label>
+        <input type="text" [(ngModel)]="editAssetData.custodian">
+      </div>
+      <div class="user-data">
+        <label>Main Category</label>
+        <input type="text" [(ngModel)]="editAssetData.mainCategory">
+      </div>
+      <div class="user-data">
+        <label>Sub Category</label>
+        <input type="text" [(ngModel)]="editAssetData.subCategory">
+      </div>
+      <div class="user-data">
+        <label>Sub Sub Category</label>
+        <input type="text" [(ngModel)]="editAssetData.subSubCategory">
+      </div>
+      <div class="user-data">
+        <label>Brand</label>
+        <input type="text" [(ngModel)]="editAssetData.brand">
+      </div>
+      <div class="user-data">
+        <label>Model</label>
+        <input type="text" [(ngModel)]="editAssetData.model">
+      </div>
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editAssetData.assetDescription">
+      </div>
+      <div class="user-data">
+        <label>Mapped Device</label>
+        <select [(ngModel)]="editAssetData.mappedDevice">
+          <option value="">-- Select Device --</option>
+          <option *ngFor="let device of deviceOptions" [value]="device">{{ device }}</option>
+        </select>
+      </div>
+      <div class="user-data">
+        <label>Delivery Date</label>
+        <input type="date" [(ngModel)]="editAssetData.deliverydate">
+      </div>
+      <div class="user-data">
+        <label>Capitalization Date</label>
+        <input type="date" [(ngModel)]="editAssetData.capitalizationDate">
+      </div>
+      <div class="user-data">
+        <label>Invoice Date</label>
+        <input type="date" [(ngModel)]="editAssetData.invoiceDate">
+      </div>
+      <div class="user-data">
+        <label>PO Date</label>
+        <input type="date" [(ngModel)]="editAssetData.poDate">
+      </div>
+      <div class="user-data">
+        <label>Expiry Date</label>
+        <input type="date" [(ngModel)]="editAssetData.expiryDate">
+      </div>
+      <div class="user-data">
+        <label>Service Start Date</label>
+        <input type="date" [(ngModel)]="editAssetData.serviceStartDate">
+      </div>
+      <div class="user-data">
+        <label>Service End Date</label>
+        <input type="date" [(ngModel)]="editAssetData.serviceEndDate">
+      </div>
+      <div class="user-data">
+        <label>Warranty End Date</label>
+        <input type="date" [(ngModel)]="editAssetData.warrantyEndDate">
+      </div>
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="editAssetData.assetStatus" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="updateAssetData()">Update</button>
+      <button class="btn cancel" (click)="closeEditAssetPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Asset Popup -->
+<div class="overlaydel" *ngIf="openDeleteAsset">
+  <div class="popupdel">
+    <p>Are You Sure You Want To delete this Asset?</p>
+    <button class="btn delete" (click)="confirmDeleteAsset()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteAssetPopup()">No</button>
+  </div>
+</div>

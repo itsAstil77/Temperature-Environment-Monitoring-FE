@@ -1,0 +1,388 @@
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top: 20px;
+}
+
+
+
+th {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+    background: #f4f4f4;
+}
+
+
+
+td {
+  border-bottom: 1px solid #d4d4d4;
+  padding: 8px;
+  text-align: center;
+      color: #4e4d4d;
+          font-size: 90%;
+}
+
+
+
+.navbar {
+  background-color: white;
+  height: 50px;
+  color: #7030a0;
+  margin-top: 0%;
+}
+
+.navbar h3 {
+  padding: 13px;
+  
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.action-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 6px;
+  transition: transform 0.2s ease;
+}
+
+.action-icon:hover {
+  transform: scale(1.2);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  background: #ddd;
+  /* border: 1px solid rgb(206, 201, 201); */
+  gap: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* .navbar > div:nth-child(2) {
+  margin-right: auto;
+} */
+
+.nav-icons {
+  margin-left: auto;   /* THIS PUSHES IT TO THE RIGHT */
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+
+.nav-icons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* ✅ SEARCH STYLES */
+.search-container {
+  display: inline-flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 5px 10px;
+  /* transition: all 0.3s ease; */
+  width: 40px;
+  overflow: hidden;
+}
+
+.search-container.search-open {
+  width: 200px;
+}
+
+.search-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  width: 0;
+  opacity: 0;
+  /* transition: all 0.3s ease; */
+  font-size: 14px;
+}
+
+.search-input.visible {
+  width: 180px;
+  opacity: 1;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Popup box */
+.popup {
+  background: #fff;
+  width: 400px;
+  max-width: 95%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Title */
+.popup h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #7030a0;
+}
+
+/* Input container */
+.user-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.user-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-data label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+.user-data input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.user-data input:focus {
+  border: 1px solid #7030a0;
+}
+
+/* Buttons */
+.user-button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.create {
+  background: #7030a0;
+  color: white;
+}
+
+.btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Dark overlay */
+.overlaydel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Popup box */
+.popupdel {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  animation: popupScale 0.3s ease;
+}
+
+/* Heading / Message */
+.popup p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.btn.delete {
+  background-color: #7030a0;
+  color: white;
+  margin-top: 25px;
+}
+
+.btn.cancel:hover {
+  background-color: #95a5a6;
+}
+
+/* Animation */
+@keyframes popupScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+td img[alt="Edit"],
+td img[alt="Delete"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 6px;
+}
+
+.rolebutton {
+  padding: 8px;
+  border-radius: 10px;
+  height: 35px;
+  width: 70px;
+  background-color: #7030a0;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.rolebutton:hover {
+  background: #5a257f;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 20-01-2026 */
+
+/* Navigation container for buttons */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Base button styles (converted from .events) */
+.nav-button {
+  position: relative;
+  padding: 6px 18px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.nav-button:hover {
+  background-color: #e6e8f0;
+  color: #333;
+}
+
+/* Active state */
+.nav-button.active {
+  background-color: #ffffff;
+  color: #7030a0;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Bottom indicator line (same as events) */
+.nav-button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 15%;
+  width: 70%;
+  height: 3px;
+  background-color: #af77da;
+  border-radius: 2px;
+}
+
+
+
+
+
+.permission-badge {
+  display: block;
+  /* margin-left: 0; */
+}
+
+
+
+
+

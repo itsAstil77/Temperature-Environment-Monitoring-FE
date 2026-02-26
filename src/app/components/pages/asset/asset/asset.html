@@ -1,0 +1,635 @@
+<nav class="navbar">
+  <h3>Asset</h3>
+
+
+  <!-- Right-aligned main tabs -->
+  <div class="tabs">
+    <!-- <button class="aone" routerLink="/people" routerLinkActive="active">People</button> -->
+    <button class="aone" routerLink="/project" routerLinkActive="active">Project</button>
+    <button class="aone" routerLink="/devices" routerLinkActive="active">Devices</button>
+    <button class="aone" routerLink="/asset" routerLinkActive="active">Asset</button>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 7-2-26 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ASSET SUB NAVBAR -->
+<nav class="navbarSub" *ngIf="activeTab==='asset'">
+  <h3>Asset</h3>
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add" (click)="openCreateAssetPopup()">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="loadAssets()">
+  </div>
+</nav>
+
+<div *ngIf="activeTab==='asset'" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Asset Name</th>
+        <th>Unique ID</th>
+        <th>Project</th>
+        <th>Country</th>
+        <th>Area</th>
+        <th>Outdoor Zone</th>
+        <th>Building</th>
+        <th>Floor</th>
+        <th>Zone</th>
+        <th>Department</th>
+        <th>Custodian</th>
+        <th>Main Category</th>
+        <th>Sub Category</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Mapped Device</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let asset of assetList">
+        <td>{{ asset.assetName }}</td>
+        <td>{{ asset.uniqueId }}</td>
+        <td>{{ asset.projectName }}</td>
+        <td>{{ asset.countryName }}</td>
+        <td>{{ asset.areaName }}</td>
+        <td>{{ asset.outdoorZoneName }}</td>
+        <td>{{ asset.buildingName }}</td>
+        <td>{{ asset.floorName }}</td>
+        <td>{{ asset.zoneName }}</td>
+        <td>{{ asset.department }}</td>
+        <td>{{ asset.custodian }}</td>
+        <td>{{ asset.mainCategory }}</td>
+        <td>{{ asset.subCategory }}</td>
+        <td>{{ asset.brand }}</td>
+        <td>{{ asset.model }}</td>
+        <td>{{ asset.mappedDevice }}</td>
+        <td>{{ asset.assetStatus ? 'Active' : 'Inactive' }}</td>
+        <td>
+          <img src="assets/pencil.png" alt="Edit" class="action-icon edit"  (click)="openEditAssetPopup(asset)"  />
+          <img src="assets/trash.png" alt="Delete" class="action-icon delete"   (click)="openDeleteAssetPopup(asset)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="overlay" *ngIf="openAddAsset">
+  <div class="popup">
+    <h2>Create New Asset</h2>
+
+    <div class="user-input-container">
+
+      <!-- Asset Name -->
+      <div class="user-data">
+        <label>Asset Name</label>
+        <input type="text" [(ngModel)]="createAssetData.assetName">
+      </div>
+
+      <!-- Unique ID -->
+      <div class="user-data">
+        <label>Unique ID</label>
+        <input type="text" [(ngModel)]="createAssetData.uniqueId">
+      </div>
+
+      <!-- Project -->
+      <div class="user-data">
+        <label>Project</label>
+        <select [(ngModel)]="selectedProjectId" (ngModelChange)="onProjectChange($event)">
+          <option value="">-- Select Project --</option>
+          <option *ngFor="let project of projects" [value]="project.id">
+            {{ project.projectName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Country -->
+      <div class="user-data">
+        <label>Country</label>
+        <select [(ngModel)]="selectedCountryId" (ngModelChange)="onCountryChange($event)"
+          [disabled]="!selectedProjectId">
+          <option value="">-- Select Country --</option>
+          <option *ngFor="let country of countriesByProject[selectedProjectId] || []" [value]="country.id">
+            {{ country.countryName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Area -->
+      <div class="user-data">
+        <label>Area</label>
+        <select [(ngModel)]="createAssetData.areaId" (ngModelChange)="onAreaChange($event)" 
+          [disabled]="!selectedCountryId">
+          <option value="">-- Select Area --</option>
+          <option *ngFor="let area of areaByCountry[selectedCountryId] || []" [value]="area.id">
+            {{ area.areaName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Outdoor Zone -->
+      <div class="user-data">
+        <label>Outdoor Zone</label>
+        <select [(ngModel)]="createAssetData.outdoorZoneName" [disabled]="!createAssetData.areaId">
+          <option value="">-- Select Outdoor Zone --</option>
+          <option *ngFor="let oz of outdoorZonesByArea[createAssetData.areaId] || []" [value]="oz.zoneName">
+            {{ oz.zoneName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Building -->
+      <div class="user-data">
+        <label>Building</label>
+        <select [(ngModel)]="createAssetData.buildingId" (ngModelChange)="onBuildingChange($event)"
+          [disabled]="!createAssetData.areaId">
+          <option value="">-- Select Building --</option>
+          <option *ngFor="let b of buildingByArea[createAssetData.areaId] || []" [value]="b.id">
+            {{ b.buildingName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Floor -->
+      <div class="user-data">
+        <label>Floor</label>
+        <select [(ngModel)]="createAssetData.floorId" (ngModelChange)="onFloorChange($event)"
+          [disabled]="!createAssetData.buildingId">
+          <option value="">-- Select Floor --</option>
+          <option *ngFor="let f of floorByBuilding[createAssetData.buildingId] || []" [value]="f.id">
+            {{ f.floorName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Zone -->
+      <div class="user-data">
+        <label>Zone</label>
+        <select [(ngModel)]="createAssetData.zoneId" [disabled]="!createAssetData.floorId">
+          <option value="">-- Select Zone --</option>
+          <option *ngFor="let z of zoneByFloor[createAssetData.floorId] || []" [value]="z.id">
+            {{ z.zoneName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Department -->
+      <div class="user-data">
+        <label>Department</label>
+        <input type="text" [(ngModel)]="createAssetData.department">
+      </div>
+
+      <!-- Custodian -->
+      <div class="user-data">
+        <label>Custodian</label>
+        <input type="text" [(ngModel)]="createAssetData.custodian">
+      </div>
+
+      <!-- Main Category -->
+      <div class="user-data">
+        <label>Main Category</label>
+        <input type="text" [(ngModel)]="createAssetData.mainCategory">
+      </div>
+
+      <!-- Sub Category -->
+      <div class="user-data">
+        <label>Sub Category</label>
+        <input type="text" [(ngModel)]="createAssetData.subCategory">
+      </div>
+
+      <!-- Sub Sub Category -->
+      <div class="user-data">
+        <label>Sub Sub Category</label>
+        <input type="text" [(ngModel)]="createAssetData.subSubCategory">
+      </div>
+
+      <!-- Brand -->
+      <div class="user-data">
+        <label>Brand</label>
+        <input type="text" [(ngModel)]="createAssetData.brand">
+      </div>
+
+      <!-- Model -->
+      <div class="user-data">
+        <label>Model</label>
+        <input type="text" [(ngModel)]="createAssetData.model">
+      </div>
+
+      <!-- Description -->
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="createAssetData.assetDescription">
+      </div>
+
+      <!-- Mapped Device -->
+      <!-- Mapped Device -->
+<div class="user-data">
+  <label>Mapped Device</label>
+  <select [(ngModel)]="createAssetData.mappedDevice">
+    <option value="">-- Select Device --</option>
+    <option *ngFor="let device of deviceOptions" [value]="device">
+      {{ device }}
+    </option>
+  </select>
+</div>
+
+      <!-- ✅ 8 DATE FIELDS START HERE -->
+      
+      <!-- Delivery Date -->
+      <div class="user-data">
+        <label>Delivery Date</label>
+        <input type="date" [(ngModel)]="createAssetData.deliverydate">
+      </div>
+
+      <!-- Capitalization Date -->
+      <div class="user-data">
+        <label>Capitalization Date</label>
+        <input type="date" [(ngModel)]="createAssetData.capitalizationDate">
+      </div>
+
+      <!-- Invoice Date -->
+      <div class="user-data">
+        <label>Invoice Date</label>
+        <input type="date" [(ngModel)]="createAssetData.invoiceDate">
+      </div>
+
+      <!-- PO Date -->
+      <div class="user-data">
+        <label>PO Date</label>
+        <input type="date" [(ngModel)]="createAssetData.poDate">
+      </div>
+
+      <!-- Expiry Date -->
+      <div class="user-data">
+        <label>Expiry Date</label>
+        <input type="date" [(ngModel)]="createAssetData.expiryDate">
+      </div>
+
+      <!-- Service Start Date -->
+      <div class="user-data">
+        <label>Service Start Date</label>
+        <input type="date" [(ngModel)]="createAssetData.serviceStartDate">
+      </div>
+
+      <!-- Service End Date -->
+      <div class="user-data">
+        <label>Service End Date</label>
+        <input type="date" [(ngModel)]="createAssetData.serviceEndDate">
+      </div>
+
+      <!-- Warranty End Date -->
+      <div class="user-data">
+        <label>Warranty End Date</label>
+        <input type="date" [(ngModel)]="createAssetData.warrantyEndDate">
+      </div>
+
+      <!-- Status -->
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="createAssetData.assetStatus" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="createNewAsset()">Create</button>
+      <button class="btn cancel" (click)="closeCreateAssetPopup()">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- update -->
+
+<!-- Edit Asset Popup -->
+<div class="overlay" *ngIf="openEditAsset">
+  <div class="popup">
+    <h2>Edit Asset</h2>
+
+    <div class="user-input-container">
+
+      <!-- Asset Name -->
+      <div class="user-data">
+        <label>Asset Name</label>
+        <input type="text" [(ngModel)]="editAssetData.assetName">
+      </div>
+
+      <!-- Unique ID -->
+      <div class="user-data">
+        <label>Unique ID</label>
+        <input type="text" [(ngModel)]="editAssetData.uniqueId">
+      </div>
+
+      <!-- Project -->
+      <div class="user-data">
+        <label>Project</label>
+        <select [(ngModel)]="editAssetData.projectId" (ngModelChange)="onProjectChangeEdit($event)">
+          <option value="">-- Select Project --</option>
+          <option *ngFor="let project of projects" [value]="project.id">
+            {{ project.projectName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Country -->
+      <div class="user-data">
+        <label>Country</label>
+        <select [(ngModel)]="editAssetData.countryId" (ngModelChange)="onCountryChangeEdit($event)"
+          [disabled]="!editAssetData.projectId">
+          <option value="">-- Select Country --</option>
+          <option *ngFor="let country of countriesByProject[editAssetData.projectId] || []" [value]="country.id">
+            {{ country.countryName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Area -->
+      <div class="user-data">
+        <label>Area</label>
+        <select [(ngModel)]="editAssetData.areaId" (ngModelChange)="onAreaChangeEdit($event)" 
+          [disabled]="!editAssetData.countryId">
+          <option value="">-- Select Area --</option>
+          <option *ngFor="let area of areaByCountry[editAssetData.countryId] || []" [value]="area.id">
+            {{ area.areaName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Outdoor Zone -->
+      <div class="user-data">
+        <label>Outdoor Zone</label>
+        <select [(ngModel)]="editAssetData.outdoorZoneName" [disabled]="!editAssetData.areaId">
+          <option value="">-- Select Outdoor Zone --</option>
+          <option *ngFor="let oz of outdoorZonesByArea[editAssetData.areaId] || []" [value]="oz.zoneName">
+            {{ oz.zoneName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Building -->
+      <div class="user-data">
+        <label>Building</label>
+        <select [(ngModel)]="editAssetData.buildingId" (ngModelChange)="onBuildingChangeEdit($event)"
+          [disabled]="!editAssetData.areaId">
+          <option value="">-- Select Building --</option>
+          <option *ngFor="let b of buildingByArea[editAssetData.areaId] || []" [value]="b.id">
+            {{ b.buildingName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Floor -->
+      <div class="user-data">
+        <label>Floor</label>
+        <select [(ngModel)]="editAssetData.floorId" (ngModelChange)="onFloorChangeEdit($event)"
+          [disabled]="!editAssetData.buildingId">
+          <option value="">-- Select Floor --</option>
+          <option *ngFor="let f of floorByBuilding[editAssetData.buildingId] || []" [value]="f.id">
+            {{ f.floorName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Zone -->
+      <div class="user-data">
+        <label>Zone</label>
+        <select [(ngModel)]="editAssetData.zoneId" [disabled]="!editAssetData.floorId">
+          <option value="">-- Select Zone --</option>
+          <option *ngFor="let z of zoneByFloor[editAssetData.floorId] || []" [value]="z.id">
+            {{ z.zoneName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Department -->
+      <div class="user-data">
+        <label>Department</label>
+        <input type="text" [(ngModel)]="editAssetData.department">
+      </div>
+
+      <!-- Custodian -->
+      <div class="user-data">
+        <label>Custodian</label>
+        <input type="text" [(ngModel)]="editAssetData.custodian">
+      </div>
+
+      <!-- Main Category -->
+      <div class="user-data">
+        <label>Main Category</label>
+        <input type="text" [(ngModel)]="editAssetData.mainCategory">
+      </div>
+
+      <!-- Sub Category -->
+      <div class="user-data">
+        <label>Sub Category</label>
+        <input type="text" [(ngModel)]="editAssetData.subCategory">
+      </div>
+
+      <!-- Sub Sub Category -->
+      <div class="user-data">
+        <label>Sub Sub Category</label>
+        <input type="text" [(ngModel)]="editAssetData.subSubCategory">
+      </div>
+
+      <!-- Brand -->
+      <div class="user-data">
+        <label>Brand</label>
+        <input type="text" [(ngModel)]="editAssetData.brand">
+      </div>
+
+      <!-- Model -->
+      <div class="user-data">
+        <label>Model</label>
+        <input type="text" [(ngModel)]="editAssetData.model">
+      </div>
+
+      <!-- Description -->
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editAssetData.assetDescription">
+      </div>
+
+      <!-- Mapped Device -->
+ <!-- Mapped Device -->
+<div class="user-data">
+  <label>Mapped Device</label>
+  <select [(ngModel)]="editAssetData.mappedDevice">
+    <option value="">-- Select Device --</option>
+    <option *ngFor="let device of deviceOptions" [value]="device">
+      {{ device }}
+    </option>
+  </select>
+</div>
+      <!-- Delivery Date -->
+      <div class="user-data">
+        <label>Delivery Date</label>
+        <input type="date" [(ngModel)]="editAssetData.deliverydate">
+      </div>
+
+      <!-- Capitalization Date -->
+      <div class="user-data">
+        <label>Capitalization Date</label>
+        <input type="date" [(ngModel)]="editAssetData.capitalizationDate">
+      </div>
+
+      <!-- Invoice Date -->
+      <div class="user-data">
+        <label>Invoice Date</label>
+        <input type="date" [(ngModel)]="editAssetData.invoiceDate">
+      </div>
+
+      <!-- PO Date -->
+      <div class="user-data">
+        <label>PO Date</label>
+        <input type="date" [(ngModel)]="editAssetData.poDate">
+      </div>
+
+      <!-- Expiry Date -->
+      <div class="user-data">
+        <label>Expiry Date</label>
+        <input type="date" [(ngModel)]="editAssetData.expiryDate">
+      </div>
+
+      <!-- Service Start Date -->
+      <div class="user-data">
+        <label>Service Start Date</label>
+        <input type="date" [(ngModel)]="editAssetData.serviceStartDate">
+      </div>
+
+      <!-- Service End Date -->
+      <div class="user-data">
+        <label>Service End Date</label>
+        <input type="date" [(ngModel)]="editAssetData.serviceEndDate">
+      </div>
+
+      <!-- Warranty End Date -->
+      <div class="user-data">
+        <label>Warranty End Date</label>
+        <input type="date" [(ngModel)]="editAssetData.warrantyEndDate">
+      </div>
+
+      <!-- Status -->
+      <div class="user-data">
+        <label>Status</label>
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="editAssetData.assetStatus" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <div class="user-button">
+      <button class="btn create" (click)="updateAssetData()">Update</button>
+      <button class="btn cancel" (click)="closeEditAssetPopup()">Cancel</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="overlaydel" *ngIf="openDeleteAsset">
+  <div class="popupdel">
+    <p>Are You Sure You Want To delete this Asset?</p>
+
+    <button class="btn delete" (click)="confirmDeleteAsset()">Yes</button>
+    <button class="btn cancel" (click)="closeDeleteAssetPopup()">No</button>
+  </div>
+</div>
+
+
+
+
+
+<!-- TRANSACTION TAB CONTENT -->
+<!-- TRANSACTION SUB NAVBAR -->
+<nav class="navbarSub" *ngIf="activeTab==='transaction'">
+  <h3>Transaction</h3>
+  <div class="navicons">
+    <img src="assets/add.png" alt="Add">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="download">
+    <img src="assets/refresh.png" alt="Refresh">
+  </div>
+</nav>
+
+<!-- TRANSACTION CONTENT -->
+<div *ngIf="activeTab==='transaction'" class="no-data-container">
+  <p class="no-data-message">Still now there are no transactions available</p>
+</div>

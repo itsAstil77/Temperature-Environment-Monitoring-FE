@@ -1,0 +1,390 @@
+.report-container {
+  flex: 1;
+  max-width: 100%;
+  /* background: #fff; */
+  border-radius: 10px;
+  /* box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); */
+  padding: 20px 30px;
+  font-family: Arial, sans-serif;
+}
+
+
+.time-container {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; ensures dropdown left, hours right */
+  gap: 20px;
+  flex-wrap: wrap; /* makes responsive */
+  margin-top: 15px;
+}
+
+/* Keep dropdown section compact */
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.control-group select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Clickable time buttons */
+.hours-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hours-group span {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #f8f8f8;
+  transition: all 0.2s ease;
+}
+
+.hours-group span:hover {
+  background-color: #e9e9e9;
+}
+
+.hours-group span.active {
+  background-color: #7030a0;
+  color: white;
+  border-color: #7030a0;
+  font-weight: 600;
+}
+
+
+
+
+
+/* Total Time Overview text */
+.total-overview {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #7030a0;
+  margin-top: 15px;
+  transform: translateX(80%); /* move slightly right from center */
+}
+
+
+
+
+.report-container {
+  background: #fafafa; /* light gray full background */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 10px;
+  overflow: hidden; /* keeps corners rounded cleanly */
+  padding: 0; /* remove internal padding so header spans edge-to-edge */
+}
+
+.section-heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  background-color: #f5f5f5; /* full-width gray header */
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+}
+
+.control-group,
+.hours-group {
+  padding: 15px;
+}
+
+/* 
+.report-container {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 15px;
+  background: #fafafa;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.flowchart {
+  position: relative;
+  width: 80%;
+  margin: 50px auto;
+  padding: 20px 0;
+}
+
+/* The vertical line */
+.flow-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  background-color: #6a0dad;
+}
+
+/* Each flow box container */
+.flow-box {
+  position: relative;
+  width: 50%;
+  margin: 40px 0;
+}
+
+/* Box content styling */
+.flow-box .content {
+  background-color: #f4e9ff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 2px solid #6a0dad;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'RedHatDisplay', sans-serif;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Left side boxes */
+.flow-box.left {
+  left: 0;
+  text-align: right;
+}
+
+.flow-box.left .content {
+  margin-right: 60px;
+}
+
+/* Right side boxes */
+.flow-box.right {
+  left: 50%;
+  text-align: left;
+}
+
+.flow-box.right .content {
+  margin-left: 60px;
+}
+
+/* Decorative connector dots */
+.flow-box::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  background-color: #6a0dad;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.flow-box.left::before {
+  right: -8px;
+}
+
+.flow-box.right::before {
+  left: -8px;
+}
+
+/* Responsive adjustment */
+@media screen and (max-width: 768px) {
+  .flow-box, .flow-box.left, .flow-box.right {
+    width: 100%;
+    text-align: center;
+    left: 0;
+  }
+
+  .flow-box .content {
+    margin: 0 auto;
+  }
+
+  .flow-line {
+    left: 20px;
+  }
+
+  .flow-box::before {
+    left: 12px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.page-layout {
+  display: flex;
+  gap: 20px;              /* 👈 space between 75% & 25% */
+  padding: 10px;
+}
+
+/* LEFT = 75% */
+.left-section {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RIGHT = 25% */
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  background-color: #ddd;
+  padding: 5px;
+  height: 40px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+.content-box {
+  margin-top: 12px;
+  background: #f8f9fb;
+  border-radius: 10px;
+  padding: 15px;
+  min-height: calc(100vh - 120px); /* 👈 auto height */
+  border: 1px solid #7030a0;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+.page-layout {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  background: #f6f4ff;
+  height: 100%;
+}
+
+/* LEFT 75% */
+.left-section {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* RIGHT 25% */
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #a98bff;
+  padding: 12px;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.filter-bar input,
+.filter-bar select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+}
+
+.apply-btn {
+  background: #fff;
+  color: #7030a0;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* TABLE */
+.table-container {
+  background: #e9e4ff;
+  border-radius: 20px;
+  padding: 15px;
+  overflow: auto;
+  min-height: calc(100vh - 180px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background: #7c3aed;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background: #f8f3ff;
+}
+
+/* OVERVIEW */
+.overview-bar {
+  background: #a98bff;
+  padding: 12px;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #fff;
+}
+
+.summary-box {
+  background: #e9e4ff;
+  border-radius: 20px;
+  padding: 15px;
+  font-size: 14px;
+  line-height: 1.8;
+}

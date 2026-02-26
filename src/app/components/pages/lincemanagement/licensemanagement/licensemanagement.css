@@ -1,0 +1,130 @@
+/* .license-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+} */
+
+.title {
+  background-color: #ddd;
+  color: black;
+  padding: 15px 15px;
+  font-size: 18px;
+  border-radius: 6px 6px 0 0;
+  margin-top: 0px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.activate-btn {
+  align-self: flex-start;
+  background-color: #7030a0;
+  color: #fff;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.activate-btn:hover {
+  background-color: #5b2585;
+}
+
+.license-list {
+  background: #e9ecf1;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  padding: 6px;
+}
+
+.clear-icon {
+  cursor: pointer;
+  margin-left: 5px;
+  color: #7030a0;
+  font-weight: bold;
+}
+
+.icons button {
+  background: transparent;
+  border: 1px solid #7030a0;
+  border-radius: 50%;
+  color: #7030a0;
+  width: 28px;
+  height: 28px;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.icons button:hover {
+  background: #7030a0;
+  color: #fff;
+}
+
+.license-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.license-table th,
+.license-table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.license-table th {
+  background: #f3f3f3;
+  font-weight: 600;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #7030a0;
+}

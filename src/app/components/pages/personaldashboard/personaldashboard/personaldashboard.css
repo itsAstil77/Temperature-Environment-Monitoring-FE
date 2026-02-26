@@ -1,0 +1,282 @@
+* {
+  margin: 0;
+  /* padding: 3px; */
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+/* ══════════════════════════════════════════
+   FILTER CONTAINER — horizontal strip
+══════════════════════════════════════════ */
+.filter-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+}
+
+/* Each label + select pair */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 160px;
+}
+
+/* Small label above the dropdown */
+.filter-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7030a0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 4px;
+  border-radius: 0; /* override global * rule */
+}
+
+.filter-label svg {
+  flex-shrink: 0;
+  color: #9b59b6;
+}
+
+/* Wrapper so we can show a custom arrow */
+.select-wrapper {
+  position: relative;
+  border-radius: 10px;
+}
+
+.select-wrapper select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: #ffffff;
+  border: 1.5px solid #d9b8f0;
+  border-radius: 10px;
+  padding: 8px 36px 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.select-wrapper select:hover {
+  border-color: #7030a0;
+}
+
+.select-wrapper select:focus {
+  border-color: #7030a0;
+  box-shadow: 0 0 0 3px rgba(112, 48, 160, 0.12);
+}
+
+.select-wrapper select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Custom chevron arrow */
+.select-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #7030a0;
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+}
+
+/* ══════════════════════════════════════════
+   REST OF EXISTING STYLES (unchanged)
+══════════════════════════════════════════ */
+
+.navbar {
+  width: 100%;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.navbar-left {
+  font-size: 20;
+  /* font-family: 'RedHatDisplay-Regular'; */
+}
+
+.add-widget-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 10px 20px;
+  gap: 20px;
+}
+
+.add-widget-text {
+  color: gray;
+  /* font-family: 'RedHatDisplay-Regular'; */
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.Personal-text {
+  color: gray;
+  /* font-family: 'RedHatDisplay-Regular'; */
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.add-widget-text:hover {
+  color: #7030a0;
+}
+
+.plus-symbol {
+  font-size: 22px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  background-color: #ddd;
+  height: 7%;
+  color: #7030a0;
+  margin-top: 0%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.nav-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-icons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.chart-container {
+  width: 100%;
+  height: calc(80vh - 160px);
+  padding: 20px;
+}
+
+.model-container {
+  display: flex;
+  gap: 15px;
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.model-container button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: 0.3s;
+}
+
+.model-container button.active {
+  border-color: #9148c9;
+  background: #7030a0;
+}
+
+.nav-left {
+  display: flex;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.nav-left h3 {
+  font-weight: 100;
+  color: #7030a0;
+  transition: 0.3s;
+  margin-top: 10px;
+  margin-left: 1.2%;
+  border-radius: 17px;
+  padding: 5px;
+  background-color: #ddd;
+}
+
+.active-tab {
+  color: #7030a0;
+  border-bottom: 3px solid #7030a0;
+  padding-bottom: 10px;
+}
+
+.chart-icon {
+  display: flex;
+  align-items: center;
+}
+
+.chart-icon svg {
+  width: 22px;
+  height: 22px;
+  color: #333;
+}
+
+.model-container button.active .chart-icon svg {
+  color: blue;
+}
+
+.dashboard-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+
+
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7030a0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 4px;
+  margin-bottom: -10px; /* pulls label closer to buttons */
+  border-radius: 0;
+}
+
+.section-label svg {
+  flex-shrink: 0;
+  color: #9b59b6;
+}
+
+
+
+
+
+
+.model-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centers the label and buttons horizontally */
+  gap: 6px;
+  margin: 0 auto;        /* pushes the whole block to the center of the row */
+}

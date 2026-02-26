@@ -1,0 +1,140 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between; /* left and right alignment */
+  align-items: center;
+  background: #ddd;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Left side: picture icons */
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+/* Icons on left (send/download) */
+.picture {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Icons on right (refresh/columns) */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Common image style */
+.picture img,
+.nav-icons img {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+/* Hover zoom effect */
+.picture img:hover,
+.nav-icons img:hover {
+  transform: scale(1.25);
+  filter: brightness(1.2);
+}
+
+/* Back button styling */
+.back-btn {
+  /* margin-top: 15px; */
+  padding: 8px 16px;
+  background-color: #7030a0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #ad5ace;
+  transform: scale(1.05);
+}
+
+/* View report heading styling */
+.view-report-container h2 {
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 600;
+}
+
+
+
+
+
+
+.view-report-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.report-info p {
+  margin: 4px 0;
+}
+
+.visits-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.visits-table th,
+.visits-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.visits-table th {
+  background-color: #7030a0;
+  color: white;
+}
+
+.no-data-text {
+  color: gray;
+  margin-top: 15px;
+}
+
+.visit-header {
+  margin-top: 25px;
+  color: #7030a0;
+}
+
+
+
+
+
+
+
+
+
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between; /* Push controls to the ends */
+  align-items: center;           /* Vertically center them */
+  margin-top: 15px;
+}
+
+.pagination-controls label {
+  margin-right: 5px;
+}
+
+.pagination-right button {
+  margin: 0 5px;
+}

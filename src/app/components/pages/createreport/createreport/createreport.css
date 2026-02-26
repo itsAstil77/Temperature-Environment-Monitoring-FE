@@ -1,0 +1,238 @@
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  /* space between title and icons */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ddd;
+  /* border: 1px solid rgb(206, 201, 201); */
+  height: 35px;
+  color: #7030a0;
+  margin-top: 0%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* ✅ round top-right */
+
+
+
+}
+
+
+
+.nav-icons {
+  display: flex;
+  gap: 15px;
+  align-items: center;   /* ← add this */
+}
+
+.nav-icons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+
+
+.navbarbottom {
+  display: flex;
+  /* justify-content: space-between; */
+  /* space between title and icons */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ddd;
+  /* border: 1px solid rgb(206, 201, 201); */
+  height: 35px;
+  /* color: #7030a0; */
+  margin-top: 1px;
+  /* border-top-left-radius: 10px;
+  border-top-right-radius: 10px; */
+  /* ✅ round top-right */
+
+
+
+}
+
+
+
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  /* background-color: #fff; */
+  font-size: 14px;
+}
+
+.report-table th {
+  /* background-color: #673ab7; */
+  /* color: white; */
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+
+
+
+
+.delete-btn {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  padding:3px;
+}
+
+.delete-btn:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+
+
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tbody tr {
+  border-bottom: 1px solid #dcdcdc; /* line for each row */
+}
+
+td, th {
+  padding: 10px 12px; /* adjust padding as needed */
+}
+
+
+
+
+
+.column-icon {
+  width: 22px;
+  cursor: pointer;
+}
+
+.column-popup {
+  position: absolute;
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  z-index: 10;
+  margin-top: 14%;
+  margin-left: 15%;
+}
+
+
+
+
+
+
+
+
+
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;           /* space between icons */
+  justify-content: center;
+
+  /* margin-left: -10px;  */
+}
+
+.action-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.action-icon:hover {
+  transform: scale(1.2); /* slight zoom */
+  opacity: 0.8;
+}
+
+.action-icon:active {
+  transform: scale(1.05);
+}
+
+td.action-buttons {
+  min-width: 110px;   /* keeps column width stable */
+}
+
+
+.action-buttons {
+  justify-content: flex-start;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 23-3-36 */
+
+
+/* ✅ NEW SEARCH STYLES */
+.search-container {
+ display: inline-flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+    width: 40px;
+    overflow: hidden;
+
+}
+
+.search-container.search-open {
+  width: 200px;
+}
+
+.search-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  width: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.search-input.visible {
+  width: 180px;
+  opacity: 1;
+}

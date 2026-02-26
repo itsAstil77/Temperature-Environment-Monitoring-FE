@@ -1,0 +1,726 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  /* space between title and icons */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ddd;
+  /* border: 1px solid rgb(206, 201, 201); */
+  height: 35px;
+  color: #7030a0;
+  margin-top: 0%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* ✅ round top-right */
+
+
+}
+
+.navbar h3 {
+  padding: 6px;
+}
+
+
+/* navbar sub */
+
+.navbarSub {
+  display: flex;
+  justify-content: space-between;
+  /* space between title and icons */
+  align-items: center;
+  padding: 5px 5px;
+  background-color: white;
+  border: 1px solid rgb(206, 201, 201);
+  height: 35px;
+  color: #7030a0;
+  /* margin-top: 0%; */
+  margin-left: 20px;
+  margin-top: 0.8%;
+
+
+}
+
+.navbarSub h3 {
+  padding: 6px;
+}
+
+
+.container {
+  padding: 10px;
+  background: #f8f9fa;
+
+
+}
+
+/* img */
+
+
+.sub-tabs {
+  display: flex;
+  justify-content: space-between;
+  /* tabs left, icons right */
+  align-items: center;
+  /* gap: 10px; */
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+/* .tab {
+
+
+  background: #f5f5f5;
+
+  border: none;
+  
+  outline: none;
+  
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: medium;
+  transition: background 0.3s ease;
+
+} */
+
+/* .tab:hover {
+  background: #b19ace;
+
+} */
+
+/* .tab.active {
+  background: #7030a0;
+  color: white;
+
+
+} */
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 98.8%;
+  border-collapse: collapse;
+  background: white;
+  margin-left: 20px;
+
+}
+
+
+
+th{
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+
+
+
+td {
+  /* border: 1px solid #ddd; */
+  border-bottom: 1px solid #d4d4d4;
+  padding: 8px;
+  text-align: center;
+  color: #4e4d4d;
+  font-size: 90%;
+}
+
+
+th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+
+
+
+.tab:hover::after {
+  opacity: 1;
+}
+
+.tab::after {
+  content: attr(data-tooltip);
+  /* use text from HTML attribute */
+  position: absolute;
+  bottom: 10px;
+  margin-left: 10px;
+  background-color: #333;
+  color: #fff;
+}
+
+.navicons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 5px;
+  
+}
+
+
+
+/* .tabs-left {
+  display: flex;
+  gap: 10px;
+} */
+
+
+.navicons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.navicons img:hover {
+  transform: scale(1.1);
+  /* subtle hover effect */
+}
+
+
+/* img */
+
+
+
+
+
+
+.nav-icons {
+  display: flex;
+  gap: 15px;
+  /* spacing between icons */
+}
+
+.nav-icons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+
+
+.action-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 6px;
+  transition: transform 0.2s ease;
+}
+
+.action-icon:hover {
+  transform: scale(1.2);
+}
+
+
+/* Overlay background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.popup {
+  background: #fff;
+  display: inline-block;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+  max-width: 95%;   /* keep responsive */
+  min-width: 300px; /* avoid too small */
+}
+
+/* Input container */
+.user-input-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  /* 1 column min, auto-fit up to 3 */
+  gap: 15px 30px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Limit to max 3 columns */
+.popup .user-input-container {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  max-width: calc(3 * 220px + 60px); /* max 3 cols + gaps */
+}
+
+
+
+
+
+
+/* Title */
+.popup h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #7030a0;
+}
+
+
+.user-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-data label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+
+
+/* Buttons */
+.user-button {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.create {
+  background: #7030a0;
+  color: white;
+}
+
+.btn.cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+
+
+.overlaydel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+
+
+/* Popup box */
+.popupdel {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  animation: popupScale 0.3s ease;
+}
+
+
+
+
+
+
+/* Heading / Message */
+.popup p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 8px;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.btn.delete {
+  background-color: #7030a0;
+  color: white;
+  margin-top: 25px;
+}
+
+.btn.cancel {
+  background-color: #c7c6c9;
+  color: black;
+}
+
+.btn.cancel:hover {
+  background-color: #b19ace;
+}
+
+
+/* Animation */
+@keyframes popupScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  /* ✅ adds equal spacing between buttons */
+}
+
+.aone {
+  color: #7030a0;
+  padding: 5px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px\;
+}
+
+.aone:hover {
+  background-color: #b19ace;
+  border-radius: 4px;
+}
+
+/* 🔴 Active button turns red */
+.aone.active {
+  color: white;
+  background-color: #7030a0;
+  border-radius: 4px;
+  padding: 10px 20px;
+}
+
+
+
+
+
+
+/* 
+search */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.search-box {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.options {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 1000;
+}
+
+.options li {
+  padding: 6px;
+  cursor: pointer;
+}
+
+.options li:hover {
+  background: #f0f0f0;
+}
+
+
+
+
+
+
+
+
+
+/* search dropdown  */
+
+.user-data select {
+  padding: 8px;
+  /* same as input */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  /* same rounded corners */
+  width: 100%;
+  background: white;
+  /* match input background */
+  font-size: 14px;
+  appearance: none;
+  /* remove default browser styles */
+  -webkit-appearance: none;
+  /* Safari/Chrome */
+  -moz-appearance: none;
+  /* Firefox */
+  cursor: pointer;
+}
+
+
+
+
+
+/* Input and select focus inside popup */
+.popup input:focus,
+.popup select:focus,
+.popup input:hover,
+.popup select:hover {
+  outline: none;
+  border: 1px solid #7030a0;
+  box-shadow: 0 0 5px rgba(112, 48, 160, 0.3);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+
+
+
+
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-top: 5px;
+
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked+.slider {
+  background-color: #7030a0;
+  /* Green for Active */
+}
+
+input:checked+.slider:before {
+  transform: translateX(26px);
+}
+
+
+
+
+.user-input-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px 30px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.user-data input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  
+}
+.user-data select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  background: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+
+
+
+
+
+
+.table-bottom-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  margin-left: 20px;
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: Arial, sans-serif;
+}
+
+.page-size-selector select {
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: #7030a0;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #7d5e94;
+}
+
+
+/* 23-2-26 */
+
+.popup {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+.tabs-left {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tab {
+  position: relative;
+  padding: 6px 18px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.tab:hover {
+  background-color: #e6e8f0;
+  color: #333;
+}
+
+.tab.active {
+  background-color: #ffffff;
+  color: #7030a0;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 5%;
+  width: 70%;
+  height: 3px;
+  background-color: #af77da;
+  border-radius: 2px;
+}

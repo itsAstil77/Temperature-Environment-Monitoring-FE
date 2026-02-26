@@ -1,0 +1,448 @@
+
+
+
+
+
+
+
+<!-- new  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="dashboard-layout">
+
+    <!-- LEFT SIDE : Vertical Dashboard text -->
+    <div class="vertical-dashboard">
+        Dashboard
+    </div>
+
+    <div class="dashboard-main">
+
+        <nav class="navbar">
+            <div class="navbar-left">
+
+                <span *ngFor="let item of dashboardData" class="name-box"
+                    [class.active]="selectedDashboard?.id === item.id" (click)="selectDashboard(item)">
+
+                    {{ item.dashboardName }}
+
+                    <img src="assets/delete.png" class="delete-icon"
+                        (click)="openDeletePopup(item); $event.stopPropagation()" />
+                </span>
+
+                <img src="assets/plussymbol.png" alt="Add" class="plus-icon" (click)="openPopup()" />
+
+            </div>
+        </nav>
+
+<div class="dashboard-row">
+        <div class="dashboard-content">
+            <ng-container *ngIf="selectedDashboard; else noDashboard">
+                <h2>{{ selectedDashboard.dashboardName }}</h2>
+            </ng-container>
+
+            <ng-template #noDashboard>
+                <!-- <p>Please select a dashboard</p> -->
+            </ng-template>
+        </div>
+
+        <div class="add-widget-container">
+
+            <span class="add-widget-text" (click)="openAddWidgetPopup()">
+                <span class="plus-symbol">+</span>
+                <span class="widget-text">Add Widget</span>
+            </span>
+
+            <!-- Personal Dashboard Button -->
+            <span class="Personal-text">
+                <span class="plus-symbol">+</span>
+                <span class="personal-text" routerLink="/personalDashboard">Statistics Dashboard</span>
+            </span>
+            <!-- <span class="Personal-text">
+                <span class="plus-symbol">+</span>
+                <span class="personal-text" routerLink="/customerdashboard">Customer Dashboard</span>
+            </span> -->
+        </div>
+        </div>
+
+        <!-- Add Widget Popup -->
+        <div class="AWContainer" *ngIf="isAddWidgetPopup">
+            <div class="AwContent">
+                <!-- Top Navbar -->
+                <div class="AWNavbar">
+                    <span>Zone/Group</span>
+                    <span class="close-btn" (click)="closeAddWidgetPopup()">×</span>
+                </div>
+
+                <!-- 3-Section Layout -->
+                <div class="AWMcontainer">
+                    <!-- LEFT SECTION: Project Hierarchy -->
+                    <div class="AWProject">
+                        <div class="table-container">
+                            <table>
+                                <tbody>
+                                    <ng-container *ngFor="let project of projects">
+                                        <!-- Project row -->
+                                        <tr [class.rotate]="expandedProjects.has(project.id)"
+                                            (click)="loadCountries(project.id)">
+                                            <td class="tabledata" [class.selected]="selectedItemId === project.id"
+                                                (click)="selectItem(project.id)">
+                                                <span class="indent level1"></span>{{ project.projectName }}
+                                                <span class="icons">
+                                                    <img src="assets/down.png" alt="DropDown" class="tab"
+                                                        [class.rotate]="expandedProjects.has(project.id)" />
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Countries row -->
+                                        <tr *ngIf="expandedProjects.has(project.id)">
+                                            <td colspan="2">
+                                                <table>
+                                                    <tbody>
+                                                        <ng-container *ngFor="let country of countriesByProject[project.id]">
+                                                            <!-- Country row -->
+                                                            <tr [class.rotate]="expandedCountry.has(country.id)"
+                                                                (click)="loadArea(country.id)">
+                                                                <td class="tabledata"
+                                                                    [class.selected]="selectedItemId === country.id"
+                                                                    (click)="selectItem(country.id)">
+                                                                    <span class="indent level2"></span>{{ country.countryName }}
+                                                                    <span class="icons">
+                                                                        <img src="assets/down.png" alt="DropDown" class="tab"
+                                                                            [class.rotate]="expandedCountry.has(country.id)" />
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+
+                                                            <!-- Areas -->
+                                                            <ng-container *ngFor="let area of areaByCountry[country.id]">
+                                                                <tr *ngIf="expandedCountry.has(country.id)">
+                                                                    <td colspan="2">
+                                                                        <table>
+                                                                            <tbody>
+                                                                                <!-- Area row -->
+                                                                                <tr [class.rotate]="expandedArea.has(area.id)"
+                                                                                    (click)="loadBuilding(area.id)">
+                                                                                    <td class="tabledata"
+                                                                                        [class.selected]="selectedItemId === area.id"
+                                                                                        (click)="selectItem(area.id)">
+                                                                                        <span class="indent level3"></span>{{ area.areaName }}
+                                                                                        <span class="icons">
+                                                                                            <img src="assets/down.png" alt="DropDown"
+                                                                                                class="tab"
+                                                                                                [class.rotate]="expandedArea.has(area.id)" />
+                                                                                        </span>
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                                <!-- Buildings -->
+                                                                                <tr *ngIf="expandedArea.has(area.id)">
+                                                                                    <td colspan="2">
+                                                                                        <table>
+                                                                                            <tbody>
+                                                                                                <ng-container
+                                                                                                    *ngFor="let building of buildingByArea[area.id]">
+                                                                                                    <!-- Building row -->
+                                                                                                    <tr [class.rotate]="expandedBuilding.has(building.id)"
+                                                                                                        (click)="loadFloor(building.id)">
+                                                                                                        <td class="tabledata"
+                                                                                                            [class.selected]="selectedItemId === building.id"
+                                                                                                            (click)="selectItem(building.id)">
+                                                                                                            <span class="indent level4"></span>
+                                                                                                            {{ building.buildingName }}
+                                                                                                            <span class="icons">
+                                                                                                                <img src="assets/down.png"
+                                                                                                                    alt="DropDown" class="tab"
+                                                                                                                    [class.rotate]="expandedBuilding.has(building.id)" />
+                                                                                                            </span>
+                                                                                                        </td>
+                                                                                                    </tr>
+
+                                                                                                    <!-- Floors -->
+                                                                                                    <tr *ngIf="expandedBuilding.has(building.id)">
+                                                                                                        <td colspan="2">
+                                                                                                            <table>
+                                                                                                                <tbody>
+                                                                                                                    <ng-container
+                                                                                                                        *ngFor="let floor of floorByBuilding[building.id]">
+                                                                                                                        <!-- Floor row -->
+                                                                                                                        <tr [class.rotate]="expandedFloor.has(floor.id)"
+                                                                                                                            (click)="loadZones(floor.id)">
+                                                                                                                            <td class="tabledata"
+                                                                                                                                [class.selected]="selectedItemId === floor.id"
+                                                                                                                                (click)="selectItem(floor.id)">
+                                                                                                                                <span class="indent level5"></span>
+                                                                                                                                {{ floor.floorName }}
+                                                                                                                                <span class="icons">
+                                                                                                                                    <img src="assets/down.png"
+                                                                                                                                        alt="DropDown" class="tab"
+                                                                                                                                        [class.rotate]="expandedFloor.has(floor.id)" />
+                                                                                                                                </span>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+
+                                                                                                                        <!-- Zones -->
+                                                                                                                        <tr *ngIf="expandedFloor.has(floor.id)">
+                                                                                                                            <td colspan="2">
+                                                                                                                                <table>
+                                                                                                                                    <tbody>
+                                                                                                                                        <ng-container
+                                                                                                                                            *ngFor="let zone of zoneByFloor[floor.id]">
+                                                                                                                                            <!-- Zone row -->
+                                                                                                                                            <tr [class.rotate]="expandedZone.has(zone.id)"
+                                                                                                                                                (click)="loadSubZones(zone.id)">
+                                                                                                                                                <td class="tabledata"
+                                                                                                                                                    [class.selected]="selectedItemId === zone.id"
+                                                                                                                                                    (click)="selectItem(zone.id)">
+                                                                                                                                                    <span class="indent level6"></span>
+                                                                                                                                                    {{ zone.zoneName }}
+                                                                                                                                                    <span class="icons">
+                                                                                                                                                        <img src="assets/down.png"
+                                                                                                                                                            alt="DropDown" class="tab"
+                                                                                                                                                            [class.rotate]="expandedZone.has(zone.id)" />
+                                                                                                                                                    </span>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+
+                                                                                                                                            <!-- SubZones -->
+                                                                                                                                            <tr *ngIf="expandedZone.has(zone.id)">
+                                                                                                                                                <td colspan="2">
+                                                                                                                                                    <table>
+                                                                                                                                                        <tbody>
+                                                                                                                                                            <ng-container
+                                                                                                                                                                *ngFor="let subZone of subZoneByZone[zone.id]">
+                                                                                                                                                                <tr>
+                                                                                                                                                                    <td class="tabledata"
+                                                                                                                                                                        [class.selected]="selectedItemId === subZone.id"
+                                                                                                                                                                        (click)="selectItem(subZone.id)">
+                                                                                                                                                                        <span class="indent level7"></span>
+                                                                                                                                                                        {{ subZone.subZoneName }}
+                                                                                                                                                                    </td>
+                                                                                                                                                                </tr>
+                                                                                                                                                            </ng-container>
+                                                                                                                                                        </tbody>
+                                                                                                                                                    </table>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </ng-container>
+                                                                                                                                    </tbody>
+                                                                                                                                </table>
+                                                                                                                            </td>
+                                                                                                                        </tr>
+                                                                                                                    </ng-container>
+                                                                                                                </tbody>
+                                                                                                            </table>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </ng-container>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE SECTION: Device & Widget -->
+                    <div class="AwZone">
+                        <div class="device-widget-container">
+                            
+                            <!-- LEFT: DEVICE SECTION -->
+                            <div class="device-section">
+                                <p>DEVICE</p>
+
+                                <!-- Project Level -->
+                                <ul *ngIf="activeLevel === 'project'">
+                                    <li *ngFor="let device of projectDevices">
+                                        <label>
+                                            <input type="checkbox" [checked]="selectedDeviceId === device.id"
+                                                (change)="onDeviceCheckboxChange($event, device)" />
+                                            {{ device.deviceName }}
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <!-- Country Level -->
+                                <ul *ngIf="activeLevel === 'country'">
+                                    <li *ngFor="let device of countryDevices">
+                                        <label>
+                                            <input type="checkbox" [checked]="selectedDeviceId === device.id"
+                                                (change)="onDeviceCheckboxChange($event, device)" />
+                                            {{ device.deviceName }}
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <!-- Area Level -->
+                                <ul *ngIf="activeLevel === 'area'">
+                                    <li *ngFor="let device of areaDevices">
+                                        <label>
+                                            <input type="checkbox" [checked]="selectedDeviceId === device.id"
+                                                (change)="onDeviceCheckboxChange($event, device)" />
+                                            {{ device.deviceName }}
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <!-- Building Level -->
+                                <ul *ngIf="activeLevel === 'building'">
+                                    <li *ngFor="let device of buildingDevices">
+                                        <label>
+                                            <input type="checkbox" [checked]="selectedDeviceId === device.id"
+                                                (change)="onDeviceCheckboxChange($event, device)" />
+                                            {{ device.deviceName }}
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <!-- Floor Level -->
+                                <ul *ngIf="activeLevel === 'floor'">
+                                    <li *ngFor="let device of floorDevices">
+                                        <label>
+                                            <input type="checkbox" [checked]="selectedDeviceId === device.id"
+                                                (change)="onDeviceCheckboxChange($event, device)" />
+                                            {{ device.deviceName }}
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <!-- Zone Level -->
+                                <ul *ngIf="activeLevel === 'zone'">
+                                    <li *ngFor="let device of zoneDevices">
+                                        <label>
+                                            <input type="checkbox" [checked]="selectedDeviceId === device.id"
+                                                (change)="onDeviceCheckboxChange($event, device)" />
+                                            {{ device.deviceName }}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- RIGHT: WIDGET SECTION -->
+                            <!-- <div class="widget-section">
+                                <p>WIDGET</p>
+
+                                Personal clickable label --
+                                <div class="personal-title" (click)="togglePersonal()">
+                                    Personal
+                                </div>
+
+                            Personal widget list --
+                                <div class="personal-widgets" *ngIf="showPersonalWidgets">
+                                    <label *ngFor="let widget of personalWidgets">
+                                        <input type="checkbox" [(ngModel)]="widget.selected" />
+                                        {{ widget.label }}
+                                    </label>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </div>
+
+                    <!-- RIGHT SECTION: Parameters -->
+                    <div class="AwParameter">
+                        <div *ngIf="deviceParameters.length > 0;">
+                            <div *ngFor="let param of deviceParameters">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" [value]="param.id" (change)="toggleParameterSelection(param)"
+                                        [checked]="selectedParameters.has(param.id)" />
+                                    {{ param.name }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="AWButton">
+                            <div class="createbtn" (click)="createWidgets()">Create</div>
+                            <div class="cancelbtn" (click)="closeAddWidgetPopup()">Cancel</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Widget Popup -->
+        <div class="popup-backdrop" *ngIf="showDeleteWidjet">
+            <div class="popup-box">
+                <p>Are you sure you want to delete this widget?</p>
+                <div class="popup-actions">
+                    <button class="btn-cancel" (click)="cancelDelete()">Cancel</button>
+                    <button class="btn-apply" (click)="deleteWidget()">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Dashboard Popup -->
+        <div class="overlay" *ngIf="showPopup">
+            <div class="popup">
+                <h2>Create Dashboard</h2>
+                <div class="user-input-container">
+                    <div class="user-data">
+                        <input type="text" [(ngModel)]="dashboardName" placeholder="Dashboard name">
+                    </div>
+                </div>
+                <div class="user-button">
+                    <button class="btn create" (click)="createDashboard()">Create</button>
+                    <button class="btn cancel" (click)="closePopup()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Dashboard Popup -->
+        <div class="popup-backdrop" *ngIf="showDeletePopup">
+            <div class="popup-box">
+                <p>Are you sure you want to delete this Dashboard?</p>
+                <div class="popup-actions">
+                    <button class="btn-cancel" (click)="cancelDashboardDelete()">Cancel</button>
+                    <button class="btn-apply" (click)="confirmDeleteDashboard()">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <div class="widget" *ngFor="let widget of widgets">
+                <div class="widget-header">
+                    <div class="left-section">
+                        <div class="status-circle"></div>
+                        <span class="device-name">{{ widget.deviceName }}</span>
+                    </div>
+                    <div class="right-section">
+                        <img src="assets/edit.png" alt="Edit" class="icon-btn" />
+                        <img src="assets/delete.png" alt="Delete" class="icon-btn" (click)="openDeleteWidget(widget)" />
+                    </div>
+                </div>
+                <div class="param-list">
+                    <div class="param-item" *ngFor="let param of widget.params">
+                        <p>{{ param.name }} - {{ param.value }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>User Name</th>
+        <th>Contact No</th>
+        <th>Email Id</th>
+        <th>Role</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.userName }}</td>
+        <td>{{ user.contactNumber }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.roleName }}</td>
+        <td>
+          <img src="assets/pencil.png" (click)="onEdit(user)" class="action-icon edit">
+          <img src="assets/trash.png" (click)="onDelete(user)" class="action-icon edit">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<p style="color:blue">Users count: {{ users.length }}</p>
+
+

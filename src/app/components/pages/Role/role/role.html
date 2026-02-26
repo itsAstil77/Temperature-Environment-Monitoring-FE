@@ -1,0 +1,172 @@
+<!-- <nav class="navbar">
+    <h3>Role</h3>
+    <div>
+        <button class="rolebutton" routerLink="/user-management">User</button>
+    </div>
+
+    <div class="nav-icons">
+        < Expandable Search --11111111111111111111111111111
+        <div class="search-container" [ngClass]="{'search-open': searchOpen}">
+            <img 
+                src="assets/search.png" 
+                alt="Search" 
+                (click)="toggleSearch()"
+                class="search-icon"
+            />
+            <input 
+                type="text" 
+                [(ngModel)]="searchTerm"
+                (input)="filterRoles()"
+                placeholder="Search roles..."
+                class="search-input"
+                [ngClass]="{'visible': searchOpen}"
+            />
+        </div>
+
+        <img src="assets/add.png" alt="Add" routerLink="/createrole">
+        <img src="assets/download.png" alt="Download">
+        <img src="assets/refresh.png" alt="Refresh">
+        <img src="assets/columns.png" alt="Columns">
+    </div>
+</nav>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>RoleName</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let role of filteredRoles">
+                <td>{{ role.roleName }}</td>
+                <td>{{ role.description }}</td>
+                <td>
+                    <img src="assets/pencil.png" alt="Edit" (click)="openeditRolePopup(role)" class="action" />
+                    <img src="assets/trash.png" alt="Delete" class="action" (click)="openDeleteRolePopup(role)"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="overlay" *ngIf="openEditRole">
+    <div class="popup">
+        <h2>Update Role</h2>
+        <div class="user-input-container">
+            <div class="user-data">
+                <label>Role Name</label>
+                <input type="text" [(ngModel)]="editRoles.roleName">
+            </div>
+            <div class="user-data">
+                <label>Description</label>
+                <input type="text" [(ngModel)]="editRoles.description">
+            </div>
+        </div>
+        <div class="user-button">
+            <button class="btn create" (click)="updateRole()">Update</button>
+            <button class="btn cancel" (click)="closeEditRolePopup()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlaydel" *ngIf="openDeleteRole">
+    <div class="popupdel">
+        <p>Are You Sure You Want To delete this Role?</p>
+        <button class="btn delete" (click)="deleteRole()">yes</button>
+        <button class="btn cancel" (click)="closeDeleteRolePopup()">No</button>
+    </div>
+</div> -->
+
+
+
+
+
+<nav class="navbar">
+  <!-- <h3>Role Management</h3> -->
+
+  <!-- Navigation buttons container -->
+  <div class="nav-buttons">
+    <button class="nav-button" routerLink="/user-management">User</button>
+    <button class="nav-button active" routerLink="/role">Role</button>
+  </div>
+
+  <div class="nav-icons">
+    <!-- Expandable Search -->
+ <div class="search-container" [ngClass]="{'search-open': searchOpen}">
+  <img src="assets/search.png" alt="Search" class="search-icon" />
+  <input type="text" [(ngModel)]="searchTerm" (input)="filterRoles()" placeholder="Search roles..."
+    class="search-input" [ngClass]="{'visible': searchOpen}" />
+</div>
+
+    <img src="assets/add.png" alt="Add" routerLink="/createrole">
+    <img src="assets/upload.png" alt="upload">
+    <img src="assets/download.png" alt="Download">
+    <img src="assets/refresh.png" alt="Refresh" (click)="loadRole()">
+    <img src="assets/columns.png" alt="Columns">
+  </div>
+</nav>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>RoleName</th>
+        <th>RoleId</th>
+        <th>Description</th>
+        <th>Permissions</th> <!-- NEW -->
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of filteredRoles">
+        <td>{{ role.roleName }}</td>
+        <td>{{ role.roleId }}</td>
+        <td>{{ role.description }}</td>
+
+        <!-- NEW -->
+        <td>
+          <span *ngFor="let perm of role.assignPermissions" class="permission-badge">
+            {{ perm.featureName }}
+          </span>
+          <span *ngIf="!role.assignPermissions?.length">—</span>
+        </td>
+
+        <td>
+          <img src="assets/pencil.png" alt="Edit" (click)="openeditRolePopup(role)" class="action" />
+          <img src="assets/trash.png" alt="Delete" class="action" (click)="openDeleteRolePopup(role)" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="overlay" *ngIf="openEditRole">
+  <div class="popup">
+    <h2>Update Role</h2>
+    <div class="user-input-container">
+      <div class="user-data">
+        <label>Role Name</label>
+        <input type="text" [(ngModel)]="editRoles.roleName">
+      </div>
+      <div class="user-data">
+        <label>Description</label>
+        <input type="text" [(ngModel)]="editRoles.description">
+      </div>
+    </div>
+    <div class="user-button">
+      <button class="btn create" (click)="updateRole()">Update</button>
+      <button class="btn cancel" (click)="closeEditRolePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlaydel" *ngIf="openDeleteRole">
+  <div class="popupdel">
+    <p>Are You Sure You Want To delete this Role?</p>
+    <button class="btn delete" (click)="deleteRole()">yes</button>
+    <button class="btn cancel" (click)="closeDeleteRolePopup()">No</button>
+  </div>
+</div>

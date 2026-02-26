@@ -1,0 +1,776 @@
+
+
+/* ----- AWProject container layout ----- */
+.AWProject {
+  flex: 1;
+  background: #f4f4f8;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  /* overflow-y: auto; */
+}
+
+/* ----- Table container box ----- */
+.table-container {
+  width: 20%;
+  /* background-color: #ffffff; */
+  /* border: 1px solid #ccc; */
+  border-radius: 8px;
+  /* font-family: 'RedHatDisplay-Regular', Arial, sans-serif; */
+  /* padding: 15px; */
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); */
+  min-height: 100%;
+}
+
+/* ----- Table styling ----- */
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabledata {
+  position: relative;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #eee;
+  background-color: #fafafa;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.tabledata:hover {
+  background-color: #ede6f7;
+}
+
+/* ----- Dropdown icons ----- */
+.icons {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.table-container img.tab {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  transform: rotate(90deg);
+}
+.table-container img.tab.rotate {
+  transform: rotate(180deg);
+}
+
+
+.tabledata.selected {
+  background-color: #7030a0 !important; /* dark purple */
+  color: #fff !important;
+  font-weight: 600;
+}
+/* Hierarchy indentation */
+.indent {
+  display: inline-block;
+  width: 15px;
+}
+
+/* Each level adds more left space */
+.level1 {
+  margin-left: 0px;
+}
+.level2 {
+  margin-left: 15px;
+}
+.level3 {
+  margin-left: 30px;
+}
+.level4 {
+  margin-left: 45px;
+}
+.level5 {
+  margin-left: 60px;
+}
+.level6 {
+  margin-left: 75px;
+}
+.level7 {
+  margin-left: 90px;
+}
+
+
+td.tabledata:not(.selected):has(.indent.level1) {
+  background-color: #e9def3 !important;
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =============================
+   MAIN WRAPPER (Two Column Layout)
+============================= */
+.reports-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px 20px;
+}
+
+/* =============================
+   RIGHT SIDE - REPORT CONTAINER
+============================= */
+.report-container {
+  flex: 1;
+  max-width: 100%;
+  /* background: #fff; */
+  border-radius: 10px;
+  /* box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); */
+  /* padding: 20px 30px; */
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background: #ddd;
+  padding: 20px 20px;
+  border-radius: 10px 10px 0 0;
+}
+
+.header h3 {
+  margin: 0;
+  color: #6c2a91;
+  font-weight: 600;
+}
+
+.report-form {
+  padding: 20px;
+}
+
+.report-form h4 {
+  color: #7030a0;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+/* =============================
+   TIME RANGE + HOURS SECTION
+============================= */
+/* =============================
+   TIME RANGE + HOURS SECTION
+============================= */
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  color: #7030a0;
+}
+
+.control-group label {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+#timeSelect {
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.hours-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.hours-group label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+/* 🔹 New: Hour Button Styling (same as your earlier UI) */
+.hour-button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  transition: 0.2s ease;
+  font-size: 14px;
+}
+
+.hour-button:hover {
+  background-color: #e9e9e9;
+}
+
+.hour-button.active {
+  background-color: #7030a0;
+  color: white;
+  border-color: #7030a0;
+  font-weight: 600;
+}
+
+/* Custom date range */
+.date-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.date-range label {
+  font-weight: 600;
+  color: #6c2a91;
+}
+
+.date-range input[type="date"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* =============================
+   FORM CONTENT LAYOUT
+============================= */
+.form-content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 30px;
+}
+
+.left-column,
+.right-column {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* .form-group label {
+  font-weight: bold;
+  color: #6c2a91;
+  display: block;
+  margin-bottom: 8px;
+} */
+
+
+
+.custom-date-input {
+  width: 70%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 0.85rem;
+  background: #fff;
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.radio-group label {
+  font-weight: 500;
+}
+
+/* =============================
+   INPUTS & TEXTAREA
+============================= */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  min-height: 60px;
+  resize: none;
+}
+
+/* =============================
+   BUTTONS
+============================= */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancel-btn,
+.generate-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-btn {
+  background-color: #f3f3f3;
+  color: #555;
+}
+
+.generate-btn {
+  background-color: #6c2a91;
+  color: #fff;
+}
+
+.generate-btn:hover {
+  background-color: #591f78;
+}
+
+
+/* Make template radio labels black */
+.radio-group label {
+  color: #000;
+}
+
+
+
+
+
+
+
+
+.daily-with-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-inline {
+  margin-left: 10px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.time-inline:focus {
+  border: 1px solid #7030a0 !important;
+}
+.time-inline:focus {
+  border: 1px solid #7030a0 !important;
+}
+.red-border {
+  border: 1px solid #7030a0 !important;
+  outline: none !important;
+}
+
+
+
+.weekly-with-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.weekly-select,
+.weekly-time {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  /* width: 150px; */
+  
+  /* 🔥 Force same height */
+  height: 30px;
+  line-height: 30px;
+
+  /* Optional: remove default inner padding for time input */
+  box-sizing: border-box;
+}
+/* .red-border {
+  border: 2px solid #7030a0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+} */
+
+
+
+.monthly-with-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.monthly-date,
+.monthly-time {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+
+  /* 🔥 Same height and alignment as weekly */
+  height: 30px;
+  line-height: 30px;
+  box-sizing: border-box;
+
+  /* You can adjust width if needed */
+  width: 130px;      
+}
+
+.between-text {
+  font-weight: 600;
+  color: #7030a0;
+}
+
+/* Optional: Fix Chrome time-input alignment */
+.monthly-time::-webkit-datetime-edit,
+.monthly-time::-webkit-inner-spin-button,
+.monthly-time::-webkit-clear-button {
+  padding: 0;
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 25-2-26 */
+
+/* ── Temperature Report Section ──────────────────────────────────── */
+.temperature-report-section {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  /* border: 1px solid #e2e8f0; */
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #334155;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.section-icon {
+  font-size: 1rem;
+}
+
+.form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;          /* tight gap between the two pickers */
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.form-row .form-group {
+  flex: 0 0 180px;       /* fixed width — inputs stay compact, not full-width */
+  margin-bottom: 0;      /* remove the 20px bottom gap inside the row */
+}
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #6c2a91;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.72rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.form-group .form-control {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 0.85rem;
+  background: #fff;
+  color: #1e293b;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group .form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.btn-fetch {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.2rem;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.btn-fetch:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.btn-fetch:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-clear {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-clear:hover:not(:disabled) {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.btn-clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error */
+.temp-error {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+  color: #dc2626;
+  font-size: 0.82rem;
+  width: 25%;
+}
+
+/* Result */
+.temp-result {
+  margin-top: 0.75rem;
+  border: 1px solid #bbf7d0;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.result-header {
+  padding: 0.4rem 0.9rem;
+  background: #f0fdf4;
+  color: #16a34a;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #bbf7d0;
+}
+
+.result-body {
+  padding: 0.9rem;
+  font-size: 0.78rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  background: #fff;
+  color: #1e293b;
+  overflow-x: auto;
+  max-height: 260px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ── Form Actions Row ───────────────────────────────────────────────────── */
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+/* ── Generate Button ────────────────────────────────────────────────────── */
+.btn-generate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.4rem;
+  background: #6c2a91;         /* matches your purple label color */
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  height: 40px;
+}
+
+.btn-generate:hover:not(:disabled) {
+  background: #561f74;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 42, 145, 0.3);
+}
+
+.btn-generate:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-generate:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Clear Button ───────────────────────────────────────────────────────── */
+.btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  color: #6c2a91;
+  border: 1.5px solid #6c2a91;
+  border-radius: 7px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  height: 40px;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: #6c2a91;
+  color: #fff;
+}
+
+.btn-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Spinner inside Generate button ─────────────────────────────────────── */
+.btn-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}

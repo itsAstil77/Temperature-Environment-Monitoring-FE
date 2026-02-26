@@ -1,0 +1,43 @@
+<!-- <div class="clock-preview">
+    <span class="material-icons clock-icon">
+        schedule
+    </span>
+
+    <div class="clock-time">
+        {{ currentTime }}
+    </div>
+</div>
+
+<div class="clock-actions">
+    <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+    <button class="btn-add" (click)="onAdd()">Add</button>
+</div>
+
+
+<div class="clock-container">
+  <span class="material-icons clock-icon">schedule</span>
+
+  <div class="clock-time">{{ currentTime }}</div>
+  <div class="clock-date">{{ currentDate }}</div>
+</div> -->
+<!-- ✅ PREVIEW (Add Widget Popup) -->
+<div *ngIf="isPreview">
+  <div class="clock-preview">
+    <span class="material-icons clock-icon">schedule</span>
+    <div class="clock-time">{{ currentTime }}</div>
+    <div class="clock-date">{{ currentDate }}</div>
+  </div>
+
+  <div class="clock-actions">
+    <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+    <button class="btn-add" (click)="onAdd()">Add</button>
+  </div>
+</div>
+
+<!-- ✅ DASHBOARD CLOCK -->
+<div class="clock-container" *ngIf="!isPreview">
+  <span class="material-icons clock-icon">schedule</span>
+
+  <div class="clock-time">{{ currentTime }}</div>
+  <div class="clock-date">{{ currentDate }}</div>
+</div>

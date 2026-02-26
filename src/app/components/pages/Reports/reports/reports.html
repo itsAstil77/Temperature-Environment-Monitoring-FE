@@ -1,0 +1,292 @@
+<div class="reports-wrapper">
+    <!--🔹 Left Side: Project Table -->
+    <div *ngIf="activeTab === 'project'" class="table-container">
+        <div class="AWProject">
+            <div class="table-container1">
+                <table>
+                    <tbody>
+                        <ng-container *ngFor="let project of projects">
+                            <!-- Project row -->
+
+                            <tr [class.rotate]="expandedProjects.has(project.id)" (click)="loadCountries(project.id)">
+
+                                <td class="tabledata" [class.selected]="selectedItemId === project.id"
+                                    (click)="selectItem(project.id)"><span class="indent level1"></span>{{
+                                    project.projectName }}
+                                    <span class="icons">
+
+                                        <img src="assets/down.png" alt="DropDown" class="tab"
+                                            [class.rotate]="expandedProjects.has(project.id)" />
+
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <!-- Countries row -->
+                            <tr *ngIf="expandedProjects.has(project.id)">
+                                <td colspan="2">
+                                    <table>
+                                        <tbody>
+                                            <ng-container *ngFor="let country of countriesByProject[project.id]">
+
+                                                <!-- Country row -->
+                                                <tr [class.rotate]="expandedCountry.has(country.id)"
+                                                    (click)="loadArea(country.id)">
+                                                    <td class="tabledata"
+                                                        [class.selected]="selectedItemId === country.id"
+                                                        (click)="selectItem(country.id)"><span
+                                                            class="indent level2"></span>{{ country.countryName }}
+                                                        <span class="icons">
+
+                                                            <img src="assets/down.png" alt="DropDown" class="tab"
+                                                                [class.rotate]="expandedCountry.has(country.id)" />
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- Areas -->
+                                                <ng-container *ngFor="let area of areaByCountry[country.id]">
+                                                    <tr *ngIf="expandedCountry.has(country.id)">
+                                                        <td colspan="2">
+                                                            <table>
+                                                                <tbody>
+                                                                    <!-- Area row -->
+                                                                    <tr [class.rotate]="expandedArea.has(area.id)"
+                                                                        (click)="loadBuilding(area.id)">
+                                                                        <td class="tabledata"
+                                                                            [class.selected]="selectedItemId === area.id"
+                                                                            (click)="selectItem(area.id)"><span
+                                                                                class="indent level3"></span>{{
+                                                                            area.areaName }}
+                                                                            <span class="icons">
+
+                                                                                <img src="assets/down.png"
+                                                                                    alt="DropDown" class="tab"
+                                                                                    [class.rotate]="expandedArea.has(area.id)" />
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <!-- Buildings -->
+                                                                    <tr *ngIf="expandedArea.has(area.id)">
+                                                                        <td colspan="2">
+                                                                            <table>
+                                                                                <tbody>
+                                                                                    <ng-container
+                                                                                        *ngFor="let building of buildingByArea[area.id]">
+
+                                                                                        <!-- Building row -->
+                                                                                        <tr [class.rotate]="expandedBuilding.has(building.id)"
+                                                                                            (click)="loadFloor(building.id)">
+                                                                                            <td class="tabledata"
+                                                                                                [class.selected]="selectedItemId === building.id"
+                                                                                                (click)="selectItem(building.id)">
+                                                                                                <span
+                                                                                                    class="indent level4"></span>
+                                                                                                {{
+                                                                                                building.buildingName
+                                                                                                }}
+                                                                                                <span class="icons">
+
+                                                                                                    <img src="assets/down.png"
+                                                                                                        alt="DropDown"
+                                                                                                        class="tab"
+                                                                                                        [class.rotate]="expandedBuilding.has(building.id)" />
+                                                                                                </span>
+                                                                                            </td>
+                                                                                        </tr>
+
+                                                                                        <!-- Floors -->
+                                                                                        <!-- Floors -->
+                                                                                        <tr
+                                                                                            *ngIf="expandedBuilding.has(building.id)">
+                                                                                            <td colspan="2">
+                                                                                                <table>
+                                                                                                    <tbody>
+                                                                                                        <ng-container
+                                                                                                            *ngFor="let floor of floorByBuilding[building.id]">
+                                                                                                            <!-- Floor row -->
+                                                                                                            <tr [class.rotate]="expandedFloor.has(floor.id)"
+                                                                                                                (click)="loadZones(floor.id)">
+                                                                                                                <td class="tabledata"
+                                                                                                                    [class.selected]="selectedItemId === floor.id"
+                                                                                                                    (click)="selectItem(floor.id)">
+                                                                                                                    <span
+                                                                                                                        class="indent level5"></span>
+                                                                                                                    {{
+                                                                                                                    floor.floorName
+                                                                                                                    }}
+                                                                                                                    <span
+                                                                                                                        class="icons">
+
+                                                                                                                        <img src="assets/down.png"
+                                                                                                                            alt="DropDown"
+                                                                                                                            class="tab"
+                                                                                                                            [class.rotate]="expandedFloor.has(floor.id)" />
+                                                                                                                    </span>
+                                                                                                                </td>
+                                                                                                            </tr>
+
+                                                                                                            <!-- ✅ Zones are nested INSIDE this floor -->
+                                                                                                            <tr
+                                                                                                                *ngIf="expandedFloor.has(floor.id)">
+                                                                                                                <td
+                                                                                                                    colspan="2">
+                                                                                                                    <table>
+                                                                                                                        <tbody>
+                                                                                                                            <ng-container
+                                                                                                                                *ngFor="let zone of zoneByFloor[floor.id]">
+                                                                                                                                <!-- Zone row -->
+                                                                                                                                <tr [class.rotate]="expandedZone.has(zone.id)"
+                                                                                                                                    (click)="loadSubZones(zone.id)">
+                                                                                                                                    <td class="tabledata"
+                                                                                                                                        [class.selected]="selectedItemId === zone.id"
+                                                                                                                                        (click)="selectZone(zone)">
+                                                                                                                                        <span
+                                                                                                                                            class="indent level6"></span>
+                                                                                                                                        {{
+                                                                                                                                        zone.zoneName
+                                                                                                                                        }}
+                                                                                                                                        <span
+                                                                                                                                            class="icons">
+
+                                                                                                                                            <img src="assets/down.png"
+                                                                                                                                                alt="DropDown"
+                                                                                                                                                class="tab"
+                                                                                                                                                [class.rotate]="expandedZone.has(zone.id)" />
+                                                                                                                                        </span>
+                                                                                                                                    </td>
+                                                                                                                                </tr>
+
+                                                                                                                                <!-- SubZones under this zone -->
+                                                                                                                                <tr
+                                                                                                                                    *ngIf="expandedZone.has(zone.id)">
+                                                                                                                                    <td
+                                                                                                                                        colspan="2">
+                                                                                                                                        <table>
+                                                                                                                                            <tbody>
+                                                                                                                                                <ng-container
+                                                                                                                                                    *ngFor="let subZone of subZoneByZone[zone.id]">
+                                                                                                                                                    <tr>
+                                                                                                                                                        <td class="tabledata"
+                                                                                                                                                            [class.selected]="selectedItemId === subZone.id"
+                                                                                                                                                            (click)="selectItem(subZone.id)">
+                                                                                                                                                            <span
+                                                                                                                                                                class="indent level7"></span>
+                                                                                                                                                            {{
+                                                                                                                                                            subZone.subZoneName
+                                                                                                                                                            }}
+                                                                                                                                                            <span
+                                                                                                                                                                class="icons">
+
+
+                                                                                                                                                            </span>
+                                                                                                                                                        </td>
+                                                                                                                                                    </tr>
+                                                                                                                                                </ng-container>
+                                                                                                                                            </tbody>
+                                                                                                                                        </table>
+                                                                                                                                    </td>
+                                                                                                                                </tr>
+
+                                                                                                                            </ng-container>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                            </tr>
+
+                                                                                                        </ng-container>
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </td>
+                                                                                        </tr>
+
+                                                                                    </ng-container>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <!-- 🔹 Right Side: Report Form -->
+    <!-- 🔹 Right Side: Report Form -->
+    <!-- 🔹 Right Side: Report Form -->
+    <div class="report-container">
+        <div class="header">
+            <h3>New Reports</h3>
+        </div>
+
+        <div class="report-form">
+            <h4>CREATE REPORTS</h4>
+
+            <!-- ── Temperature Report Section ─────────────────────────── -->
+            <div class="temperature-report-section">
+                <h5 class="section-title">
+                    <!-- <span class="section-icon">🌡️</span> -->
+                    Temperature Report
+                </h5>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tempFromDate">From Date</label>
+                        <div class="date-input-wrapper">
+                            <input type="date" id="tempFromDate" [(ngModel)]="tempFromDate" [max]="today"
+                                class="custom-date-input" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tempToDate">To Date</label>
+                        <div class="date-input-wrapper">
+                            <input type="date" id="tempToDate" [(ngModel)]="tempToDate" [max]="today"
+                                class="custom-date-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Validation -->
+                <div class="temp-error" *ngIf="tempDateError">
+                    ⚠️ {{ tempDateError }}
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn-generate" (click)="generateTemperatureReport()" [disabled]="tempReportLoading">
+                        <span *ngIf="tempReportLoading" class="btn-spinner"></span>
+                        <span>{{ tempReportLoading ? 'Generating...' : 'Generate' }}</span>
+                    </button>
+
+                    <button class="btn-cancel" (click)="clearTemperatureReport()" [disabled]="tempReportLoading">
+                        Clear
+                    </button>
+                </div>
+            </div>
+            <!-- ─────────────────────────────────────────────────────────── -->
+        </div>
+    </div>
+</div>
