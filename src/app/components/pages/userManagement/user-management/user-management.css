@@ -235,6 +235,7 @@ td {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  margin: 08px;
 }
 
 .btn.create {

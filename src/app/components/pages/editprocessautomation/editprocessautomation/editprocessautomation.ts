@@ -80,12 +80,13 @@ constructor(
 loadExistingData() {
   this.device.getProcessAutomationById(this.editId).subscribe({
     next: (res: any) => {
-      // Prefill simple fields
- this.title = res.condition ?? '';   // ← API has no "title" field, use description
-this.description        = res.description  ?? '';
-      this.selectedActionType = res.action       ?? '';
 
-      // Prefill location IDs and names
+      // existing prefills
+      this.title              = res.title        ?? '';
+      this.description        = res.description  ?? '';
+      this.selectedActionType = res.action        ?? '';
+      this.dashboardChecked   = res.dashboard === true || res.dashboard === 'true' || res.dashboard === 1;
+
       this.selectedProjectId    = res.projectId    ?? null;
       this.selectedProjectName  = res.projectName  ?? null;
       this.selectedCountryId    = res.countryId    ?? null;
@@ -98,38 +99,34 @@ this.description        = res.description  ?? '';
       this.selectedFloorName    = res.floorName    ?? null;
       this.selectedZoneId       = res.zoneId       ?? null;
       this.selectedZoneName     = res.zoneName     ?? null;
-      // ADD after existing prefill lines:
-this.dashboardChecked = res.dashboard === true || res.dashboard === 'true' || res.dashboard === 1;
-// this.cdr.detectChanges();
 
-      // Prefill devices
       this.selectedDevices = res.devices ?? [];
 
-      // Prefill condition
-// ADD after existing prefills:
-if (this.conditions[0]) {
-  this.conditions[0].deviceStatus = res.condition ?? '';
-  this.conditions[0].deviceTime   = res.time      ?? '';
-  // Also normalize status for the dropdown
-  const s = res.status;
-  this.conditions[0].deviceStatus =
-    s === true || s === 'true' ? 'ONLINE' :
-    s === false || s === 'false' ? 'OFFLINE' :
-    s ?? '';
-}
+      // ✅ Prefill parameter dropdown
+      if (res.deviceparameter?.length > 0) {
+        const param = res.deviceparameter[0];
+        this.selectedActionParameterId = param.parameterId;
+        this.actionParameters = [{
+          id: param.parameterId,
+          label: param.parameterName
+        }];
+      }
 
-// Force UI update BEFORE hierarchy loads (so fields show immediately)
-this.cdr.detectChanges();
+      // ✅ Prefill condition operator and value
+      if (this.conditions[0]) {
+        this.conditions[0].conditionOperator = res.conditions ?? '';
+        this.conditions[0].conditionValue    = res.value      ?? null;
+      }
 
-// Expand hierarchy (async — runs after)
-setTimeout(() => {
-  this.expandHierarchy(res);
-}, 0);
+      this.cdr.detectChanges(); // ✅ force UI update
+
+      setTimeout(() => {
+        this.expandHierarchy(res);
+      }, 0);
     },
     error: () => console.log('Error loading existing process automation')
   });
 }
-
 
 
 
@@ -217,10 +214,19 @@ saveProcessAutomation() {
     errorMessages.push('• Please select at least one device');
   }
 
-  const time = this.conditions[0]?.deviceTime;
-  if (!time || time.toString().trim() === '') {
-    this.validationErrors.time = 'Please enter time in seconds';
-    errorMessages.push('• Please enter time in seconds');
+  if (!this.selectedActionParameterId) {
+    errorMessages.push('• Please select a parameter');
+  }
+
+  if (!this.conditions[0]?.conditionOperator) {
+    this.validationErrors.condition = 'Please select a condition';
+    errorMessages.push('• Please select a condition operator');
+  }
+
+  if (this.conditions[0]?.conditionValue === null ||
+      this.conditions[0]?.conditionValue === undefined) {
+    this.validationErrors.condition = 'Please enter a value';
+    errorMessages.push('• Please enter a condition value');
   }
 
   if (errorMessages.length > 0) {
@@ -230,39 +236,52 @@ saveProcessAutomation() {
 
   const payload = {
     id: this.editId,
-    areaId:        this.selectedAreaId,
-    areaName:      this.selectedAreaName,
-    buildingId:    this.selectedBuildingId,
-    buildingName:  this.selectedBuildingName,
-    countryId:     this.selectedCountryId,
-    countryName:   this.selectedCountryName,
-    createdAt:     new Date().toISOString(),
-    createdBy:     'Admin',
-    condition:     this.title,
-    description:   this.description,
-    time:          this.conditions[0]?.deviceTime ?? '',
-    action:        this.selectedActionType,
-    dashboard:     this.dashboardChecked,
-    devices:       this.selectedDevices,
-    floorId:       this.selectedFloorId,
-    floorName:     this.selectedFloorName,
-    priority:      'Major',
-    projectId:     this.selectedProjectId,
-    projectName:   this.selectedProjectName,
-    status:        this.conditions[0]?.deviceStatus ?? '',
-    zoneId:        this.selectedZoneId,
-    zoneName:      this.selectedZoneName
+    projectId:    this.selectedProjectId,
+    projectName:  this.selectedProjectName,
+    countryId:    this.selectedCountryId    ?? '',
+    countryName:  this.selectedCountryName  ?? '',
+    areaId:       this.selectedAreaId       ?? '',
+    areaName:     this.selectedAreaName     ?? '',
+    buildingId:   this.selectedBuildingId   ?? '',
+    buildingName: this.selectedBuildingName ?? '',
+    floorId:      this.selectedFloorId      ?? '',
+    floorName:    this.selectedFloorName    ?? '',
+    zoneId:       this.selectedZoneId       ?? '',
+    zoneName:     this.selectedZoneName     ?? '',
+    createdAt:    new Date().toISOString(),
+    createdBy:    'Admin',
+
+    // ✅ title
+    title: this.title,
+
+    description:  this.description,
+    action:       this.selectedActionType,
+    dashboard:    this.dashboardChecked,
+    priority:     'Major',
+    devices:      this.selectedDevices,
+
+    // ✅ parameter
+    deviceparameter: [{
+      parameterId:   this.selectedActionParameterId ?? '',
+      parameterName: this.actionParameters.find(p => p.id === this.selectedActionParameterId)?.label ?? ''
+    }],
+
+    // ✅ operator
+    conditions: this.conditions[0]?.conditionOperator ?? '',
+
+    // ✅ value
+    value: this.conditions[0]?.conditionValue ?? 0,
   };
 
   this.device.updateProcessAutomation(this.editId, payload).subscribe({
-next: () => {
-  this.router.navigate(['/processautomation']);
-},
-      error: (err) => {
-        console.error('❌ Error updating', err);
-      }
-    });
-  }
+    next: () => {
+      this.router.navigate(['/processautomation']);
+    },
+    error: (err) => {
+      console.error('❌ Error updating', err);
+    }
+  });
+}
 
 
 
@@ -615,13 +634,20 @@ onActionDeviceChange(deviceId: string) {
 
   this.device.getDeviceParametersByDeviceId(deviceId)
     .subscribe({
-      next: (res: any) => {                               // ✅ any[] → any
+      next: (res: any) => {
         this.actionParameters = Array.isArray(res)
-          ? res.flatMap((x: any) => x.deviceParameters || [])  // ✅ null safe
+          ? res.flatMap((x: any) =>
+              (x.deviceParameters || []).map((p: any) => ({
+                id: p.id,
+                label: `${x.deviceName} (${p.name})`
+              }))
+            )
           : [];
+        this.cdr.detectChanges(); // ✅ force UI update
       },
       error: () => {
         this.actionParameters = [];
+        this.cdr.detectChanges();
       }
     });
 }
@@ -638,9 +664,22 @@ onActionDeviceChange(deviceId: string) {
   maxConditions = 1;
   conditions = [this.createCondition('')];
 
-  createCondition(label: string) {
-    return { label, selectedCondition: '', selectedConditionLabel: '', showDropdown: false, showPeopleInputs: false, deviceName: '', deviceId: '', deviceStatus: '', deviceTime: '', operator: 'AND' as 'AND' | 'OR' };
-  }
+createCondition(label: string) {
+  return {
+    label,
+    selectedCondition: '',
+    selectedConditionLabel: '',
+    showDropdown: false,
+    showPeopleInputs: false,
+    deviceName: '',
+    deviceId: '',
+    deviceStatus: '',
+    deviceTime: '',
+    operator: 'AND' as 'AND' | 'OR',
+    conditionOperator: '',           // ✅ add
+    conditionValue: null as number | null  // ✅ add
+  };
+}
 
   addCondition() {
     if (this.conditions.length >= this.maxConditions) return;
@@ -700,18 +739,20 @@ description: string = '';
 selectedActionType: string = '';
 title: string = '';
 
-validationErrors: { devices?: string; time?: string } = {};
+validationErrors: { devices?: string; time?: string; condition?: string } = {};
 
 onTimeChange(value: any) {
   if (value !== null && value !== undefined && value !== '') {
     this.validationErrors.time = undefined;
   }
 }
-  toggleDeviceSelection(device: any) {
-    const index = this.selectedDevices.findIndex(d => d.deviceId === device.id);
-    index > -1 ? this.selectedDevices.splice(index, 1) : this.selectedDevices.push({ deviceId: device.id, deviceName: device.deviceName });
-  }
-
+toggleDeviceSelection(device: any) {
+  this.selectedDevices = [{
+    deviceId: device.id,
+    deviceName: device.deviceName
+  }];
+  this.showDeviceDropdown = false;
+}
   isDeviceSelected(deviceId: string): boolean { return this.selectedDevices.some(d => d.deviceId === deviceId); }
 
   get selectedDevicesLabel(): string {
@@ -729,10 +770,12 @@ toggleDeviceDropdown() {
 
 onDeviceSelectionChange(device: any) {
   this.toggleDeviceSelection(device);
+
   if (this.selectedDevices.length > 0) {
     this.validationErrors.devices = undefined;
   }
-  this.cdr.detectChanges();
+
+  this.onActionDeviceChange(device.id);
 }
 @HostListener('document:click', ['$event'])
 onDocumentClick(event: MouseEvent) {

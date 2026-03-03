@@ -426,9 +426,9 @@ h1 {
   filter: brightness(0) invert(1);
 }
 
-.purple-icon {
+/* .purple-icon {
   filter: invert(20%) sepia(84%) saturate(5644%) hue-rotate(265deg) brightness(95%) contrast(94%);
-}
+} */
 
 
 

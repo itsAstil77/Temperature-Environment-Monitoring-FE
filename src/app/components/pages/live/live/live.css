@@ -85,7 +85,7 @@ button.three:hover {
 
 label {
   font-size: 12px;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 
@@ -992,7 +992,7 @@ p {
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   animation: fadeIn 0.3s ease-in-out;
   overflow: hidden;
 }
@@ -1073,7 +1073,7 @@ p {
   z-index: 10000;
   display: flex;
   flex-direction: column;
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
 }
 
 .asset-popup-header {

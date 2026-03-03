@@ -19,6 +19,7 @@
   display: flex;
   height: 100vh;
   width: 100%;
+
 }
 
 /* Left side - image */
@@ -143,4 +144,183 @@
 @keyframes slideIn {
   from { transform: translateX(400px); opacity: 0; }
   to   { transform: translateX(0);     opacity: 1; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ── TOP-RIGHT DECORATIVE RING ── */
+.container::before {
+  content: '';
+  position: fixed;
+  top: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 40px solid rgba(112, 48, 160, 0.08);
+  pointer-events: none;
+  z-index: 0;
+}
+/* ── SECOND TOP-RIGHT RING ── */
+.container::after {
+  content: '';
+  position: fixed;
+  top: -30px;
+  right: -30px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 25px solid rgba(112, 48, 160, 0.05);
+  pointer-events: none;
+  z-index: 0;
+}
+/* ── DOT PATTERN on right side ── */
+.three::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  height: 100vh;
+  background-image: radial-gradient(circle, rgba(112, 48, 160, 0.13) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+  pointer-events: none;
+  z-index: 0;
+}
+/* ── BOTTOM-RIGHT DECORATIVE RING ── */
+.three::after {
+  content: '';
+  position: fixed;
+  bottom: -70px;
+  right: -70px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 40px solid rgba(112, 48, 160, 0.06);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+
+
+
+
+
+
+
+
+/* ── GLASS CARD behind form content ── */
+.three {
+  position: relative;
+}
+
+.three > *:not(::before):not(::after) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Glass card */
+.three::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) perspective(1000px) rotateX(2deg) rotateY(-3deg);
+  width: 400px;
+  max-width: 85%;
+  height: 420px;
+
+  /* ── MULTI GRADIENT (purple family) ── */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(220, 190, 240, 0.55) 25%,
+    rgba(180, 120, 220, 0.35) 50%,
+    rgba(220, 190, 240, 0.50) 75%,
+    rgba(255, 255, 255, 0.70) 100%
+  );
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+
+  /* ── 3D BORDER EFFECT ── */
+  border-top: 1px solid rgba(255, 255, 255, 0.95);
+  border-left: 1px solid rgba(255, 255, 255, 0.85);
+  border-right: 1px solid rgba(160, 80, 200, 0.2);
+  border-bottom: 1px solid rgba(160, 80, 200, 0.25);
+
+  /* ── 3D SHADOW LAYERS ── */
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.8),          /* top highlight */
+    0 -2px 0 rgba(112, 48, 160, 0.1),           /* bottom edge */
+    4px 4px 0 rgba(112, 48, 160, 0.08),         /* right-bottom depth */
+    8px 8px 0 rgba(112, 48, 160, 0.05),         /* deeper depth */
+    12px 12px 0 rgba(112, 48, 160, 0.03),       /* deepest depth */
+    0 20px 60px rgba(112, 48, 160, 0.18),       /* ambient glow */
+    0 8px 20px rgba(154, 85, 238, 0.12),        /* purple glow */
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),    /* inner top shine */
+    inset 0 -1px 0 rgba(112, 48, 160, 0.08);   /* inner bottom shade */
+
+  pointer-events: none;
+  z-index: 0;
+
+  /* ── SMOOTH HOVER LIFT (via parent hover) ── */
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ── LIFT ON HOVER ── */
+.three:hover::before {
+  transform: translate(-50%, -52%) perspective(1000px) rotateX(1deg) rotateY(-2deg);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.8),
+    4px 4px 0 rgba(112, 48, 160, 0.08),
+    8px 8px 0 rgba(112, 48, 160, 0.05),
+    16px 16px 0 rgba(112, 48, 160, 0.03),
+    0 30px 80px rgba(112, 48, 160, 0.22),
+    0 12px 30px rgba(154, 85, 238, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+
+
+/* ── DOT PATTERN (moved from .three::before) ── */
+.dot-pattern {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  height: 100vh;
+  background-image: radial-gradient(circle, rgba(112, 48, 160, 0.13) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+.three h3,
+.three p,
+.three input,
+.three button {
+  position: relative;
+  z-index: 1;
 }

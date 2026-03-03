@@ -313,32 +313,34 @@
 
                                         <!-- SELECT DEVICE -->
                                         <!-- SELECT DEVICE -->
-<div class="input-row">
-  <label>Select Device</label>
-  <div style="flex: 1; min-width: 0;">
-    <div class="multi-select-wrapper">
+                                        <div class="input-row">
+                                            <label>Select Device</label>
+                                            <div style="flex: 1; min-width: 0;">
+                                                <div class="multi-select-wrapper">
 
-      <div class="multi-select-trigger" (click)="toggleDeviceDropdown()">
-        <span>{{ selectedDevicesLabel }}</span>
-      </div>
+                                                    <div class="multi-select-trigger" (click)="toggleDeviceDropdown()">
+                                                        <span>{{ selectedDevicesLabel }}</span>
+                                                    </div>
 
-      <div class="multi-select-list"
-        *ngIf="showDeviceDropdown && activeDevices.length > 0">
-        <label *ngFor="let d of activeDevices" class="multi-select-item"
-          (click)="$event.stopPropagation()">
-          <input type="checkbox" [checked]="isDeviceSelected(d.id)"
-            (change)="onDeviceSelectionChange(d)" />
-          <span>{{ d.deviceName }} ({{ d.deviceUniqueId }})</span>
-        </label>
-      </div>
+                                                    <div class="multi-select-list"
+                                                        *ngIf="showDeviceDropdown && activeDevices.length > 0">
+                                                        <label *ngFor="let d of activeDevices" class="multi-select-item"
+                                                            (click)="$event.stopPropagation()">
+                                                            <input type="radio" name="deviceSelection"
+                                                                [checked]="isDeviceSelected(d.id)"
+                                                                (change)="onDeviceSelectionChange(d)" />
+                                                            <span>{{ d.deviceName }} ({{ d.deviceUniqueId }})</span>
+                                                        </label>
+                                                    </div>
 
-      <div class="multi-select-list"
-        *ngIf="showDeviceDropdown && activeDevices.length === 0">
-        <span class="no-devices">No devices available. Select a location first.</span>
-      </div>
+                                                    <div class="multi-select-list"
+                                                        *ngIf="showDeviceDropdown && activeDevices.length === 0">
+                                                        <span class="no-devices">No devices available. Select a location
+                                                            first.</span>
+                                                    </div>
 
-      <!-- chips inside wrapper -->
-      <!-- <div class="selected-chips" *ngIf="selectedDevices.length > 0">
+                                                    <!-- chips inside wrapper -->
+                                                    <!-- <div class="selected-chips" *ngIf="selectedDevices.length > 0">
         <span class="chip" *ngFor="let d of selectedDevices">
           {{ d.deviceName }}
           <span class="chip-remove"
@@ -346,36 +348,46 @@
         </span>
       </div> -->
 
-    </div>
+                                                </div>
 
-    <!-- inline error -->
-    <small style="color:red; font-size:11px;" *ngIf="validationErrors.devices">
-      ⚠ {{ validationErrors.devices }}
-    </small>
-  </div>
-</div>
+                                                <!-- inline error -->
+                                                <small style="color:red; font-size:11px;"
+                                                    *ngIf="validationErrors.devices">
+                                                    ⚠ {{ validationErrors.devices }}
+                                                </small>
+                                            </div>
+                                        </div>
 
                                         <!-- STATUS -->
                                         <div class="input-row">
-                                            <label>Status</label>
-                                            <select class="condition-input" [(ngModel)]="c.deviceStatus">
-                                                <option value="" disabled selected>Select status</option>
-                                                <option value="ONLINE">ONLINE</option>
-                                                <option value="OFFLINE">OFFLINE</option>
+                                            <label>Parameter</label>
+                                            <select class="condition-input" [(ngModel)]="selectedActionParameterId">
+                                                <option value="" disabled selected>Select parameter</option>
+                                                <option *ngFor="let param of actionParameters" [value]="param.id">
+                                                    {{ param.label }}
+                                                </option>
                                             </select>
                                         </div>
 
                                         <!-- ENTER TIME — single block, no duplicate -->
                                         <div class="input-row">
-                                            <label>Enter Time (sec)</label>
-                                            <input type="number" placeholder="Enter time in seconds"
-                                                [(ngModel)]="c.deviceTime" (ngModelChange)="onTimeChange($event)" />
-                                            <!-- inline error under time -->
-                                            <small style="color:red; font-size:11px;" *ngIf="validationErrors.time">
-                                                ⚠ {{ validationErrors.time }}
+                                            <label>Conditions</label>
+                                            <div style="display: flex; gap: 8px; align-items: center;">
+                                                <select class="condition-input" [(ngModel)]="c.conditionOperator">
+                                                    <option value="" disabled selected>Select</option>
+                                                    <option value="=">=</option>
+                                                    <option value=">=">&gt;=</option>
+                                                    <option value="<=">&lt;=</option>
+                                                    <option value="!=">!=</option>
+                                                </select>
+                                                <input type="number" placeholder="% or °C"
+                                                    [(ngModel)]="c.conditionValue" />
+                                            </div>
+                                            <small style="color:red; font-size:11px;"
+                                                *ngIf="validationErrors.condition">
+                                                ⚠ {{ validationErrors.condition }}
                                             </small>
                                         </div>
-
                                     </div>
 
 

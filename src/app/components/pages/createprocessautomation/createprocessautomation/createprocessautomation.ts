@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Roleservice } from '../../../service/role/roleservice';
 import { Device } from '../../../service/device/device';
+import { LoadingService } from '../../../service/loading/loading';
 // import { Router } from 'express';
 
 
@@ -60,7 +61,7 @@ export class Createprocessautomation implements OnInit, AfterViewChecked {
   activeTab: string = 'project'; // 👈 default tab
 
 
-  constructor(private role: Roleservice, private cdr: ChangeDetectorRef, private device: Device, private router: Router) { }
+  constructor(private role: Roleservice, private cdr: ChangeDetectorRef, private device: Device, private router: Router,  private loadingService: LoadingService) { }
 
   ngOnInit(): void {
 
@@ -900,6 +901,8 @@ dashboardChecked: boolean = false;
   //   if (type === 'email') a.selectedActionLabel = 'Send Email';
   //   if (type === 'task') a.selectedActionLabel = 'Create Task';
   // }
+
+
 onActionDeviceChange(deviceId: string) {
   this.selectedActionDeviceId = deviceId;
   this.selectedActionParameterId = null;
@@ -909,13 +912,21 @@ onActionDeviceChange(deviceId: string) {
 
   this.device.getDeviceParametersByDeviceId(deviceId)
     .subscribe({
-      next: (res: any) => {                               // ✅ any[] → any
+      next: (res: any) => {
         this.actionParameters = Array.isArray(res)
-          ? res.flatMap((x: any) => x.deviceParameters || [])  // ✅ null safe
+          ? res.flatMap((x: any) =>
+              (x.deviceParameters || []).map((p: any) => ({
+                id: p.id,
+                label: `${x.deviceName} (${p.name})`
+              }))
+            )
           : [];
+
+        this.cdr.detectChanges(); // ✅ force UI update immediately
       },
       error: () => {
         this.actionParameters = [];
+        this.cdr.detectChanges(); // ✅ also update on error
       }
     });
 }
@@ -962,20 +973,22 @@ onActionDeviceChange(deviceId: string) {
   ];
 
   // FIND and REPLACE createCondition():
-  createCondition(label: string) {
-    return {
-      label,
-      selectedCondition: '',
-      selectedConditionLabel: '',
-      showDropdown: false,
-      showPeopleInputs: false,
-      deviceName: '',
-      deviceId: '',
-      deviceStatus: '',       // ← RENAMED from deviceId to avoid confusion
-      deviceTime: '',
-      operator: 'AND' as 'AND' | 'OR'
-    };
-  }
+createCondition(label: string) {
+  return {
+    label,
+    selectedCondition: '',
+    selectedConditionLabel: '',
+    showDropdown: false,
+    showPeopleInputs: false,
+    deviceName: '',
+    deviceId: '',
+    deviceStatus: '',
+    deviceTime: '',
+    operator: 'AND' as 'AND' | 'OR',
+    conditionOperator: '',      // ✅ add this
+    conditionValue: null as number | null  // ✅ add this
+  };
+}
 
 
 
@@ -1247,17 +1260,13 @@ onActionDeviceChange(deviceId: string) {
   // ADD these new properties (replace/add after existing selectedDevices: any[] = []):
   selectedActionType: string = '';   // ← binds "Select Type" dropdown → goes to "action" field
 
-  toggleDeviceSelection(device: any) {
-    const index = this.selectedDevices.findIndex(d => d.deviceId === device.id);
-    if (index > -1) {
-      this.selectedDevices.splice(index, 1);
-    } else {
-      this.selectedDevices.push({
-     deviceId: device.deviceUniqueId,
-        deviceName: device.deviceName
-      });
-    }
-  }
+toggleDeviceSelection(device: any) {
+  this.selectedDevices = [{
+    deviceId: device.id,
+    deviceName: device.deviceName
+  }];
+  this.showDeviceDropdown = false;
+}
 
 
   isDeviceSelected(deviceId: string): boolean {
@@ -1285,27 +1294,59 @@ closeDeviceDropdown() {
 
 title: string = '';
 
-validationErrors: { devices?: string; time?: string } = {};
+validationErrors: { devices?: string; time?: string; condition?: string;} = {};
 
 saveProcessAutomation() {
   this.validationErrors = {};
   const errorMessages: string[] = [];
 
+  // Validate device
   if (this.selectedDevices.length === 0) {
     this.validationErrors.devices = 'Please select at least one device';
-    errorMessages.push('• Please select the Country and select at least one device');
+    errorMessages.push('• Please select at least one device');
   }
 
-  const time = this.conditions[0]?.deviceTime;
-  if (!time || time.toString().trim() === '') {
-    this.validationErrors.time = 'Please enter time in seconds';
-    errorMessages.push('• Please enter time in seconds');
+  // Validate parameter
+  if (!this.selectedActionParameterId) {
+    errorMessages.push('• Please select a parameter');
   }
 
-  if (errorMessages.length > 0) {
-    alert('Please fix the following:\n\n' + errorMessages.join('\n'));
-    return;
+  // Validate condition operator
+  if (!this.conditions[0]?.conditionOperator) {
+    this.validationErrors.condition = 'Please select a condition';
+    errorMessages.push('• Please select a condition operator');
   }
+
+  // Validate condition value
+  if (this.conditions[0]?.conditionValue === null || 
+      this.conditions[0]?.conditionValue === undefined) {
+    this.validationErrors.condition = 'Please enter a value';
+    errorMessages.push('• Please enter a condition value');
+  }
+
+ if (this.selectedDevices.length === 0) {
+  this.validationErrors.devices = 'Please select at least one device';
+  this.loadingService.showToast('⚠️ Please select at least one device.', 'warning');
+  return;
+}
+
+if (!this.selectedActionParameterId) {
+  this.loadingService.showToast('⚠️ Please select a parameter.', 'warning');
+  return;
+}
+
+if (!this.conditions[0]?.conditionOperator) {
+  this.validationErrors.condition = 'Please select a condition';
+  this.loadingService.showToast('⚠️ Please select a condition operator.', 'warning');
+  return;
+}
+
+if (this.conditions[0]?.conditionValue === null ||
+    this.conditions[0]?.conditionValue === undefined) {
+  this.validationErrors.condition = 'Please enter a value';
+  this.loadingService.showToast('⚠️ Please enter a condition value.', 'warning');
+  return;
+}
 
   const payload = {
     id: '',
@@ -1323,14 +1364,27 @@ saveProcessAutomation() {
     zoneName: this.selectedZoneName ?? '',
     createdAt: new Date().toISOString(),
     createdBy: 'Admin',
-    condition: this.title,
+
+    // ✅ title from input
+    title: this.title,
+
     description: this.description,
-    time: time,
     action: this.selectedActionType,
     dashboard: this.dashboardChecked,
-    devices: this.selectedDevices,
     priority: 'Major',
-    status: this.conditions[0]?.deviceStatus || 'OFFLINE',
+    devices: this.selectedDevices,
+
+    // ✅ parameter from dropdown
+    deviceparameter: [{
+      parameterId: this.selectedActionParameterId ?? '',
+      parameterName: this.actionParameters.find(p => p.id === this.selectedActionParameterId)?.label ?? ''
+    }],
+
+    // ✅ operator from condition dropdown
+    conditions: this.conditions[0]?.conditionOperator ?? '',
+
+    // ✅ value from number input
+    value: this.conditions[0]?.conditionValue ?? 0,
   };
 
   this.device.createProcessAutomation(payload).subscribe({
@@ -1343,7 +1397,6 @@ saveProcessAutomation() {
     }
   });
 }
-
 
 
 
@@ -1413,11 +1466,14 @@ selectProject(project: any, event: MouseEvent) {
 
 onDeviceSelectionChange(device: any) {
   this.toggleDeviceSelection(device);
-  
-  // Clear device error as soon as at least one device is selected
+
+  // Clear device error
   if (this.selectedDevices.length > 0) {
     this.validationErrors.devices = undefined;
   }
+
+  // Load parameters for selected device
+  this.onActionDeviceChange(device.id);
 }
 
 onTimeChange(value: any) {

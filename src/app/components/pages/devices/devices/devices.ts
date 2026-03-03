@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Roleservice } from '../../../service/role/roleservice';
 import { forkJoin } from 'rxjs';
 import { Assetservice } from '../../../service/asset/assetservice';
+import { LoadingService } from '../../../service/loading/loading';
 
 @Component({
   selector: 'app-devices',
@@ -21,7 +22,8 @@ export class Devices implements OnInit {
     private deviceService: Peopletype,
     private cdr: ChangeDetectorRef,
     private role: Roleservice,
-    private assetservice: Assetservice
+    private assetservice: Assetservice,
+     private loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
@@ -320,14 +322,14 @@ export class Devices implements OnInit {
   }
 
   createNewDevice() {
-    if (!this.createDevice.deviceType) { alert('⚠️ Please select a Device Type.'); return; }
-    if (!this.createDevice.uniqueId?.trim()) { alert('⚠️ Please enter the Unique ID.'); return; }
+    if (!this.createDevice.deviceType) {this.loadingService.showToast('⚠️ Please select a Device Type.', 'warning');return; }
+    if (!this.createDevice.uniqueId?.trim()) { this.loadingService.showToast('⚠️ Please enter the Unique ID.', 'warning');return; }
 
     const isDuplicate = this.deviceList.some(
       (d: any) => d.uniqueId?.trim().toLowerCase() === this.createDevice.uniqueId.trim().toLowerCase()
     );
-    if (isDuplicate) { alert('⚠️ This Unique ID already exists. Please use a different one.'); return; }
-    if (!this.createDevice.deviceName?.trim()) { alert('⚠️ Please enter the Device Name.'); return; }
+    if (isDuplicate) { this.loadingService.showToast('⚠️ This Unique ID already exists. Please use a different one.', 'warning');return;}
+    if (!this.createDevice.deviceName?.trim()) { this.loadingService.showToast('⚠️ Please enter the Device Name.', 'warning');return; }
 
     const projectObj = this.projects.find(p => p.id === this.selectedProjectId);
     const countryObj = (this.countriesByProject[this.selectedProjectId] || []).find(c => c.id === this.selectedCountryId);
@@ -360,11 +362,11 @@ export class Devices implements OnInit {
 
     this.deviceService.createadddevice(reqBody).subscribe({
       next: (res: any) => {
-        alert(res.message || '✅ Device created successfully!');
+      this.loadingService.showToast(res.message || 'Device created successfully!', 'success');
         this.openAddDevice = false;
         this.loadDevices();
       },
-      error: (err: any) => { console.error('❌ Error creating device:', err); alert('❌ Failed to create device.'); }
+      error: (err: any) => { console.error('❌ Error creating device:', err); this.loadingService.showToast('Failed to create device!', 'error'); }
     });
   }
 
@@ -457,14 +459,14 @@ export class Devices implements OnInit {
   }
 
   updateDevice() {
-    if (!this.editDevice.deviceType) { alert('⚠️ Please select a Device Type.'); return; }
-    if (!this.editDevice.uniqueId?.trim()) { alert('⚠️ Please enter the Unique ID.'); return; }
+    if (!this.editDevice.deviceType) { this.loadingService.showToast('⚠️ Please select a Device Type.', 'warning');return; }
+    if (!this.editDevice.uniqueId?.trim()) { this.loadingService.showToast('⚠️ Please enter the Unique ID.', 'warning');return; }
 
     const isDuplicate = this.deviceList.some(
       (d: any) => d.uniqueId?.trim().toLowerCase() === this.editDevice.uniqueId.trim().toLowerCase() && d.id !== this.editDevice.id
     );
-    if (isDuplicate) { alert('⚠️ This Unique ID already exists for another device.'); return; }
-    if (!this.editDevice.deviceName?.trim()) { alert('⚠️ Please enter the Device Name.'); return; }
+    if (isDuplicate) { this.loadingService.showToast('⚠️ This Unique ID already exists for another device.', 'warning');return; }
+    if (!this.editDevice.deviceName?.trim()) { this.loadingService.showToast('⚠️ Please enter the Device Name.', 'warning'); return;}
 
     const projectObj = this.projects.find(p => p.id === this.editDevice.project);
     const countryObj = (this.countriesByProject[this.editDevice.project] || []).find(c => c.id === this.editDevice.country);
@@ -498,11 +500,11 @@ export class Devices implements OnInit {
 
     this.deviceService.updateAddDevice(reqBody, this.editDevice.id).subscribe({
       next: (res: any) => {
-        alert(res.message || '✅ Device updated successfully!');
+        this.loadingService.showToast(res.message || 'Device updated successfully!', 'success');
         this.closeEditDevicePopup();
         this.loadDevices();
       },
-      error: (err: any) => { console.error('❌ Error updating device:', err); alert('❌ Error updating device.'); }
+      error: (err: any) => { console.error('❌ Error updating device:', err); this.loadingService.showToast('Error updating device!', 'error'); }
     });
   }
 
@@ -524,11 +526,11 @@ export class Devices implements OnInit {
     if (!this.deleteDeviceId) return;
     this.deviceService.DeleteAddDevice(this.deleteDeviceId).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Device Deleted Successfully');
+      this.loadingService.showToast(res.message || 'Device deleted successfully!', 'success');
         this.closeDeleteDevicePopup();
         this.loadDevices();
       },
-      error: (err: any) => { console.error('Error deleting device:', err); alert('Error deleting device'); }
+      error: (err: any) => { console.error('Error deleting device:', err); this.loadingService.showToast('Error deleting device!', 'error'); }
     });
   }
 
@@ -574,22 +576,22 @@ export class Devices implements OnInit {
   closeCreateDeviceTypePopup() { this.openAddDeviceType = false; }
 
   createDeviceType() {
-    if (!this.createDeviceTypeData.deviceType?.trim()) { alert('⚠️ Please enter the Device Type.'); return; }
-    if (!this.createDeviceTypeData.description?.trim()) { alert('⚠️ Please enter the Description.'); return; }
-    if (!this.createDeviceTypeData.status) { alert('⚠️ Device type can only be created when status is active.'); return; }
+    if (!this.createDeviceTypeData.deviceType?.trim()) {this.loadingService.showToast('⚠️ Please enter the Device Type.', 'warning');return; }
+    if (!this.createDeviceTypeData.description?.trim()) {this.loadingService.showToast('⚠️ Please enter the Description.', 'warning');return;}
+    if (!this.createDeviceTypeData.status) {this.loadingService.showToast('⚠️ Device type can only be created when status is active.', 'warning');return; }
 
     const isDuplicate = this.deviceTypeList.some(
       (type: any) => type.deviceType?.trim().toLowerCase() === this.createDeviceTypeData.deviceType.trim().toLowerCase()
     );
-    if (isDuplicate) { alert('⚠️ This Device Type already exists!'); return; }
+    if (isDuplicate) {this.loadingService.showToast('⚠️ This Device Type already exists!', 'warning');return; }
 
     this.deviceService.createdeviceType(this.createDeviceTypeData).subscribe({
       next: (res: any) => {
-        alert(res.message || '✅ Device Type Created Successfully');
+      this.loadingService.showToast(res.message || 'Device Type created successfully!', 'success');
         this.closeCreateDeviceTypePopup();
         this.loadDeviceTypes();
       },
-      error: (err: any) => { console.error('❌ Error creating device type:', err); alert('❌ Error creating device type'); }
+      error: (err: any) => { console.error('❌ Error creating device type:', err); this.loadingService.showToast('Error creating device type!', 'error'); }
     });
   }
 
@@ -600,17 +602,17 @@ export class Devices implements OnInit {
   closeEditDeviceTypePopup() { this.openEditDeviceType = false; }
 
   updateDeviceType() {
-    if (!this.editDeviceType.deviceType?.trim()) { alert('⚠️ Please enter the Device Type.'); return; }
-    if (!this.editDeviceType.description?.trim()) { alert('⚠️ Please enter the Description.'); return; }
-    if (!this.editDeviceType.status) { alert('⚠️ Device type can only be updated when status is active.'); return; }
+    if (!this.editDeviceType.deviceType?.trim()) {this.loadingService.showToast('⚠️ Please enter the Device Type.', 'warning');return; }
+    if (!this.editDeviceType.description?.trim()) {this.loadingService.showToast('⚠️ Please enter the Description.', 'warning');return;}
+    if (!this.editDeviceType.status) { this.loadingService.showToast('⚠️ Device type can only be updated when status is active.', 'warning');return; }
 
     this.deviceService.updateDevice(this.editDeviceType, this.editDeviceType.id).subscribe({
       next: (res: any) => {
-        alert(res.message || '✅ Device Type Updated Successfully');
+      this.loadingService.showToast(res.message || 'Device Type updated successfully!', 'success');
         this.closeEditDeviceTypePopup();
         this.loadDeviceTypes();
       },
-      error: (err: any) => { console.error('❌ Error updating Device Type:', err); alert('❌ Error updating Device Type'); }
+      error: (err: any) => { console.error('❌ Error updating Device Type:', err); this.loadingService.showToast('Error updating Device Type!', 'error'); }
     });
   }
 
@@ -624,11 +626,11 @@ export class Devices implements OnInit {
     if (!this.deleteDeviceTypeId) return;
     this.deviceService.DeleteDevicetype(this.deleteDeviceTypeId).subscribe({
       next: (res: any) => {
-        alert(res.message || 'Device Type Deleted Successfully');
+        this.loadingService.showToast(res.message || 'Device Type deleted successfully!', 'success');
         this.closeDeleteDeviceTypePopup();
         this.loadDeviceTypes();
       },
-      error: (err: any) => { console.error('Error deleting Device Type:', err); alert('Error deleting Device Type'); }
+      error: (err: any) => { console.error('Error deleting Device Type:', err); this.loadingService.showToast('Error deleting Device Type!', 'error'); }
     });
   }
 
@@ -664,7 +666,7 @@ export class Devices implements OnInit {
 
   createNewDevicePara() {
     const selectedDevice = this.deviceList.find((d: any) => d.id === this.createPara.deviceId);
-    if (!selectedDevice) { alert('Please select a valid device.'); return; }
+    if (!selectedDevice) { this.loadingService.showToast('Please select a valid device.', 'warning');return;}
 
     const payload = {
       deviceId: this.createPara.deviceId,
@@ -676,8 +678,8 @@ export class Devices implements OnInit {
     };
 
     this.deviceService.addNewPara(payload).subscribe({
-      next: () => { alert('Parameter created successfully!'); this.closeAddDevicepara(); this.loadDeviceParameters(); },
-      error: (err) => { console.error('❌ Failed to create parameter:', err); alert('Failed to create parameter.'); }
+      next: () => {  this.loadingService.showToast('Parameter created successfully!', 'success'); this.closeAddDevicepara(); this.loadDeviceParameters(); },
+      error: (err) => { console.error('❌ Failed to create parameter:', err); this.loadingService.showToast('Failed to create parameter!', 'error'); }
     });
   }
 
@@ -699,7 +701,7 @@ export class Devices implements OnInit {
   closeUpdatePara() { this.updatePara = false; }
 
   updateDevicePara() {
-    if (!this.updateParaData.deviceId) { alert('Please select a valid device'); return; }
+    if (!this.updateParaData.deviceId) {this.loadingService.showToast('Please select a valid device.', 'warning');return; }
 
     const selectedDevice = this.deviceList.find((d: any) => d.id === this.updateParaData.deviceId);
     const payload = {
@@ -712,8 +714,8 @@ export class Devices implements OnInit {
     };
 
     this.deviceService.updateDeviceParametersById(this.selectedParaIdToUpdate, payload).subscribe({
-      next: () => { alert('Device parameter updated successfully!'); this.closeUpdatePara(); this.loadDeviceParameters(); },
-      error: (err) => { console.error('Error updating device parameter:', err); alert('Failed to update device parameter'); }
+      next: () => { this.loadingService.showToast('Device parameter updated successfully!', 'success'); this.closeUpdatePara(); this.loadDeviceParameters(); },
+      error: (err) => { console.error('Error updating device parameter:', err); this.loadingService.showToast('Failed to update device parameter!', 'error'); }
     });
   }
 
@@ -725,8 +727,8 @@ export class Devices implements OnInit {
 
   deleteDevicePara() {
     this.deviceService.deleteDevicePara(this.selectedParaIdToDelete).subscribe({
-      next: () => { alert('Parameter Deleted Successfully'); this.closeDeletePara(); this.loadDeviceParameters(); },
-      error: () => alert('error deleting parameter')
+      next: () => {this.loadingService.showToast('Parameter deleted successfully!', 'success'); this.closeDeletePara(); this.loadDeviceParameters(); },
+      error: () => this.loadingService.showToast('Error deleting parameter!', 'error')
     });
   }
 
@@ -852,8 +854,8 @@ export class Devices implements OnInit {
     };
 
     this.assetservice.createAsset(reqBody).subscribe({
-      next: () => { alert('✅ Asset created successfully'); this.closeCreateAssetPopup(); this.loadAssets(); },
-      error: (err) => { console.error(err); alert('❌ Failed to create asset'); }
+      next: () => {this.loadingService.showToast('Asset created successfully!', 'success'); this.closeCreateAssetPopup(); this.loadAssets(); },
+      error: (err) => { console.error(err); this.loadingService.showToast('Failed to create asset!', 'error'); }
     });
   }
 
@@ -1015,11 +1017,11 @@ export class Devices implements OnInit {
 
     this.assetservice.updateAsset(this.editAssetData.id, reqBody).subscribe({
       next: (res: any) => {
-        alert(res.message || '✅ Asset updated successfully!');
+       this.loadingService.showToast(res.message || 'Asset updated successfully!', 'success');
         this.closeEditAssetPopup();
         this.loadAssets();
       },
-      error: (err: any) => { console.error('❌ Error updating asset:', err); alert('❌ Error updating asset.'); }
+      error: (err: any) => { console.error('❌ Error updating asset:', err); this.loadingService.showToast('Error updating asset!', 'error');}
     });
   }
 
@@ -1030,8 +1032,8 @@ export class Devices implements OnInit {
   confirmDeleteAsset() {
     if (!this.selectedAssetToDelete?.id) return;
     this.assetservice.deleteAsset(this.selectedAssetToDelete.id).subscribe({
-      next: () => { alert('Asset deleted successfully ✅'); this.closeDeleteAssetPopup(); this.loadAssets(); },
-      error: (err) => { console.error(err); alert('Failed to delete asset ❌'); }
+      next: () => {this.loadingService.showToast('Asset deleted successfully!', 'success'); this.closeDeleteAssetPopup(); this.loadAssets(); },
+      error: (err) => { console.error(err); this.loadingService.showToast('Failed to delete asset!', 'error'); }
     });
   }
 
