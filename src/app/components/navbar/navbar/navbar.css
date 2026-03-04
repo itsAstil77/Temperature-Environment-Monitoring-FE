@@ -87,6 +87,7 @@ body {
   background: #f8f9fa;
   overflow-y: auto;
   margin-left: 5px;
+  border-top-left-radius: 25px;
 
 
 }
@@ -332,6 +333,7 @@ h1 {
 .sidebar,
 .layout {
   overflow: visible !important;
+  background-color: #7030a0;
   /* prevent tooltip from being cut off */
 }
 
@@ -372,6 +374,8 @@ h1 {
   /* big enough to fit submenu */
   opacity: 1;
   transform: translateX(0);
+  border-top-left-radius: 25px;
+
 }
 
 /* Collapsed sidebar → flyout submenu (hidden by default) */
@@ -391,6 +395,7 @@ h1 {
 
   transform: translateX(-10px);
   transition: all 0.3s ease;
+  border-top-left-radius: 25px;
 }
 
 /* Collapsed + open */
